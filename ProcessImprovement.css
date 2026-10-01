@@ -1,3 +1,7 @@
+### 🎨 File 2: `ProcessImprovement.css`
+Save this code block exactly as `ProcessImprovement.css` within the same folder:
+
+```css
 /* Global Styles */
 :root {
     --bg-color: #f4f6f9;
@@ -122,7 +126,7 @@ header h1 {
     border-color: #bcf0da;
 }
 
-/* Drag and Drop Styling */
+/* Toolkit Options & Active Selections */
 .instructions {
     font-style: italic;
     color: #666;
@@ -141,14 +145,10 @@ header h1 {
     border: 2px dashed #cbd5e1;
     padding: 14px;
     border-radius: 6px;
-    cursor: grab;
-    transition: transform 0.2s, background-color 0.2s;
+    cursor: pointer;
+    transition: all 0.2s ease;
     font-weight: 500;
-}
-
-.drag-item:active {
-    cursor: grabbing;
-    transform: scale(0.98);
+    user-select: none;
 }
 
 .drag-item:hover {
@@ -156,6 +156,13 @@ header h1 {
     border-color: #94a3b8;
 }
 
+.drag-item.selected {
+    background-color: #dbeafe;
+    border: 2px solid var(--accent-color);
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+}
+
+/* Target Area Placement Box */
 .drop-zone {
     border: 3px dashed var(--accent-color);
     background-color: #eff6ff;
@@ -163,7 +170,9 @@ header h1 {
     border-radius: 8px;
     text-align: center;
     color: #1e40af;
+    cursor: pointer;
     transition: background-color 0.2s;
+    margin-bottom: 20px;
 }
 
 .drop-zone.hover {
@@ -175,7 +184,35 @@ header h1 {
     font-weight: 600;
 }
 
-/* Completion & UI Elements */
+/* Control Elements */
+.control-panel {
+    margin-top: 20px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 20px;
+}
+
+.btn {
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    width: 100%;
+    text-align: center;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+.btn-reset {
+    background-color: #4b5563;
+    color: white;
+}
+
+/* Hiding utility state classes */
 .hidden {
     display: none !important;
 }
@@ -187,23 +224,7 @@ header h1 {
     padding: 24px;
     border-radius: 8px;
     text-align: center;
-}
-
-.btn {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 16px;
-    transition: opacity 0.2s;
-}
-
-.btn:hover {
-    opacity: 0.9;
+    margin-bottom: 20px;
 }
 
 footer {
