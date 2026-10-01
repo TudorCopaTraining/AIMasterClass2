@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospitality Process Improvement Activity</title>
+    <link rel="stylesheet" href="ProcessImprovement.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>The Broken Bistro Challenge</h1>
+            <p class="subtitle">An Interactive Hospitality Process Improvement Simulation</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Scenario Introduction -->
+        <section class="card intro-card">
+            <h2>The Situation</h2>
+            <p>You are running a popular city-centre restaurant. Tonight is Friday peak service, and the operations are failing. Read the live feedback from the shift below, then drag and drop the operational fixes to resolve the issues and save your venue's reputation.</p>
+        </section>
+
+        <!-- Live Shift Dashboard -->
+        <div class="grid">
+            <section class="card column">
+                <h2>⚠️ Current Shift Bottlenecks</h2>
+                <div class="metric-grid">
+                    <div class="metric-card bad" id="metric-efficiency">
+                        <h3>Efficiency</h3>
+                        <p class="value">Slow</p>
+                        <p class="desc">Kitchen staff walking across the room constantly for basic seasonings.</p>
+                    </div>
+                    <div class="metric-card bad" id="metric-productivity">
+                        <h3>Productivity</h3>
+                        <p class="value">Low</p>
+                        <p class="desc">Waiters stuck at the central till point typing orders instead of on the floor.</p>
+                    </div>
+                    <div class="metric-card bad" id="metric-quality">
+                        <h3>Quality</h3>
+                        <p class="value">Unstable</p>
+                        <p class="desc">3 steaks sent back to the kitchen because of incorrect cooking levels.</p>
+                    </div>
+                    <div class="metric-card bad" id="metric-cost">
+                        <h3>Cost Reduction</h3>
+                        <p class="value">Wasting 15%</p>
+                        <p class="desc">Excessive food waste found in bins due to poor stock rotation (FIFO).</p>
+                    </div>
+                    <div class="metric-card bad" id="metric-cx">
+                        <h3>Customer Exp (CX)</h3>
+                        <p class="value">2.1 Stars</p>
+                        <p class="desc">TripAdvisor complaints rolling in regarding long payment wait times.</p>
+                    </div>
+                    <div class="metric-card bad" id="metric-ex">
+                        <h3>Employee Exp (EX)</h3>
+                        <p class="value">Burnout Risk</p>
+                        <p class="desc">Floor staff arguing over whose turn it is to track down missing cutlery.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Interactive Work Area -->
+            <section class="card column">
+                <h2>🛠️ Process Improvement Toolkit</h2>
+                <p class="instructions">Drag the correct operational optimization solution into the matching bucket below to fix the process issue!</p>
+                
+                <div class="drag-container" id="draggable-items">
+                    <div class="drag-item" draggable="true" id="fix-efficiency" data-target="metric-efficiency">🏷️ Kitchen Layout: Rearrange prep benches to keep seasonings at arm's length.</div>
+                    <div class="drag-item" draggable="true" id="fix-productivity" data-target="metric-productivity">📱 Mobile POS: Equipping waiters with handheld digital tablets for tableside ordering.</div>
+                    <div class="drag-item" draggable="true" id="fix-quality" data-target="metric-quality">📋 Spec Sheets: Implement visual recipe checklists and automated timer logs.</div>
+                    <div class="drag-item" draggable="true" id="fix-cost" data-target="metric-cost">🔄 FIFO System: Deploy automated cellar tracking and strict inventory rotation.</div>
+                    <div class="drag-item" draggable="true" id="fix-cx" data-target="metric-cx">💳 Pay at Table: Introduce automated tableside QR code scanning and direct billing.</div>
+                    <div class="drag-item" draggable="true" id="fix-ex" data-target="metric-ex">🍴 Cutlery Station: Standardise pre-shift sorting setup to remove search irritation.</div>
+                </div>
+
+                <div class="drop-zone" id="drop-zone">
+                    <p class="drop-placeholder">Drag a solution card here to deploy it...</p>
+                </div>
+
+                <div id="completion-message" class="hidden">
+                    <h3>🎉 Shift Successfully Fixed!</h3>
+                    <p>You have optimized your hospitality operations across all 6 core pillars. Your efficiency is up, waste is down, and guests are happy!</p>
+                    <button onclick="resetSimulation()" class="btn">Reset Shift Simulation</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Hospitality Process Improvement Workshop Tool. Built for GitHub Pages.</p>
+    </footer>
+
+    <script>
+        const dragItems = document.querySelectorAll('.drag-item');
+        const dropZone = document.getElementById('drop-zone');
+        let matchedCount = 0;
+
+        dragItems.forEach(item => {
+            item.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', item.id);
+            });
+        });
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('hover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('hover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('hover');
+            const itemId = e.dataTransfer.getData('text/plain');
+            const draggedItem = document.getElementById(itemId);
+            
+            if (draggedItem) {
+                const targetMetricId = draggedItem.getAttribute('data-target');
+                const targetMetricCard = document.getElementById(targetMetricId);
+                
+                // Update corresponding metric card state
+                targetMetricCard.classList.remove('bad');
+                targetMetricCard.classList.add('good');
+                
+                // Text updates to show improvement
+                if(targetMetricId === 'metric-efficiency') {
+                    targetMetricCard.querySelector('.value').innerText = 'Optimized';
+                    targetMetricCard.querySelector('.desc').innerText = 'Zero wasted steps. Layout streamlined.';
+                } else if(targetMetricId === 'metric-productivity') {
+                    targetMetricCard.querySelector('.value').innerText = 'High';
+                    targetMetricCard.querySelector('.desc').innerText = 'Tables turned 25% faster with mobile POS.';
+                } else if(targetMetricId === 'metric-quality') {
+                    targetMetricCard.querySelector('.value').innerText = 'Consistent';
+                    targetMetricCard.querySelector('.desc').innerText = 'Zero steak sendbacks recorded.';
+                } else if(targetMetricId === 'metric-cost') {
+                    targetMetricCard.querySelector('.value').innerText = 'Controlled';
+                    targetMetricCard.querySelector('.desc').innerText = 'Waste reduced down to under 2%.';
+                } else if(targetMetricId === 'metric-cx') {
+                    targetMetricCard.querySelector('.value').innerText = '4.9 Stars';
+                    targetMetricCard.querySelector('.desc').innerText = 'Guests praise instant, secure digital checkout.';
+                } else if(targetMetricId === 'metric-ex') {
+                    targetMetricCard.querySelector('.value').innerText = 'High Morale';
+                    targetMetricCard.querySelector('.desc').innerText = 'No operational irritation. Focus on guest care.';
+                }
+
+                draggedItem.style.display = 'none';
+                matchedCount++;
+
+                if (matchedCount === 6) {
+                    dropZone.style.display = 'none';
+                    document.getElementById('completion-message').classList.remove('hidden');
+                }
+            }
+        });
+
+        function resetSimulation() {
+            matchedCount = 0;
+            dropZone.style.display = 'block';
+            document.getElementById('completion-message').classList.add('hidden');
+            
+            dragItems.forEach(item => {
+                item.style.display = 'block';
+                const targetMetricId = item.getAttribute('data-target');
+                const card = document.getElementById(targetMetricId);
+                card.classList.remove('good');
+                card.classList.add('bad');
+            });
+
+            document.getElementById('metric-efficiency').querySelector('.value').innerText = 'Slow';
+            document.getElementById('metric-efficiency').querySelector('.desc').innerText = 'Kitchen staff walking across the room constantly for basic seasonings.';
+            
+            document.getElementById('metric-productivity').querySelector('.value').innerText = 'Low';
+            document.getElementById('metric-productivity').querySelector('.desc').innerText = 'Waiters stuck at the central till point typing orders instead of on the floor.';
+            
+            document.getElementById('metric-quality').querySelector('.value').innerText = 'Unstable';
+            document.getElementById('metric-quality').querySelector('.desc').innerText = '3 steaks sent back to the kitchen because of incorrect cooking levels.';
+            
+            document.getElementById('metric-cost').querySelector('.value').innerText = 'Wasting 15%';
+            document.getElementById('metric-cost').querySelector('.desc').innerText = 'Excessive food waste found in bins due to poor stock rotation (FIFO).';
+            
+            document.getElementById('metric-cx').querySelector('.value').innerText = '2.1 Stars';
+            document.getElementById('metric-cx').querySelector('.desc').innerText = 'TripAdvisor complaints rolling in regarding long payment wait times.';
+            
+            document.getElementById('metric-ex').querySelector('.value').innerText = 'Burnout Risk';
+            document.getElementById('metric-ex').querySelector('.desc').innerText = 'Floor staff arguing over whose turn it is to track down missing cutlery.';
+        }
+    </script>
+</body>
+</html>
