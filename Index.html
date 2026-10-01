@@ -4,74 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Broken Bistro Challenge - Process Matching Activity</title>
-    <style>
-        :root {
-            --bg-color: #f4f6f9;
-            --text-color: #333333;
-            --primary-color: #1e3a8a;
-            --card-bg: #ffffff;
-            --border-color: #e5e7eb;
-            --bad-color: #fde8e8;
-            --bad-text: #9b1c1c;
-            --good-color: #def7ec;
-            --good-text: #03543f;
-            --accent-color: #3b82f6;
-            --selection-color: #eff6ff;
-            --selection-border: #2563eb;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 30px 0;
-            text-align: center;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-        }
-        header h1 { margin: 0; font-size: 2.5rem; }
-        .subtitle { margin: 10px 0 0 0; font-size: 1.2rem; opacity: 0.9; }
-        .card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 24px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            margin-bottom: 24px;
-        }
-        .intro-card { border-left: 5px solid var(--accent-color); }
-        .grid { display: flex; gap: 24px; flex-wrap: wrap; }
-        .column { flex: 1; min-width: 320px; }
-        .interactive-list { display: flex; flex-direction: column; gap: 12px; }
-        .metric-card { padding: 16px; border-radius: 6px; border: 2px solid transparent; cursor: pointer; transition: all 0.2s ease; user-select: none; }
-        .metric-card h3 { margin: 0 0 4px 0; font-size: 1.1rem; }
-        .metric-card .value { font-size: 1.3rem; font-weight: bold; margin: 0 0 4px 0; }
-        .metric-card .desc { margin: 0; font-size: 0.9rem; }
-        .metric-card.bad { background-color: var(--bad-color); color: var(--bad-text); border-color: #f8b4b4; }
-        .metric-card.good { background-color: var(--good-color); color: var(--good-text); border-color: #bcf0da; cursor: default; }
-        .metric-card.bad.selected-target { border-color: #b91c1c; box-shadow: 0 0 10px rgba(185, 28, 28, 0.3); background-color: #fbd5d5; }
-        .tool-card { background-color: #f9fafb; border: 2px solid #cbd5e1; padding: 14px; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; font-weight: 500; user-select: none; }
-        .tool-card:hover { background-color: #f1f5f9; border-color: #94a3b8; }
-        .tool-card.selected-tool { background-color: var(--selection-color); border-color: var(--selection-border); box-shadow: 0 0 10px rgba(37, 99, 235, 0.2); }
-        .tool-card.hidden { display: none !important; }
-        .alert-box { padding: 12px; border-radius: 6px; margin-bottom: 16px; font-weight: bold; text-align: center; }
-        .alert-error { background-color: #fde8e8; color: #9b1c1c; border: 1px solid #f8b4b4; }
-        .control-panel { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
-        .btn { border: none; padding: 14px; border-radius: 6px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: opacity 0.2s; text-align: center; width: 100%; }
-        .btn:hover { opacity: 0.9; }
-        .btn-deploy { background-color: #2563eb; color: white; }
-        .btn-reset { background-color: #4b5563; color: white; margin-top: 10px; }
-        #completion-message { background-color: var(--good-color); color: var(--good-text); border: 1px solid #bcf0da; padding: 24px; border-radius: 8px; text-align: center; margin-bottom: 20px; }
-        .hidden { display: none !important; }
-        footer { text-align: center; padding: 40px 0; color: #6b7280; font-size: 0.9rem; border-top: 1px solid var(--border-color); margin-top: 40px; }
-    </style>
+    <!-- Links to your external vibrant stylesheet -->
+    <link rel="stylesheet" href="ProcessImprovement.css">
 </head>
 <body>
     <header>
@@ -80,19 +14,26 @@
             <p class="subtitle">Match the Process Improvement Tool to the Correct Operational Pillar</p>
         </div>
     </header>
+
     <main class="container">
+        <!-- Interactive Session Instructions -->
         <section class="card intro-card">
             <h2>The Challenge Instructions</h2>
             <p><strong>Step 1:</strong> Click a solution from the <strong>Process Improvement Toolkit</strong> on the right.</p>
             <p><strong>Step 2:</strong> Click the matching <strong>Shift Bottleneck Category</strong> on the left that it solves.</p>
             <p><strong>Step 3:</strong> Hit the blue <strong>"Deploy Operational Solution"</strong> button to run your change strategy.</p>
         </section>
+
+        <!-- Dynamic Visual Alert Banners -->
         <div id="alert-msg" class="alert-box alert-error hidden"></div>
+
         <div id="completion-message" class="hidden">
             <h3>🎉 Shift Successfully Restructured!</h3>
-            <p>Excellent strategic analysis. You matched every process optimization method to its correct operational workflow parameter.</p>
+            <p>Excellent strategic analysis. You matched every process optimization method to its correct operational hospitality workflow parameter.</p>
         </div>
+
         <div class="grid">
+            <!-- Left Grid Pane: Current Shift Bottlenecks -->
             <section class="card column">
                 <h2>⚠️ 1. Select Target Bottleneck</h2>
                 <div class="interactive-list" id="bottleneck-list">
@@ -128,7 +69,8 @@
                     </div>
                 </div>
             </section>
-             <section class="card column">
+             <!-- Right Grid Pane: Improvement Toolkit Selection -->
+            <section class="card column">
                 <h2>🛠️ 2. Select Improvement Tool</h2>
                 <div class="interactive-list" id="tools-list">
                     <div class="tool-card" id="tool-quality" data-match="quality">📋 Spec Sheets: Implement visual recipe checklists and automated kitchen line timers.</div>
@@ -138,6 +80,7 @@
                     <div class="tool-card" id="tool-productivity" data-match="productivity">📱 Mobile POS: Equipping floor staff with handheld digital tablets for direct tableside routing.</div>
                     <div class="tool-card" id="tool-cost" data-match="cost">🔄 FIFO System: Deploy automated inventory expiration tracking and strict stock rotation.</div>
                 </div>
+
                 <div class="control-panel">
                     <button onclick="evaluateMatch()" class="btn btn-deploy">⚡ Deploy Operational Solution</button>
                     <button onclick="resetSimulation()" class="btn btn-reset">🔄 Reset Current Shift</button>
@@ -145,17 +88,21 @@
             </section>
         </div>
     </main>
+
     <footer>
         <p>&copy; 2026 Hospitality Process Improvement Workshop Tool. Optimized for GitHub Pages & Classrooms.</p>
     </footer>
+
     <script>
         let selectedToolElement = null;
         let selectedTargetElement = null;
         let successfulMatches = 0;
+
         const tools = document.querySelectorAll('.tool-card');
         const bottlenecks = document.querySelectorAll('.metric-card');
         const errorAlert = document.getElementById('alert-msg');
 
+        // Selection Listener for the Tool Column
         tools.forEach(tool => {
             tool.addEventListener('click', () => {
                 if(tool.classList.contains('hidden')) return;
@@ -165,6 +112,8 @@
                 hideAlert();
             });
         });
+
+        // Selection Listener for the Target Column
         bottlenecks.forEach(card => {
             card.addEventListener('click', () => {
                 if(card.classList.contains('good')) return;
@@ -174,14 +123,19 @@
                 hideAlert();
             });
         });
-        function hideAlert() { errorAlert.classList.add('hidden'); }
 
+        function hideAlert() {
+            errorAlert.classList.add('hidden');
+        }
+
+        // Logic Matrix Check
         function evaluateMatch() {
             if (!selectedToolElement || !selectedTargetElement) {
                 errorAlert.innerText = "❌ Selection Incomplete: You must choose one Tool and one Bottleneck card first!";
                 errorAlert.classList.remove('hidden');
                 return;
             }
+
             const toolType = selectedToolElement.getAttribute('data-match');
             const targetType = selectedTargetElement.getAttribute('data-type');
 
@@ -189,6 +143,7 @@
                 selectedTargetElement.classList.remove('bad', 'selected-target');
                 selectedTargetElement.classList.add('good');
                 
+                // Content Replacement Panel
                 if(targetType === 'efficiency') {
                     selectedTargetElement.querySelector('.value').innerText = 'Optimized';
                     selectedTargetElement.querySelector('.desc').innerText = 'Zero wasted steps. Layout streamlined.';
@@ -208,22 +163,35 @@
                     selectedTargetElement.querySelector('.value').innerText = 'High Morale';
                     selectedTargetElement.querySelector('.desc').innerText = 'No operational irritation. Focus shifted back to guest care.';
                 }
+
                 selectedToolElement.classList.add('hidden');
                 selectedToolElement = null;
                 selectedTargetElement = null;
                 successfulMatches++;
-                if (successfulMatches === 6) { document.getElementById('completion-message').classList.remove('hidden'); }
+
+                if (successfulMatches === 6) {
+                    document.getElementById('completion-message').classList.remove('hidden');
+                }
             } else {
                 errorAlert.innerText = `❌ Inaccurate Alignment! That tool does not address the core issue of this specific bottleneck. Try another match.`;
                 errorAlert.classList.remove('hidden');
             }
         }
 
+        // Master Reset Call
         function resetSimulation() {
-            selectedToolElement = null; selectedTargetElement = null; successfulMatches = 0;
-            hideAlert(); document.getElementById('completion-message').classList.add('hidden');
+            selectedToolElement = null;
+            selectedTargetElement = null;
+            successfulMatches = 0;
+            hideAlert();
+            document.getElementById('completion-message').classList.add('hidden');
+            
             tools.forEach(tool => tool.classList.remove('hidden', 'selected-tool'));
-            bottlenecks.forEach(card => card.classList.remove('good', 'selected-target').classList.add('bad'));
+            bottlenecks.forEach(card => {
+                card.classList.remove('good', 'selected-target');
+                card.classList.add('bad');
+            });
+
             document.getElementById('metric-efficiency').querySelector('.value').innerText = 'Slow';
             document.getElementById('metric-efficiency').querySelector('.desc').innerText = 'Kitchen staff walking across the room constantly for basic seasonings.';
             document.getElementById('metric-productivity').querySelector('.value').innerText = 'Low';
