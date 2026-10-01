@@ -4,8 +4,105 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Broken Bistro Challenge - Process Matching Activity</title>
-    <!-- Links to your external vibrant stylesheet -->
-    <link rel="stylesheet" href="ProcessImprovement.css">
+    <style>
+        :root {
+            --bg-color: #0b0f19; 
+            --text-color: #f8fafc; 
+            --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%); 
+            --card-bg: #131c2e; 
+            --border-color: #1e293b;
+            --bad-color: linear-gradient(135deg, #4c0519 0%, #1e0008 100%); 
+            --bad-text: #ffe4e6;
+            --bad-glow: #f43f5e;
+            --good-color: linear-gradient(135deg, #064e3b 0%, #022c22 100%); 
+            --good-text: #d1fae5;
+            --good-glow: #10b981;
+            --accent-purple: #d946ef; 
+            --selection-bg: #1e1b4b; 
+            --selection-border: #818cf8; 
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+        header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 45px 0;
+            text-align: center;
+            box-shadow: 0 12px 30px -5px rgba(6, 182, 212, 0.4);
+            margin-bottom: 35px;
+            border-bottom: 3px solid #22d3ee;
+        }
+
+        header h1 { margin: 0; font-size: 2.8rem; text-shadow: 0 0 15px rgba(255,255,255,0.4); letter-spacing: -0.5px; font-weight: 800; }
+        .subtitle { margin: 12px 0 0 0; font-size: 1.3rem; color: #ccfbf1; font-weight: 600; letter-spacing: 0.5px; }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 14px;
+            padding: 26px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            margin-bottom: 26px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .intro-card {
+            border-left: 6px solid var(--accent-purple);
+            background: linear-gradient(90deg, #2e104e 0%, var(--card-bg) 100%);
+            box-shadow: 0 0 20px rgba(217, 70, 239, 0.15);
+        }
+
+        .grid { display: flex; gap: 26px; flex-wrap: wrap; }
+        .column { flex: 1; min-width: 320px; }
+        .interactive-list { display: flex; flex-direction: column; gap: 16px; }
+
+        .metric-card { padding: 20px; border-radius: 12px; border: 2px solid #334155; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); user-select: none; }
+        .metric-card h3 { margin: 0 0 6px 0; font-size: 1.25rem; letter-spacing: 0.5px; }
+        .metric-card .value { font-size: 1.5rem; font-weight: 900; margin: 0 0 6px 0; text-transform: uppercase; }
+        .metric-card .desc { margin: 0; font-size: 0.95rem; opacity: 0.9; }
+
+        .metric-card.bad { background: var(--bad-color); color: var(--bad-text); border-color: #991b1b; }
+        .metric-card.bad:hover { border-color: var(--bad-glow); box-shadow: 0 0 20px rgba(244, 63, 94, 0.5); transform: translateY(-3px); }
+        .metric-card.bad.selected-target { border-color: #fda4af; background: linear-gradient(135deg, #991b1b 0%, #4c0519 100%); box-shadow: 0 0 25px rgba(244, 63, 94, 0.7); transform: scale(1.03); }
+        .metric-card.good { background: var(--good-color); color: var(--good-text); border-color: var(--good-glow); box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); cursor: default; }
+
+        .tool-card { background-color: #1e293b; border: 2px solid #475569; color: #e2e8f0; padding: 18px; border-radius: 12px; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); font-weight: 600; user-select: none; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .tool-card:hover { background-color: #334155; border-color: #cbd5e1; color: white; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
+        .tool-card.selected-tool { background: var(--selection-bg); border-color: var(--selection-border); color: white; box-shadow: 0 0 25px rgba(129, 140, 248, 0.6); transform: scale(1.03); }
+        .tool-card.hidden { display: none !important; }
+
+        .alert-box { padding: 16px; border-radius: 12px; margin-bottom: 24px; font-weight: 800; text-align: center; font-size: 1.1rem; animation: alertGlow 2s infinite; }
+        .alert-error { background-color: #991b1b; color: #ffe4e6; border: 2px solid var(--bad-glow); }
+
+        @keyframes alertGlow {
+            0% { box-shadow: 0 0 15px rgba(244, 63, 94, 0.4); }
+            50% { box-shadow: 0 0 25px rgba(244, 63, 94, 0.7); }
+            100% { box-shadow: 0 0 15px rgba(244, 63, 94, 0.4); }
+        }
+
+        .control-panel { margin-top: 26px; display: flex; flex-direction: column; gap: 14px; }
+        .btn { border: none; padding: 18px; border-radius: 10px; font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: all 0.2s ease; text-align: center; width: 100%; text-transform: uppercase; letter-spacing: 1px; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
+        .btn-deploy { background: linear-gradient(135deg, #2563eb 0%, #0d9488 100%); color: white; border: 1px solid #38bdf8; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); }
+        .btn-deploy:hover { background: linear-gradient(135deg, #3b82f6 0%, #14b8a6 100%); }
+        .btn-reset { background-color: #1e293b; color: #94a3b8; border: 2px solid #334155; margin-top: 10px; }
+        .btn-reset:hover { background-color: #334155; color: white; border-color: #475569; }
+
+        #completion-message { background: var(--good-color); color: var(--good-text); border: 2px solid var(--good-glow); padding: 35px; border-radius: 14px; text-align: center; margin-bottom: 26px; box-shadow: 0 0 35px rgba(16, 185, 129, 0.5); }
+        #completion-message h3 { margin: 0 0 10px 0; font-size: 1.75rem; }
+        .hidden { display: none !important; }
+        footer { text-align: center; padding: 40px 0; color: #475569; font-size: 0.95rem; border-top: 2px solid var(--border-color); margin-top: 60px; }
+    </style>
 </head>
 <body>
     <header>
@@ -16,7 +113,6 @@
     </header>
 
     <main class="container">
-        <!-- Interactive Session Instructions -->
         <section class="card intro-card">
             <h2>The Challenge Instructions</h2>
             <p><strong>Step 1:</strong> Click a solution from the <strong>Process Improvement Toolkit</strong> on the right.</p>
@@ -24,7 +120,6 @@
             <p><strong>Step 3:</strong> Hit the blue <strong>"Deploy Operational Solution"</strong> button to run your change strategy.</p>
         </section>
 
-        <!-- Dynamic Visual Alert Banners -->
         <div id="alert-msg" class="alert-box alert-error hidden"></div>
 
         <div id="completion-message" class="hidden">
@@ -33,7 +128,6 @@
         </div>
 
         <div class="grid">
-            <!-- Left Grid Pane: Current Shift Bottlenecks -->
             <section class="card column">
                 <h2>⚠️ 1. Select Target Bottleneck</h2>
                 <div class="interactive-list" id="bottleneck-list">
@@ -69,7 +163,6 @@
                     </div>
                 </div>
             </section>
-             <!-- Right Grid Pane: Improvement Toolkit Selection -->
             <section class="card column">
                 <h2>🛠️ 2. Select Improvement Tool</h2>
                 <div class="interactive-list" id="tools-list">
@@ -102,7 +195,6 @@
         const bottlenecks = document.querySelectorAll('.metric-card');
         const errorAlert = document.getElementById('alert-msg');
 
-        // Selection Listener for the Tool Column
         tools.forEach(tool => {
             tool.addEventListener('click', () => {
                 if(tool.classList.contains('hidden')) return;
@@ -113,7 +205,6 @@
             });
         });
 
-        // Selection Listener for the Target Column
         bottlenecks.forEach(card => {
             card.addEventListener('click', () => {
                 if(card.classList.contains('good')) return;
@@ -128,7 +219,6 @@
             errorAlert.classList.add('hidden');
         }
 
-        // Logic Matrix Check
         function evaluateMatch() {
             if (!selectedToolElement || !selectedTargetElement) {
                 errorAlert.innerText = "❌ Selection Incomplete: You must choose one Tool and one Bottleneck card first!";
@@ -143,7 +233,6 @@
                 selectedTargetElement.classList.remove('bad', 'selected-target');
                 selectedTargetElement.classList.add('good');
                 
-                // Content Replacement Panel
                 if(targetType === 'efficiency') {
                     selectedTargetElement.querySelector('.value').innerText = 'Optimized';
                     selectedTargetElement.querySelector('.desc').innerText = 'Zero wasted steps. Layout streamlined.';
@@ -178,7 +267,6 @@
             }
         }
 
-        // Master Reset Call
         function resetSimulation() {
             selectedToolElement = null;
             selectedTargetElement = null;
@@ -188,8 +276,7 @@
             
             tools.forEach(tool => tool.classList.remove('hidden', 'selected-tool'));
             bottlenecks.forEach(card => {
-                card.classList.remove('good', 'selected-target');
-                card.classList.add('bad');
+                card.className = "metric-card bad";
             });
 
             document.getElementById('metric-efficiency').querySelector('.value').innerText = 'Slow';
