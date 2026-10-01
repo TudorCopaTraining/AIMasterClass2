@@ -18,7 +18,7 @@
         <!-- Scenario Introduction -->
         <section class="card intro-card">
             <h2>The Situation</h2>
-            <p>You are running a popular city-centre restaurant. Tonight is Friday peak service, and the operations are failing. Read the live feedback from the shift below, then drag and drop the operational fixes to resolve the issues and save your venue's reputation.</p>
+            <p>You are running a popular city-centre restaurant. Tonight is Friday peak service, and the operations are failing. Read the live feedback from the shift below, then select or drag the operational fixes to resolve the issues and save your venue's reputation.</p>
         </section>
 
         <!-- Live Shift Dashboard -->
@@ -37,7 +37,7 @@
                         <p class="desc">Waiters stuck at the central till point typing orders instead of on the floor.</p>
                     </div>
                     <div class="metric-card bad" id="metric-quality">
-                        <h3>Quality</h3>
+                        <h3>Quality Improvement</h3>
                         <p class="value">Unstable</p>
                         <p class="desc">3 steaks sent back to the kitchen because of incorrect cooking levels.</p>
                     </div>
@@ -47,12 +47,12 @@
                         <p class="desc">Excessive food waste found in bins due to poor stock rotation (FIFO).</p>
                     </div>
                     <div class="metric-card bad" id="metric-cx">
-                        <h3>Customer Exp (CX)</h3>
+                        <h3>Customer Experience (CX)</h3>
                         <p class="value">2.1 Stars</p>
                         <p class="desc">TripAdvisor complaints rolling in regarding long payment wait times.</p>
                     </div>
                     <div class="metric-card bad" id="metric-ex">
-                        <h3>Employee Exp (EX)</h3>
+                        <h3>Employee Experience (EX)</h3>
                         <p class="value">Burnout Risk</p>
                         <p class="desc">Floor staff arguing over whose turn it is to track down missing cutlery.</p>
                     </div>
@@ -62,7 +62,7 @@
             <!-- Interactive Work Area -->
             <section class="card column">
                 <h2>🛠️ Process Improvement Toolkit</h2>
-                <p class="instructions">Drag the correct operational optimization solution into the matching bucket below to fix the process issue!</p>
+                <p class="instructions"><strong>How to play:</strong> Drag a tool to the blue zone below, OR simply click a tool card to select it, then click the blue zone to deploy it.</p>
                 
                 <div class="drag-container" id="draggable-items">
                     <div class="drag-item" draggable="true" id="fix-efficiency" data-target="metric-efficiency">🏷️ Kitchen Layout: Rearrange prep benches to keep seasonings at arm's length.</div>
@@ -74,13 +74,16 @@
                 </div>
 
                 <div class="drop-zone" id="drop-zone">
-                    <p class="drop-placeholder">Drag a solution card here to deploy it...</p>
+                    <p class="drop-placeholder">Click/Drag here to deploy selected solution...</p>
                 </div>
 
                 <div id="completion-message" class="hidden">
                     <h3>🎉 Shift Successfully Fixed!</h3>
                     <p>You have optimized your hospitality operations across all 6 core pillars. Your efficiency is up, waste is down, and guests are happy!</p>
-                    <button onclick="resetSimulation()" class="btn">Reset Shift Simulation</button>
+                </div>
+
+                <div class="control-panel">
+                    <button onclick="resetSimulation()" class="btn btn-reset">🔄 Reset Current Shift</button>
                 </div>
             </section>
         </div>
@@ -93,14 +96,29 @@
     <script>
         const dragItems = document.querySelectorAll('.drag-item');
         const dropZone = document.getElementById('drop-zone');
+        let selectedItem = null;
         let matchedCount = 0;
 
+        // Click-to-Select Mechanics (Mobile & Desktop Fallback)
         dragItems.forEach(item => {
+            item.addEventListener('click', () => {
+                dragItems.forEach(i => i.classList.remove('selected'));
+                if (selectedItem === item) {
+                    selectedItem = null;
+                } else {
+                    selectedItem = item;
+                    item.classList.add('selected');
+                }
+            });
+
+            // Native Drag & Drop Listeners
             item.addEventListener('dragstart', (e) => {
                 e.dataTransfer.setData('text/plain', item.id);
+                selectedItem = item;
             });
         });
 
+        // Drop Zone Event Listeners
         dropZone.addEventListener('dragover', (e) => {
             e.preventDefault();
             dropZone.classList.add('hover');
@@ -113,18 +131,29 @@
         dropZone.addEventListener('drop', (e) => {
             e.preventDefault();
             dropZone.classList.remove('hover');
-            const itemId = e.dataTransfer.getData('text/plain');
+            const itemId = e.dataTransfer.getData('text/plain') || (selectedItem ? selectedItem.id : null);
+            handleDeployment(itemId);
+        });
+
+        dropZone.addEventListener('click', () => {
+            if (selectedItem) {
+                handleDeployment(selectedItem.id);
+            }
+        });
+
+        // Core logic function to deploy updates
+        function handleDeployment(itemId) {
             const draggedItem = document.getElementById(itemId);
+            if (!draggedItem) return;
+
+            const targetMetricId = draggedItem.getAttribute('data-target');
+            const targetMetricCard = document.getElementById(targetMetricId);
             
-            if (draggedItem) {
-                const targetMetricId = draggedItem.getAttribute('data-target');
-                const targetMetricCard = document.getElementById(targetMetricId);
-                
-                // Update corresponding metric card state
+            if (targetMetricCard && targetMetricCard.classList.contains('bad')) {
                 targetMetricCard.classList.remove('bad');
                 targetMetricCard.classList.add('good');
                 
-                // Text updates to show improvement
+                // Dynamic Text Switching
                 if(targetMetricId === 'metric-efficiency') {
                     targetMetricCard.querySelector('.value').innerText = 'Optimized';
                     targetMetricCard.querySelector('.desc').innerText = 'Zero wasted steps. Layout streamlined.';
@@ -145,47 +174,41 @@
                     targetMetricCard.querySelector('.desc').innerText = 'No operational irritation. Focus on guest care.';
                 }
 
-                draggedItem.style.display = 'none';
+                draggedItem.classList.add('hidden');
+                draggedItem.classList.remove('selected');
+                selectedItem = null;
                 matchedCount++;
 
                 if (matchedCount === 6) {
-                    dropZone.style.display = 'none';
+                    dropZone.classList.add('hidden');
                     document.getElementById('completion-message').classList.remove('hidden');
                 }
             }
-        });
+        }
 
+        // Global Reset Logic
         function resetSimulation() {
             matchedCount = 0;
-            dropZone.style.display = 'block';
-            document.getElementById('completion-message').classList.add('hidden');
-            
-            dragItems.forEach(item => {
-                item.style.display = 'block';
-                const targetMetricId = item.getAttribute('data-target');
-                const card = document.getElementById(targetMetricId);
-                card.classList.remove('good');
-                card.classList.add('bad');
-            });
-
-            document.getElementById('metric-efficiency').querySelector('.value').innerText = 'Slow';
-            document.getElementById('metric-efficiency').querySelector('.desc').innerText = 'Kitchen staff walking across the room constantly for basic seasonings.';
-            
-            document.getElementById('metric-productivity').querySelector('.value').innerText = 'Low';
-            document.getElementById('metric-productivity').querySelector('.desc').innerText = 'Waiters stuck at the central till point typing orders instead of on the floor.';
-            
-            document.getElementById('metric-quality').querySelector('.value').innerText = 'Unstable';
-            document.getElementById('metric-quality').querySelector('.desc').innerText = '3 steaks sent back to the kitchen because of incorrect cooking levels.';
-            
-            document.getElementById('metric-cost').querySelector('.value').innerText = 'Wasting 15%';
-            document.getElementById('metric-cost').querySelector('.desc').innerText = 'Excessive food waste found in bins due to poor stock rotation (FIFO).';
-            
-            document.getElementById('metric-cx').querySelector('.value').innerText = '2.1 Stars';
-            document.getElementById('metric-cx').querySelector('.desc').innerText = 'TripAdvisor complaints rolling in regarding long payment wait times.';
-            
-            document.getElementById('metric-ex').querySelector('.value').innerText = 'Burnout Risk';
-            document.getElementById('metric-ex').querySelector('.desc').innerText = 'Floor staff arguing over whose turn it is to track down missing cutlery.';
-        }
-    </script>
-</body>
-</html>
+            selectedItem = null;
+            dropZone.classList.remove('hidden');
+document.getElementById('completion-message').classList.add('hidden');
+dragItems.forEach(item => {
+item.classList.remove('hidden', 'selected');
+const targetMetricId = item.getAttribute('data-target');
+const card = document.getElementById(targetMetricId);
+card.classList.remove('good');
+card.classList.add('bad');
+});
+document.getElementById('metric-efficiency').querySelector('.value').innerText = 'Slow';
+document.getElementById('metric-efficiency').querySelector('.desc').innerText = 'Kitchen staff walking across the room constantly for basic seasonings.';
+document.getElementById('metric-productivity').querySelector('.value').innerText = 'Low';
+document.getElementById('metric-productivity').querySelector('.desc').innerText = 'Waiters stuck at the central till point typing orders instead of on the floor.';
+document.getElementById('metric-quality').querySelector('.value').innerText = 'Unstable';
+document.getElementById('metric-quality').querySelector('.desc').innerText = '3 steaks sent back to the kitchen because of incorrect cooking levels.';
+document.getElementById('metric-cost').querySelector('.value').innerText = 'Wasting 15%';
+document.getElementById('metric-cost').querySelector('.desc').innerText = 'Excessive food waste found in bins due to poor stock rotation (FIFO).';
+document.getElementById('metric-cx').querySelector('.value').innerText = '2.1 Stars';
+document.getElementById('metric-cx').querySelector('.desc').innerText = 'TripAdvisor complaints rolling in regarding long payment wait times.';
+document.getElementById('metric-ex').querySelector('.value').innerText = 'Burnout Risk';
+document.getElementById('metric-ex').querySelector('.desc').innerText = 'Floor staff arguing over whose turn it is to track down missing cutlery.';
+}
