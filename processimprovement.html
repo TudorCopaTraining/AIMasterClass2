@@ -75,6 +75,7 @@
 
                 <div class="action-bar">
                     <button id="deploy-btn" class="btn" disabled>Deploy Selected Fix</button>
+                    <button id="reset-btn" class="btn btn-secondary" onclick="resetSimulation()">Reset Shift</button>
                 </div>
 
                 <div class="drop-zone" id="drop-zone">
@@ -95,6 +96,7 @@
     </footer>
 
     <script>
+        const dragContainer = document.getElementById('draggable-items');
         const dragItems = document.querySelectorAll('.drag-item');
         const dropZone = document.getElementById('drop-zone');
         const deployBtn = document.getElementById('deploy-btn');
@@ -136,12 +138,11 @@
 
             if (matchedCount === 6) {
                 dropZone.style.display = 'none';
-                deployBtn.parentElement.style.display = 'none';
                 document.getElementById('completion-message').classList.remove('hidden');
             }
         }
 
-        // Click-to-select handling
+        // Selection handling
         dragItems.forEach(item => {
             item.addEventListener('click', () => {
                 if (selectedItem === item) {
@@ -162,7 +163,7 @@
             });
         });
 
-        // Deploy button click handling
+        // Deploy button
         deployBtn.addEventListener('click', () => {
             if (selectedItem) {
                 deployItem(selectedItem);
@@ -189,11 +190,20 @@
             }
         });
 
+        function shuffleItems() {
+            const itemsArray = Array.from(dragContainer.children);
+            // Fisher-Yates shuffle
+            for (let i = itemsArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [itemsArray[i], itemsArray[j]] = [itemsArray[j], itemsArray[i]];
+            }
+            itemsArray.forEach(item => dragContainer.appendChild(item));
+        }
+
         function resetSimulation() {
             matchedCount = 0;
             selectedItem = null;
             deployBtn.disabled = true;
-            deployBtn.parentElement.style.display = 'block';
             dropZone.style.display = 'block';
             document.getElementById('completion-message').classList.add('hidden');
 
@@ -205,6 +215,9 @@
                 card.classList.remove('good');
                 card.classList.add('bad');
             });
+
+            // Randomise the order of cards on each reset
+            shuffleItems();
 
             document.getElementById('metric-efficiency').querySelector('.value').innerText = 'Slow';
             document.getElementById('metric-efficiency').querySelector('.desc').innerText = 'Kitchen staff walking across the room constantly for basic seasonings.';
