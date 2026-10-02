@@ -1,7 +1,7 @@
 /* Global Styles */
 :root {
     --bg-color: #f4f6f9;
-    --text-color: #333333;
+    --text-color: #1f2937;
     --primary-color: #1e3a8a;
     --card-bg: #ffffff;
     --border-color: #e5e7eb;
@@ -89,8 +89,10 @@ header h1 {
 .metric-card {
     padding: 16px;
     border-radius: 6px;
-    border: 1px solid transparent;
-    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    user-select: none;
 }
 
 .metric-card h3 {
@@ -120,9 +122,33 @@ header h1 {
     background-color: var(--good-color);
     color: var(--good-text);
     border-color: #bcf0da;
+    cursor: default;
 }
 
-/* Drag and Drop Styling */
+/* Target Selection & Hover on Bottlenecks */
+.metric-card.selected-target {
+    border: 2px solid #1e3a8a !important;
+    box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.3);
+}
+
+.metric-card.drag-hover {
+    background-color: #e0e7ff !important;
+    border: 2px dashed #3b82f6 !important;
+}
+
+/* Incorrect match shake animation */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
+}
+
+.metric-card.shake {
+    animation: shake 0.4s ease-in-out;
+    border-color: #b91c1c !important;
+}
+
+/* Toolkit Styling */
 .instructions {
     font-style: italic;
     color: #666;
@@ -133,51 +159,65 @@ header h1 {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 .drag-item {
-    background-color: #f9fafb;
-    border: 2px dashed #cbd5e1;
-    color: var(--text-color);
+    background-color: #ffffff;
+    border: 2px dashed #94a3b8;
+    color: #1f2937;
     padding: 14px;
     border-radius: 6px;
     cursor: pointer;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
     font-weight: 500;
+    user-select: none;
+    transition: outline 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
 }
 
 .drag-item:hover {
-    background-color: #f1f5f9;
-    border-color: #94a3b8;
+    background-color: #f8fafc;
+    border-color: #64748b;
 }
 
-/* Selection Highlight: clean border & outer halo only, dark text preserved */
+/* PRECISE OUTLINE HIGHLIGHT: 
+   Leaves text, background, and fonts completely unchanged.
+   Only draws an outline box around the component. */
 .drag-item.selected {
+    border: 2px solid #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.35);
     background-color: #ffffff;
-    border: 2px solid var(--accent-color);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
-    color: #111827;
 }
 
-.drop-zone {
-    border: 3px dashed var(--accent-color);
-    background-color: #eff6ff;
-    padding: 30px;
-    border-radius: 8px;
-    text-align: center;
-    color: #1e40af;
-    transition: background-color 0.2s;
-    margin-top: 20px;
+.drag-item *::selection,
+.drag-item::selection {
+    background: transparent;
 }
 
-.drop-zone.hover {
-    background-color: #dbeafe;
-}
-
-.drop-placeholder {
-    margin: 0;
+/* Feedback Banner */
+.feedback-banner {
+    display: none;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 0.9rem;
     font-weight: 600;
+    margin-bottom: 14px;
+    text-align: center;
+}
+
+.feedback-banner.show {
+    display: block;
+}
+
+.feedback-banner.success {
+    background-color: #def7ec;
+    color: #03543f;
+    border: 1px solid #bcf0da;
+}
+
+.feedback-banner.error {
+    background-color: #fde8e8;
+    color: #9b1c1c;
+    border: 1px solid #f8b4b4;
 }
 
 /* Action Bar & Buttons */
@@ -218,7 +258,7 @@ header h1 {
     background-color: #475569;
 }
 
-/* Completion & UI Elements */
+/* Completion Screen */
 .hidden {
     display: none !important;
 }
