@@ -287,3 +287,26 @@ footer {
     border-top: 2px solid var(--border-color);
     margin-top: 60px;
 }
+/* Selected item state */
+.drag-item.selected {
+    background-color: #dbeafe;
+    border: 2px solid var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
+/* Action button area */
+.action-bar {
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+#deploy-btn {
+    width: 100%;
+    margin-top: 0;
+}
+
+#deploy-btn:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
