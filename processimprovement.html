@@ -3,292 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Broken Bistro Challenge - Process Matching Activity</title>
-    <style>
-        :root {
-            --bg-color: #0b0f19; 
-            --text-color: #f8fafc; 
-            --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%); 
-            --card-bg: #131c2e; 
-            --border-color: #1e293b;
-            --bad-color: linear-gradient(135deg, #4c0519 0%, #1e0008 100%); 
-            --bad-text: #ffe4e6;
-            --bad-glow: #f43f5e;
-            --good-color: linear-gradient(135deg, #064e3b 0%, #022c22 100%); 
-            --good-text: #d1fae5;
-            --good-glow: #10b981;
-            --accent-purple: #d946ef; 
-            --selection-bg: #1e1b4b; 
-            --selection-border: #818cf8; 
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }
-
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-
-        header {
-            background: var(--primary-gradient);
-            color: white;
-            padding: 45px 0;
-            text-align: center;
-            box-shadow: 0 12px 30px -5px rgba(6, 182, 212, 0.4);
-            margin-bottom: 35px;
-            border-bottom: 3px solid #22d3ee;
-        }
-
-        header h1 { margin: 0; font-size: 2.8rem; text-shadow: 0 0 15px rgba(255,255,255,0.4); letter-spacing: -0.5px; font-weight: 800; }
-        .subtitle { margin: 12px 0 0 0; font-size: 1.3rem; color: #ccfbf1; font-weight: 600; letter-spacing: 0.5px; }
-
-        .card {
-            background-color: var(--card-bg);
-            border: 2px solid var(--border-color);
-            border-radius: 14px;
-            padding: 26px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-            margin-bottom: 26px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .intro-card {
-            border-left: 6px solid var(--accent-purple);
-            background: linear-gradient(90deg, #2e104e 0%, var(--card-bg) 100%);
-            box-shadow: 0 0 20px rgba(217, 70, 239, 0.15);
-        }
-
-        .grid { display: flex; gap: 26px; flex-wrap: wrap; }
-        .column { flex: 1; min-width: 320px; }
-        .interactive-list { display: flex; flex-direction: column; gap: 16px; }
-
-        .metric-card { padding: 20px; border-radius: 12px; border: 2px solid #334155; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); user-select: none; }
-        .metric-card h3 { margin: 0 0 6px 0; font-size: 1.25rem; letter-spacing: 0.5px; }
-        .metric-card .value { font-size: 1.5rem; font-weight: 900; margin: 0 0 6px 0; text-transform: uppercase; }
-        .metric-card .desc { margin: 0; font-size: 0.95rem; opacity: 0.9; }
-
-        .metric-card.bad { background: var(--bad-color); color: var(--bad-text); border-color: #991b1b; }
-        .metric-card.bad:hover { border-color: var(--bad-glow); box-shadow: 0 0 20px rgba(244, 63, 94, 0.5); transform: translateY(-3px); }
-        .metric-card.bad.selected-target { border-color: #fda4af; background: linear-gradient(135deg, #991b1b 0%, #4c0519 100%); box-shadow: 0 0 25px rgba(244, 63, 94, 0.7); transform: scale(1.03); }
-        .metric-card.good { background: var(--good-color); color: var(--good-text); border-color: var(--good-glow); box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); cursor: default; }
-
-        .tool-card { background-color: #1e293b; border: 2px solid #475569; color: #e2e8f0; padding: 18px; border-radius: 12px; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); font-weight: 600; user-select: none; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .tool-card:hover { background-color: #334155; border-color: #cbd5e1; color: white; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
-        .tool-card.selected-tool { background: var(--selection-bg); border-color: var(--selection-border); color: white; box-shadow: 0 0 25px rgba(129, 140, 248, 0.6); transform: scale(1.03); }
-        .tool-card.hidden { display: none !important; }
-
-        .alert-box { padding: 16px; border-radius: 12px; margin-bottom: 24px; font-weight: 800; text-align: center; font-size: 1.1rem; animation: alertGlow 2s infinite; }
-        .alert-error { background-color: #991b1b; color: #ffe4e6; border: 2px solid var(--bad-glow); }
-
-        @keyframes alertGlow {
-            0% { box-shadow: 0 0 15px rgba(244, 63, 94, 0.4); }
-            50% { box-shadow: 0 0 25px rgba(244, 63, 94, 0.7); }
-            100% { box-shadow: 0 0 15px rgba(244, 63, 94, 0.4); }
-        }
-
-        .control-panel { margin-top: 26px; display: flex; flex-direction: column; gap: 14px; }
-        .btn { border: none; padding: 18px; border-radius: 10px; font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: all 0.2s ease; text-align: center; width: 100%; text-transform: uppercase; letter-spacing: 1px; }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
-        .btn-deploy { background: linear-gradient(135deg, #2563eb 0%, #0d9488 100%); color: white; border: 1px solid #38bdf8; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); }
-        .btn-deploy:hover { background: linear-gradient(135deg, #3b82f6 0%, #14b8a6 100%); }
-        .btn-reset { background-color: #1e293b; color: #94a3b8; border: 2px solid #334155; margin-top: 10px; }
-        .btn-reset:hover { background-color: #334155; color: white; border-color: #475569; }
-
-        #completion-message { background: var(--good-color); color: var(--good-text); border: 2px solid var(--good-glow); padding: 35px; border-radius: 14px; text-align: center; margin-bottom: 26px; box-shadow: 0 0 35px rgba(16, 185, 129, 0.5); }
-        #completion-message h3 { margin: 0 0 10px 0; font-size: 1.75rem; }
-        .hidden { display: none !important; }
-        footer { text-align: center; padding: 40px 0; color: #475569; font-size: 0.95rem; border-top: 2px solid var(--border-color); margin-top: 60px; }
-    </style>
+    <title>Hospitality Process Improvement Activity</title>
+    <link rel="stylesheet" href="ProcessImprovement.css">
 </head>
 <body>
     <header>
         <div class="container">
             <h1>The Broken Bistro Challenge</h1>
-            <p class="subtitle">Match the Process Improvement Tool to the Correct Operational Pillar</p>
+            <p class="subtitle">An Interactive Hospitality Process Improvement Simulation</p>
         </div>
     </header>
 
     <main class="container">
+        <!-- Scenario Introduction -->
         <section class="card intro-card">
-            <h2>The Challenge Instructions</h2>
-            <p><strong>Step 1:</strong> Click a solution from the <strong>Process Improvement Toolkit</strong> on the right.</p>
-            <p><strong>Step 2:</strong> Click the matching <strong>Shift Bottleneck Category</strong> on the left that it solves.</p>
-            <p><strong>Step 3:</strong> Hit the blue <strong>"Deploy Operational Solution"</strong> button to run your change strategy.</p>
+            <h2>The Situation</h2>
+            <p>You are running a popular city-centre restaurant. Tonight is Friday peak service, and operations are failing. Read the live feedback from the shift below, then click to select (or drag) the operational fixes to resolve the issues and save your venue's reputation.</p>
         </section>
 
-        <div id="alert-msg" class="alert-box alert-error hidden"></div>
-
-        <div id="completion-message" class="hidden">
-            <h3>🎉 Shift Successfully Restructured!</h3>
-            <p>Excellent strategic analysis. You matched every process optimization method to its correct operational hospitality workflow parameter.</p>
-        </div>
-
+        <!-- Live Shift Dashboard -->
         <div class="grid">
             <section class="card column">
-                <h2>⚠️ 1. Select Target Bottleneck</h2>
-                <div class="interactive-list" id="bottleneck-list">
-                    <div class="metric-card bad" id="metric-efficiency" data-type="efficiency">
+                <h2>⚠️ Current Shift Bottlenecks</h2>
+                <div class="metric-grid">
+                    <div class="metric-card bad" id="metric-efficiency">
                         <h3>Efficiency</h3>
                         <p class="value">Slow</p>
                         <p class="desc">Kitchen staff walking across the room constantly for basic seasonings.</p>
                     </div>
-                    <div class="metric-card bad" id="metric-productivity" data-type="productivity">
+                    <div class="metric-card bad" id="metric-productivity">
                         <h3>Productivity</h3>
                         <p class="value">Low</p>
                         <p class="desc">Waiters stuck at the central till point typing orders instead of on the floor.</p>
                     </div>
-                    <div class="metric-card bad" id="metric-quality" data-type="quality">
-                        <h3>Quality Improvement</h3>
+                    <div class="metric-card bad" id="metric-quality">
+                        <h3>Quality</h3>
                         <p class="value">Unstable</p>
                         <p class="desc">3 steaks sent back to the kitchen because of incorrect cooking levels.</p>
                     </div>
-                    <div class="metric-card bad" id="metric-cost" data-type="cost">
+                    <div class="metric-card bad" id="metric-cost">
                         <h3>Cost Reduction</h3>
                         <p class="value">Wasting 15%</p>
                         <p class="desc">Excessive food waste found in bins due to poor stock rotation (FIFO).</p>
                     </div>
-                    <div class="metric-card bad" id="metric-cx" data-type="cx">
-                        <h3>Customer Experience (CX)</h3>
+                    <div class="metric-card bad" id="metric-cx">
+                        <h3>Customer Exp (CX)</h3>
                         <p class="value">2.1 Stars</p>
                         <p class="desc">TripAdvisor complaints rolling in regarding long payment wait times.</p>
                     </div>
-                    <div class="metric-card bad" id="metric-ex" data-type="ex">
-                        <h3>Employee Experience (EX)</h3>
+                    <div class="metric-card bad" id="metric-ex">
+                        <h3>Employee Exp (EX)</h3>
                         <p class="value">Burnout Risk</p>
                         <p class="desc">Floor staff arguing over whose turn it is to track down missing cutlery.</p>
                     </div>
                 </div>
             </section>
+
+            <!-- Interactive Work Area -->
             <section class="card column">
-                <h2>🛠️ 2. Select Improvement Tool</h2>
-                <div class="interactive-list" id="tools-list">
-                    <div class="tool-card" id="tool-quality" data-match="quality">📋 Spec Sheets: Implement visual recipe checklists and automated kitchen line timers.</div>
-                    <div class="tool-card" id="tool-cx" data-match="cx">💳 Pay at Table: Introduce automated tableside QR code scanning and direct digital bill splitting.</div>
-                    <div class="tool-card" id="tool-efficiency" data-match="efficiency">🏷️ Kitchen Layout: Rearrange prep benches using Lean parameters to keep seasonings at arm's length.</div>
-                    <div class="tool-card" id="tool-ex" data-match="ex">🍴 Cutlery Station: Standardise pre-shift side-station stocking setups to remove floor lookup irritation.</div>
-                    <div class="tool-card" id="tool-productivity" data-match="productivity">📱 Mobile POS: Equipping floor staff with handheld digital tablets for direct tableside routing.</div>
-                    <div class="tool-card" id="tool-cost" data-match="cost">🔄 FIFO System: Deploy automated inventory expiration tracking and strict stock rotation.</div>
+                <h2>🛠️ Process Improvement Toolkit</h2>
+                <p class="instructions">Click to select an operational fix and click <strong>Deploy Fix</strong>, or drag it into the box below!</p>
+                
+                <div class="drag-container" id="draggable-items">
+                    <div class="drag-item" draggable="true" id="fix-efficiency" data-target="metric-efficiency">🏷️ Kitchen Layout: Rearrange prep benches to keep seasonings at arm's length.</div>
+                    <div class="drag-item" draggable="true" id="fix-productivity" data-target="metric-productivity">📱 Mobile POS: Equipping waiters with handheld digital tablets for tableside ordering.</div>
+                    <div class="drag-item" draggable="true" id="fix-quality" data-target="metric-quality">📋 Spec Sheets: Implement visual recipe checklists and automated timer logs.</div>
+                    <div class="drag-item" draggable="true" id="fix-cost" data-target="metric-cost">🔄 FIFO System: Deploy automated cellar tracking and strict inventory rotation.</div>
+                    <div class="drag-item" draggable="true" id="fix-cx" data-target="metric-cx">💳 Pay at Table: Introduce automated tableside QR code scanning and direct billing.</div>
+                    <div class="drag-item" draggable="true" id="fix-ex" data-target="metric-ex">🍴 Cutlery Station: Standardise pre-shift sorting setup to remove search irritation.</div>
                 </div>
 
-                <div class="control-panel">
-                    <button onclick="evaluateMatch()" class="btn btn-deploy">⚡ Deploy Operational Solution</button>
-                    <button onclick="resetSimulation()" class="btn btn-reset">🔄 Reset Current Shift</button>
+                <div class="action-bar">
+                    <button id="deploy-btn" class="btn" disabled>Deploy Selected Fix</button>
+                </div>
+
+                <div class="drop-zone" id="drop-zone">
+                    <p class="drop-placeholder">Or drag a solution card here to deploy it...</p>
+                </div>
+
+                <div id="completion-message" class="hidden">
+                    <h3>🎉 Shift Successfully Fixed!</h3>
+                    <p>You have optimized your hospitality operations across all 6 core pillars. Your efficiency is up, waste is down, and guests are happy!</p>
+                    <button onclick="resetSimulation()" class="btn">Reset Shift Simulation</button>
                 </div>
             </section>
         </div>
     </main>
 
     <footer>
-        <p>&copy; 2026 Hospitality Process Improvement Workshop Tool. Optimized for GitHub Pages & Classrooms.</p>
+        <p>&copy; 2026 Hospitality Process Improvement Workshop Tool. Built for GitHub Pages.</p>
     </footer>
 
     <script>
-        let selectedToolElement = null;
-        let selectedTargetElement = null;
-        let successfulMatches = 0;
+        const dragItems = document.querySelectorAll('.drag-item');
+        const dropZone = document.getElementById('drop-zone');
+        const deployBtn = document.getElementById('deploy-btn');
+        let selectedItem = null;
+        let matchedCount = 0;
 
-        const tools = document.querySelectorAll('.tool-card');
-        const bottlenecks = document.querySelectorAll('.metric-card');
-        const errorAlert = document.getElementById('alert-msg');
+        const metricData = {
+            'metric-efficiency': { value: 'Optimized', desc: 'Zero wasted steps. Layout streamlined.' },
+            'metric-productivity': { value: 'High', desc: 'Tables turned 25% faster with mobile POS.' },
+            'metric-quality': { value: 'Consistent', desc: 'Zero steak sendbacks recorded.' },
+            'metric-cost': { value: 'Controlled', desc: 'Waste reduced down to under 2%.' },
+            'metric-cx': { value: '4.9 Stars', desc: 'Guests praise instant, secure digital checkout.' },
+            'metric-ex': { value: 'High Morale', desc: 'No operational irritation. Focus on guest care.' }
+        };
 
-        tools.forEach(tool => {
-            tool.addEventListener('click', () => {
-                if(tool.classList.contains('hidden')) return;
-                tools.forEach(t => t.classList.remove('selected-tool'));
-                selectedToolElement = tool;
-                tool.classList.add('selected-tool');
-                hideAlert();
+        function deployItem(item) {
+            if (!item) return;
+
+            const targetMetricId = item.getAttribute('data-target');
+            const targetMetricCard = document.getElementById(targetMetricId);
+
+            targetMetricCard.classList.remove('bad');
+            targetMetricCard.classList.add('good');
+
+            if (metricData[targetMetricId]) {
+                targetMetricCard.querySelector('.value').innerText = metricData[targetMetricId].value;
+                targetMetricCard.querySelector('.desc').innerText = metricData[targetMetricId].desc;
+            }
+
+            item.classList.remove('selected');
+            item.style.display = 'none';
+
+            if (selectedItem === item) {
+                selectedItem = null;
+                deployBtn.disabled = true;
+            }
+
+            matchedCount++;
+
+            if (matchedCount === 6) {
+                dropZone.style.display = 'none';
+                deployBtn.parentElement.style.display = 'none';
+                document.getElementById('completion-message').classList.remove('hidden');
+            }
+        }
+
+        // Click-to-select handling
+        dragItems.forEach(item => {
+            item.addEventListener('click', () => {
+                if (selectedItem === item) {
+                    item.classList.remove('selected');
+                    selectedItem = null;
+                    deployBtn.disabled = true;
+                } else {
+                    dragItems.forEach(i => i.classList.remove('selected'));
+                    item.classList.add('selected');
+                    selectedItem = item;
+                    deployBtn.disabled = false;
+                }
+            });
+
+            // Drag handling
+            item.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', item.id);
             });
         });
 
-        bottlenecks.forEach(card => {
-            card.addEventListener('click', () => {
-                if(card.classList.contains('good')) return;
-                bottlenecks.forEach(b => b.classList.remove('selected-target'));
-                selectedTargetElement = card;
-                card.classList.add('selected-target');
-                hideAlert();
-            });
+        // Deploy button click handling
+        deployBtn.addEventListener('click', () => {
+            if (selectedItem) {
+                deployItem(selectedItem);
+            }
         });
 
-        function hideAlert() {
-            errorAlert.classList.add('hidden');
-        }
+        // Drop zone handling
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('hover');
+        });
 
-        function evaluateMatch() {
-            if (!selectedToolElement || !selectedTargetElement) {
-                errorAlert.innerText = "❌ Selection Incomplete: You must choose one Tool and one Bottleneck card first!";
-                errorAlert.classList.remove('hidden');
-                return;
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('hover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('hover');
+            const itemId = e.dataTransfer.getData('text/plain');
+            const draggedItem = document.getElementById(itemId);
+            if (draggedItem) {
+                deployItem(draggedItem);
             }
-
-            const toolType = selectedToolElement.getAttribute('data-match');
-            const targetType = selectedTargetElement.getAttribute('data-type');
-
-            if (toolType === targetType) {
-                selectedTargetElement.classList.remove('bad', 'selected-target');
-                selectedTargetElement.classList.add('good');
-                
-                if(targetType === 'efficiency') {
-                    selectedTargetElement.querySelector('.value').innerText = 'Optimized';
-                    selectedTargetElement.querySelector('.desc').innerText = 'Zero wasted steps. Layout streamlined.';
-                } else if(targetType === 'productivity') {
-                    selectedTargetElement.querySelector('.value').innerText = 'High';
-                    selectedTargetElement.querySelector('.desc').innerText = 'Tables turned 25% faster with mobile POS tool tracking.';
-                } else if(targetType === 'quality') {
-                    selectedTargetElement.querySelector('.value').innerText = 'Consistent';
-                    selectedTargetElement.querySelector('.desc').innerText = 'Zero steak variance sendbacks recorded.';
-                } else if(targetType === 'cost') {
-                    selectedTargetElement.querySelector('.value').innerText = 'Controlled';
-                    selectedTargetElement.querySelector('.desc').innerText = 'Waste managed down to under 2%.';
-                } else if(targetType === 'cx') {
-                    selectedTargetElement.querySelector('.value').innerText = '4.9 Stars';
-                    selectedTargetElement.querySelector('.desc').innerText = 'Guests praise instant, secure checkout pipelines.';
-                } else if(targetType === 'ex') {
-                    selectedTargetElement.querySelector('.value').innerText = 'High Morale';
-                    selectedTargetElement.querySelector('.desc').innerText = 'No operational irritation. Focus shifted back to guest care.';
-                }
-
-                selectedToolElement.classList.add('hidden');
-                selectedToolElement = null;
-                selectedTargetElement = null;
-                successfulMatches++;
-
-                if (successfulMatches === 6) {
-                    document.getElementById('completion-message').classList.remove('hidden');
-                }
-            } else {
-                errorAlert.innerText = `❌ Inaccurate Alignment! That tool does not address the core issue of this specific bottleneck. Try another match.`;
-                errorAlert.classList.remove('hidden');
-            }
-        }
+        });
 
         function resetSimulation() {
-            selectedToolElement = null;
-            selectedTargetElement = null;
-            successfulMatches = 0;
-            hideAlert();
+            matchedCount = 0;
+            selectedItem = null;
+            deployBtn.disabled = true;
+            deployBtn.parentElement.style.display = 'block';
+            dropZone.style.display = 'block';
             document.getElementById('completion-message').classList.add('hidden');
-            
-            tools.forEach(tool => tool.classList.remove('hidden', 'selected-tool'));
-            bottlenecks.forEach(card => {
-                card.className = "metric-card bad";
+
+            dragItems.forEach(item => {
+                item.style.display = 'block';
+                item.classList.remove('selected');
+                const targetMetricId = item.getAttribute('data-target');
+                const card = document.getElementById(targetMetricId);
+                card.classList.remove('good');
+                card.classList.add('bad');
             });
 
             document.getElementById('metric-efficiency').querySelector('.value').innerText = 'Slow';
             document.getElementById('metric-efficiency').querySelector('.desc').innerText = 'Kitchen staff walking across the room constantly for basic seasonings.';
+
             document.getElementById('metric-productivity').querySelector('.value').innerText = 'Low';
             document.getElementById('metric-productivity').querySelector('.desc').innerText = 'Waiters stuck at the central till point typing orders instead of on the floor.';
+
             document.getElementById('metric-quality').querySelector('.value').innerText = 'Unstable';
             document.getElementById('metric-quality').querySelector('.desc').innerText = '3 steaks sent back to the kitchen because of incorrect cooking levels.';
+
             document.getElementById('metric-cost').querySelector('.value').innerText = 'Wasting 15%';
             document.getElementById('metric-cost').querySelector('.desc').innerText = 'Excessive food waste found in bins due to poor stock rotation (FIFO).';
+
             document.getElementById('metric-cx').querySelector('.value').innerText = '2.1 Stars';
             document.getElementById('metric-cx').querySelector('.desc').innerText = 'TripAdvisor complaints rolling in regarding long payment wait times.';
+
             document.getElementById('metric-ex').querySelector('.value').innerText = 'Burnout Risk';
             document.getElementById('metric-ex').querySelector('.desc').innerText = 'Floor staff arguing over whose turn it is to track down missing cutlery.';
         }
