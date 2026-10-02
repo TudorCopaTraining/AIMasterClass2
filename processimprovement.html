@@ -18,40 +18,41 @@
         <!-- Scenario Introduction -->
         <section class="card intro-card">
             <h2>The Situation</h2>
-            <p>You are running a popular city-centre restaurant. Tonight is Friday peak service, and operations are failing. Read the live feedback from the shift below, then click to select (or drag) the operational fixes to resolve the issues and save your venue's reputation.</p>
+            <p>You are running a popular city-centre restaurant. Tonight is Friday peak service, and operations are failing. Read the live feedback from the shift below, then match the correct operational solution to its specific bottleneck to turn the restaurant around.</p>
         </section>
 
         <!-- Live Shift Dashboard -->
         <div class="grid">
             <section class="card column">
                 <h2>⚠️ Current Shift Bottlenecks</h2>
-                <div class="metric-grid">
-                    <div class="metric-card bad" id="metric-efficiency">
+                <p class="instructions">Drag a fix onto a card, or click a bottleneck to target it.</p>
+                <div class="metric-grid" id="bottlenecks-container">
+                    <div class="metric-card bad" id="metric-efficiency" data-key="efficiency">
                         <h3>Efficiency</h3>
                         <p class="value">Slow</p>
                         <p class="desc">Kitchen staff walking across the room constantly for basic seasonings.</p>
                     </div>
-                    <div class="metric-card bad" id="metric-productivity">
+                    <div class="metric-card bad" id="metric-productivity" data-key="productivity">
                         <h3>Productivity</h3>
                         <p class="value">Low</p>
                         <p class="desc">Waiters stuck at the central till point typing orders instead of on the floor.</p>
                     </div>
-                    <div class="metric-card bad" id="metric-quality">
+                    <div class="metric-card bad" id="metric-quality" data-key="quality">
                         <h3>Quality</h3>
                         <p class="value">Unstable</p>
                         <p class="desc">3 steaks sent back to the kitchen because of incorrect cooking levels.</p>
                     </div>
-                    <div class="metric-card bad" id="metric-cost">
+                    <div class="metric-card bad" id="metric-cost" data-key="cost">
                         <h3>Cost Reduction</h3>
                         <p class="value">Wasting 15%</p>
                         <p class="desc">Excessive food waste found in bins due to poor stock rotation (FIFO).</p>
                     </div>
-                    <div class="metric-card bad" id="metric-cx">
+                    <div class="metric-card bad" id="metric-cx" data-key="cx">
                         <h3>Customer Exp (CX)</h3>
                         <p class="value">2.1 Stars</p>
                         <p class="desc">TripAdvisor complaints rolling in regarding long payment wait times.</p>
                     </div>
-                    <div class="metric-card bad" id="metric-ex">
+                    <div class="metric-card bad" id="metric-ex" data-key="ex">
                         <h3>Employee Exp (EX)</h3>
                         <p class="value">Burnout Risk</p>
                         <p class="desc">Floor staff arguing over whose turn it is to track down missing cutlery.</p>
@@ -62,30 +63,40 @@
             <!-- Interactive Work Area -->
             <section class="card column">
                 <h2>🛠️ Process Improvement Toolkit</h2>
-                <p class="instructions">Click to select an operational fix and click <strong>Deploy Fix</strong>, or drag it into the box below!</p>
+                <p class="instructions">Click a solution and bottleneck, then hit <strong>Deploy Selected Fix</strong> (or drag and drop directly).</p>
                 
                 <div class="drag-container" id="draggable-items">
-                    <div class="drag-item" draggable="true" id="fix-efficiency" data-target="metric-efficiency">🏷️ Kitchen Layout: Rearrange prep benches to keep seasonings at arm's length.</div>
-                    <div class="drag-item" draggable="true" id="fix-productivity" data-target="metric-productivity">📱 Mobile POS: Equipping waiters with handheld digital tablets for tableside ordering.</div>
-                    <div class="drag-item" draggable="true" id="fix-quality" data-target="metric-quality">📋 Spec Sheets: Implement visual recipe checklists and automated timer logs.</div>
-                    <div class="drag-item" draggable="true" id="fix-cost" data-target="metric-cost">🔄 FIFO System: Deploy automated cellar tracking and strict inventory rotation.</div>
-                    <div class="drag-item" draggable="true" id="fix-cx" data-target="metric-cx">💳 Pay at Table: Introduce automated tableside QR code scanning and direct billing.</div>
-                    <div class="drag-item" draggable="true" id="fix-ex" data-target="metric-ex">🍴 Cutlery Station: Standardise pre-shift sorting setup to remove search irritation.</div>
+                    <div class="drag-item" draggable="true" id="fix-efficiency" data-match="efficiency">
+                        <span>🏷️ Kitchen Layout: Rearrange prep benches to keep seasonings at arm's length.</span>
+                    </div>
+                    <div class="drag-item" draggable="true" id="fix-productivity" data-match="productivity">
+                        <span>📱 Mobile POS: Equipping waiters with handheld digital tablets for tableside ordering.</span>
+                    </div>
+                    <div class="drag-item" draggable="true" id="fix-quality" data-match="quality">
+                        <span>📋 Spec Sheets: Implement visual recipe checklists and automated timer logs.</span>
+                    </div>
+                    <div class="drag-item" draggable="true" id="fix-cost" data-match="cost">
+                        <span>🔄 FIFO System: Deploy automated cellar tracking and strict inventory rotation.</span>
+                    </div>
+                    <div class="drag-item" draggable="true" id="fix-cx" data-match="cx">
+                        <span>💳 Pay at Table: Introduce automated tableside QR code scanning and direct billing.</span>
+                    </div>
+                    <div class="drag-item" draggable="true" id="fix-ex" data-match="ex">
+                        <span>🍴 Cutlery Station: Standardise pre-shift sorting setup to remove search irritation.</span>
+                    </div>
                 </div>
+
+                <div class="feedback-banner" id="feedback-banner"></div>
 
                 <div class="action-bar">
                     <button id="deploy-btn" class="btn" disabled>Deploy Selected Fix</button>
                     <button id="reset-btn" class="btn btn-secondary" onclick="resetSimulation()">Reset Shift</button>
                 </div>
 
-                <div class="drop-zone" id="drop-zone">
-                    <p class="drop-placeholder">Or drag a solution card here to deploy it...</p>
-                </div>
-
                 <div id="completion-message" class="hidden">
                     <h3>🎉 Shift Successfully Fixed!</h3>
                     <p>You have optimized your hospitality operations across all 6 core pillars. Your efficiency is up, waste is down, and guests are happy!</p>
-                    <button onclick="resetSimulation()" class="btn">Reset Shift Simulation</button>
+                    <button onclick="resetSimulation()" class="btn">Play Again</button>
                 </div>
             </section>
         </div>
@@ -97,128 +108,170 @@
 
     <script>
         const dragContainer = document.getElementById('draggable-items');
+        const bottlenecksContainer = document.getElementById('bottlenecks-container');
         const dragItems = document.querySelectorAll('.drag-item');
-        const dropZone = document.getElementById('drop-zone');
+        const metricCards = document.querySelectorAll('.metric-card');
         const deployBtn = document.getElementById('deploy-btn');
-        let selectedItem = null;
+        const feedbackBanner = document.getElementById('feedback-banner');
+
+        let selectedFix = null;
+        let selectedBottleneck = null;
         let matchedCount = 0;
 
         const metricData = {
-            'metric-efficiency': { value: 'Optimized', desc: 'Zero wasted steps. Layout streamlined.' },
-            'metric-productivity': { value: 'High', desc: 'Tables turned 25% faster with mobile POS.' },
-            'metric-quality': { value: 'Consistent', desc: 'Zero steak sendbacks recorded.' },
-            'metric-cost': { value: 'Controlled', desc: 'Waste reduced down to under 2%.' },
-            'metric-cx': { value: '4.9 Stars', desc: 'Guests praise instant, secure digital checkout.' },
-            'metric-ex': { value: 'High Morale', desc: 'No operational irritation. Focus on guest care.' }
+            'efficiency': { value: 'Optimized', desc: 'Zero wasted steps. Layout streamlined.' },
+            'productivity': { value: 'High', desc: 'Tables turned 25% faster with mobile POS.' },
+            'quality': { value: 'Consistent', desc: 'Zero steak sendbacks recorded.' },
+            'cost': { value: 'Controlled', desc: 'Waste reduced down to under 2%.' },
+            'cx': { value: '4.9 Stars', desc: 'Guests praise instant, secure digital checkout.' },
+            'ex': { value: 'High Morale', desc: 'No operational irritation. Focus on guest care.' }
         };
 
-        function deployItem(item) {
-            if (!item) return;
-
-            const targetMetricId = item.getAttribute('data-target');
-            const targetMetricCard = document.getElementById(targetMetricId);
-
-            targetMetricCard.classList.remove('bad');
-            targetMetricCard.classList.add('good');
-
-            if (metricData[targetMetricId]) {
-                targetMetricCard.querySelector('.value').innerText = metricData[targetMetricId].value;
-                targetMetricCard.querySelector('.desc').innerText = metricData[targetMetricId].desc;
-            }
-
-            item.classList.remove('selected');
-            item.style.display = 'none';
-
-            if (selectedItem === item) {
-                selectedItem = null;
-                deployBtn.disabled = true;
-            }
-
-            matchedCount++;
-
-            if (matchedCount === 6) {
-                dropZone.style.display = 'none';
-                document.getElementById('completion-message').classList.remove('hidden');
-            }
+        function showFeedback(message, isError = false) {
+            feedbackBanner.textContent = message;
+            feedbackBanner.className = 'feedback-banner show ' + (isError ? 'error' : 'success');
+            clearTimeout(feedbackBanner.timer);
+            feedbackBanner.timer = setTimeout(() => {
+                feedbackBanner.className = 'feedback-banner';
+            }, 3000);
         }
 
-        // Selection handling
+        function checkMatch(fixElement, bottleneckElement) {
+            const fixMatch = fixElement.getAttribute('data-match');
+            const targetKey = bottleneckElement.getAttribute('data-key');
+
+            if (fixMatch === targetKey) {
+                // Correct Match
+                bottleneckElement.classList.remove('bad', 'selected-target');
+                bottleneckElement.classList.add('good');
+                
+                const data = metricData[targetKey];
+                bottleneckElement.querySelector('.value').innerText = data.value;
+                bottleneckElement.querySelector('.desc').innerText = data.desc;
+
+                fixElement.classList.remove('selected');
+                fixElement.style.display = 'none';
+
+                if (selectedFix === fixElement) selectedFix = null;
+                if (selectedBottleneck === bottleneckElement) selectedBottleneck = null;
+
+                matchedCount++;
+                showFeedback('✓ Correct operational solution applied!');
+
+                if (matchedCount === 6) {
+                    document.getElementById('completion-message').classList.remove('hidden');
+                }
+            } else {
+                // Incorrect Match
+                bottleneckElement.classList.add('shake');
+                setTimeout(() => bottleneckElement.classList.remove('shake'), 500);
+                showFeedback('✗ That fix does not solve this bottleneck. Try another!', true);
+            }
+
+            updateDeployButtonState();
+        }
+
+        function updateDeployButtonState() {
+            deployBtn.disabled = !(selectedFix && selectedBottleneck);
+        }
+
+        // Selection: Solutions (Right Side)
         dragItems.forEach(item => {
             item.addEventListener('click', () => {
-                if (selectedItem === item) {
+                if (selectedFix === item) {
                     item.classList.remove('selected');
-                    selectedItem = null;
-                    deployBtn.disabled = true;
+                    selectedFix = null;
                 } else {
                     dragItems.forEach(i => i.classList.remove('selected'));
                     item.classList.add('selected');
-                    selectedItem = item;
-                    deployBtn.disabled = false;
+                    selectedFix = item;
                 }
+                updateDeployButtonState();
             });
 
-            // Drag handling
+            // HTML5 Drag support
             item.addEventListener('dragstart', (e) => {
                 e.dataTransfer.setData('text/plain', item.id);
             });
         });
 
+        // Selection & Drop Target: Bottlenecks (Left Side)
+        metricCards.forEach(card => {
+            card.addEventListener('click', () => {
+                if (card.classList.contains('good')) return; // already solved
+
+                if (selectedBottleneck === card) {
+                    card.classList.remove('selected-target');
+                    selectedBottleneck = null;
+                } else {
+                    metricCards.forEach(c => c.classList.remove('selected-target'));
+                    card.classList.add('selected-target');
+                    selectedBottleneck = card;
+                }
+                updateDeployButtonState();
+            });
+
+            // Drag and drop events directly onto each card
+            card.addEventListener('dragover', (e) => {
+                if (!card.classList.contains('good')) {
+                    e.preventDefault();
+                    card.classList.add('drag-hover');
+                }
+            });
+
+            card.addEventListener('dragleave', () => {
+                card.classList.remove('drag-hover');
+            });
+
+            card.addEventListener('drop', (e) => {
+                e.preventDefault();
+                card.classList.remove('drag-hover');
+                if (card.classList.contains('good')) return;
+
+                const draggedId = e.dataTransfer.getData('text/plain');
+                const draggedItem = document.getElementById(draggedId);
+                if (draggedItem) {
+                    checkMatch(draggedItem, card);
+                }
+            });
+        });
+
         // Deploy button
         deployBtn.addEventListener('click', () => {
-            if (selectedItem) {
-                deployItem(selectedItem);
+            if (selectedFix && selectedBottleneck) {
+                checkMatch(selectedFix, selectedBottleneck);
             }
         });
 
-        // Drop zone handling
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('hover');
-        });
-
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.classList.remove('hover');
-        });
-
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('hover');
-            const itemId = e.dataTransfer.getData('text/plain');
-            const draggedItem = document.getElementById(itemId);
-            if (draggedItem) {
-                deployItem(draggedItem);
-            }
-        });
-
-        function shuffleItems() {
-            const itemsArray = Array.from(dragContainer.children);
-            // Fisher-Yates shuffle
-            for (let i = itemsArray.length - 1; i > 0; i--) {
+        // Fisher-Yates element shuffler
+        function shuffleContainer(container) {
+            const items = Array.from(container.children);
+            for (let i = items.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [itemsArray[i], itemsArray[j]] = [itemsArray[j], itemsArray[i]];
+                [items[i], items[j]] = [items[j], items[i]];
             }
-            itemsArray.forEach(item => dragContainer.appendChild(item));
+            items.forEach(item => container.appendChild(item));
         }
 
         function resetSimulation() {
             matchedCount = 0;
-            selectedItem = null;
+            selectedFix = null;
+            selectedBottleneck = null;
+            feedbackBanner.className = 'feedback-banner';
             deployBtn.disabled = true;
-            dropZone.style.display = 'block';
             document.getElementById('completion-message').classList.add('hidden');
 
             dragItems.forEach(item => {
                 item.style.display = 'block';
                 item.classList.remove('selected');
-                const targetMetricId = item.getAttribute('data-target');
-                const card = document.getElementById(targetMetricId);
-                card.classList.remove('good');
+            });
+
+            metricCards.forEach(card => {
+                card.classList.remove('good', 'selected-target', 'drag-hover');
                 card.classList.add('bad');
             });
 
-            // Randomise the order of cards on each reset
-            shuffleItems();
-
+            // Reset text descriptions
             document.getElementById('metric-efficiency').querySelector('.value').innerText = 'Slow';
             document.getElementById('metric-efficiency').querySelector('.desc').innerText = 'Kitchen staff walking across the room constantly for basic seasonings.';
 
@@ -236,7 +289,15 @@
 
             document.getElementById('metric-ex').querySelector('.value').innerText = 'Burnout Risk';
             document.getElementById('metric-ex').querySelector('.desc').innerText = 'Floor staff arguing over whose turn it is to track down missing cutlery.';
+
+            // Shuffle BOTH the bottlenecks and the fixes
+            shuffleContainer(bottlenecksContainer);
+            shuffleContainer(dragContainer);
         }
+
+        // Shuffle initially on page load
+        shuffleContainer(bottlenecksContainer);
+        shuffleContainer(dragContainer);
     </script>
 </body>
 </html>
