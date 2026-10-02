@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>COPA | Prioritising Improvement Opportunities</title>
+  <title>COPA | Prioritising Improvement Opportunities Lab</title>
   <link rel="stylesheet" href="improvementopp.css">
 </head>
 <body>
@@ -11,7 +11,7 @@
   <header>
     <div class="brand-title">
       <h1>Process Prioritisation Diagnostic Lab</h1>
-      <p>COPA Level 4 AI & Automation Practitioner | K4: Organisational Constraints & Piloting</p>
+      <p>COPA Level 4 AI & Automation Practitioner | Topic 4: Prioritising Improvement Opportunities</p>
     </div>
     <div class="score-badge">
       <div>Completed Triage: <span class="score-val" id="score-text">0 / 8</span></div>
@@ -21,13 +21,34 @@
   <nav class="nav-tabs">
     <button class="tab-btn active" onclick="switchTab('matrix')">1. Impact vs. Effort Matrix</button>
     <button class="tab-btn" onclick="switchTab('moscow')">2. MoSCoW Prioritisation Board</button>
-    <button class="tab-btn" onclick="switchTab('summary')">3. K4 Evidence Summary</button>
   </nav>
 
   <main class="container">
     
     <!-- TAB 1: 2x2 MATRIX -->
     <div id="tab-matrix" class="tab-content active">
+      <!-- Task Explanation Callout -->
+      <section class="deck-section" style="background: #F8FAFC; border-left: 5px solid var(--copa-navy);">
+        <h2 style="font-size: 1.15rem; margin-bottom: 0.4rem; color: var(--copa-navy);">Task Overview: Impact vs. Effort Evaluation</h2>
+        <p style="font-size: 0.875rem; color: #475569; line-height: 1.5; margin-bottom: 0.5rem;">
+          In digital transformation and process automation, organisations face finite budgets, delivery windows, and engineering capacity. Your objective is to triage the 8 candidate initiatives below across two strategic dimensions:
+        </p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem; font-size: 0.825rem; color: #334155;">
+          <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
+            <strong style="color: var(--green-text);">• Quick Wins (High Impact, Low Effort):</strong> Deploy first. Immediate ROI, low complexity, rapid stakeholder buy-in.
+          </div>
+          <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
+            <strong style="color: var(--blue-text);">• Strategic (High Impact, High Effort):</strong> Plan & budget. Transformative gains requiring phased milestones.
+          </div>
+          <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
+            <strong style="color: var(--amber-text);">• Fill-Ins (Low Impact, Low Effort):</strong> Execute when spare capacity permits. Minor incremental gains.
+          </div>
+          <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
+            <strong style="color: var(--red-text);">• Time Sinks (Low Impact, High Effort):</strong> De-prioritise or avoid. High technical complexity for negligible return.
+          </div>
+        </div>
+      </section>
+
       <section class="deck-section">
         <div class="deck-header">
           <h2>Candidate Improvement Pipeline (Drag to Target Quadrant)</h2>
@@ -84,6 +105,28 @@
 
     <!-- TAB 2: MOSCOW BOARD -->
     <div id="tab-moscow" class="tab-content">
+      <!-- Task Explanation Callout -->
+      <section class="deck-section" style="background: #F8FAFC; border-left: 5px solid var(--copa-navy);">
+        <h2 style="font-size: 1.15rem; margin-bottom: 0.4rem; color: var(--copa-navy);">Task Overview: MoSCoW Scope & Governance Classification</h2>
+        <p style="font-size: 0.875rem; color: #475569; line-height: 1.5; margin-bottom: 0.5rem;">
+          To prevent scope creep and manage operational constraints, categorize each proposed initiative into an agile MoSCoW governance release tier:
+        </p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem; font-size: 0.825rem; color: #334155;">
+          <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
+            <strong style="color: #DC2626;">• Must Have:</strong> Non-negotiable statutory requirements, data governance, safety, or core functionality.
+          </div>
+          <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
+            <strong style="color: #2563EB;">• Should Have:</strong> High-value operational improvements delivering strong ROI where workarounds exist.
+          </div>
+          <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
+            <strong style="color: #D97706;">• Could Have:</strong> Desirable enhancements that offer convenience but can be dropped if timelines compress.
+          </div>
+          <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
+            <strong style="color: #475569;">• Won't Have (Now):</strong> Explicitly agreed as out of scope to protect deadlines and eliminate liability.
+          </div>
+        </div>
+      </section>
+
       <section class="deck-section">
         <div class="deck-header">
           <h2>Project Scope Backlog (Drag into Governance Classification)</h2>
@@ -134,31 +177,12 @@
       </div>
     </div>
 
-    <!-- TAB 3: SUMMARY & PORTFOLIO EXPORT -->
-    <div id="tab-summary" class="tab-content">
-      <div class="deck-section" style="max-width: 800px; margin: 0 auto;">
-        <h2 style="margin-bottom: 1rem; color: var(--copa-navy);">Apprenticeship Evidence Mapping (K4 & K5)</h2>
-        <p style="margin-bottom: 1.5rem; color: #475569; line-height: 1.5;">
-          This interactive assessment evaluates your ability to evaluate solutions against organizational constraints (budget, time, risk) and prioritize high-value productivity gains.
-        </p>
-        
-        <div class="evidence-box">
-          <h4>Generated Reflective Statement Template:</h4>
-          <p id="evidence-text" style="margin-top: 0.5rem; line-height: 1.6;">
-            Complete both interactive boards to generate your formal portfolio statement.
-          </p>
-        </div>
-
-        <button class="btn-action" onclick="copyEvidence()">Copy Evidence to Clipboard</button>
-      </div>
-    </div>
-
   </main>
 
   <!-- Success Modal -->
   <div class="modal-overlay" id="modal">
     <div class="modal-content">
-      <h3>Audit Validated!</h3>
+      <h3 id="modal-title">Evaluation Validated!</h3>
       <p id="modal-desc">All candidate items have been categorized accurately according to operational return and organizational constraints.</p>
       <button class="btn-action" onclick="closeModal()">Continue</button>
     </div>
@@ -356,7 +380,6 @@
       } else {
         document.getElementById("matrix-feedback").innerText = `Triage Result: ${correct} / ${total} aligned. Re-evaluate high-effort items with minimal organizational return.`;
       }
-      updateEvidence();
     }
 
     function validateMoscow() {
@@ -377,7 +400,6 @@
       } else {
         document.getElementById("moscow-feedback").innerText = `Scope Result: ${correct} / ${total} aligned. Remember: non-negotiable statutory & safety controls must always be Must-Have.`;
       }
-      updateEvidence();
     }
 
     function resetMatrix() {
@@ -404,12 +426,6 @@
       const mCount = Object.keys(matrixState).length;
       const mosCount = Object.keys(moscowState).length;
       document.getElementById("score-text").innerText = `${Math.floor((mCount + mosCount) / 2)} / 8`;
-      updateEvidence();
-    }
-
-    function updateEvidence() {
-      const text = `During the Process Prioritisation Simulation, I evaluated 8 candidate digital process improvements across organizational constraints (K4). Using an Impact vs. Effort matrix, I isolated immediate 'Quick Wins' (e.g. digital input validation and policy-as-code till overrides) to establish early ROI without capital risk. In parallel, I applied the MoSCoW framework to establish clear governance boundaries, designating statutory GDPR Article 22 safeguards as non-negotiable 'Must-Haves' while explicitly classifying unconstrained agentic execution as 'Won't-Have' to prevent project creep and compliance risk (K4/K5).`;
-      document.getElementById("evidence-text").innerText = text;
     }
 
     function switchTab(tab) {
@@ -421,19 +437,12 @@
 
     function showModal(title, msg) {
       document.getElementById("modal").style.display = "flex";
-      document.querySelector(".modal-content h3").innerText = title;
+      document.getElementById("modal-title").innerText = title;
       document.getElementById("modal-desc").innerText = msg;
     }
 
     function closeModal() {
       document.getElementById("modal").style.display = "none";
-    }
-
-    function copyEvidence() {
-      const t = document.getElementById("evidence-text").innerText;
-      navigator.clipboard.writeText(t).then(() => {
-        alert("Evidence statement copied to clipboard! You can paste this directly into OneFile / your apprentice portfolio.");
-      });
     }
 
     init();
