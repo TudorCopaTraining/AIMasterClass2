@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topic 2 Recap: The Automation Triage Challenge</title>
+    <link rel="stylesheet" href="automation.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <span class="badge">Process Improvement Fundamentals • Topic 2</span>
+            <h1>The Automation Triage Challenge 🚦</h1>
+            <p class="subtitle">Decide What to Automate vs. What to Keep Human Across Real Restaurant Shifts</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Scenario Briefing -->
+        <section class="card intro-card">
+            <h2>The Challenge: The Operational Decision Board</h2>
+            <p>
+                You are auditing operations across a high-volume restaurant and bar. Management wants to buy new automation tools, but applying tech to the wrong tasks will destroy guest hospitality and waste budget!
+            </p>
+            <p>
+                <strong>Your Mission:</strong> Evaluate each shift workflow. Classify whether it gets the 
+                <span class="tag-green">🟢 Green Light (Suitable to Automate)</span> or the 
+                <span class="tag-red">🔴 Red Light (Keep Human)</span> based on its process characteristics.
+            </p>
+            <div class="instructions-banner">
+                <strong>How to Play:</strong> Click a task card from the deck, select its correct destination bucket (or drag and drop it), and click <strong>Submit Triage Decision</strong>. Score 8 out of 8 to complete the audit!
+            </div>
+        </section>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <span class="stat-label">Progress</span>
+                <span class="stat-val" id="progress-val">0 / 8 Triaged</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Accuracy Score</span>
+                <span class="stat-val" id="score-val">100%</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Streak</span>
+                <span class="stat-val" id="streak-val">🔥 0</span>
+            </div>
+        </div>
+
+        <!-- Interactive Workbench -->
+        <div class="grid">
+            <!-- Left: Triage Drop Zones / Targets -->
+            <div class="buckets-container">
+                <!-- Drop Zone 1: Suitable (Green Light) -->
+                <div class="bucket green-bucket" id="bucket-suitable" data-target="suitable">
+                    <div class="bucket-header">
+                        <span class="bucket-icon">🟢</span>
+                        <div>
+                            <h3>AUTOMATE NOW (Suitable)</h3>
+                            <p>Repetitive • High-Volume • Rule-Based • Standardised • Data Handling</p>
+                        </div>
+                    </div>
+                    <div class="bucket-drop-area" id="drop-suitable">
+                        <p class="drop-hint">Drop or click here to route task to Automation</p>
+                        <div class="placed-items" id="placed-suitable"></div>
+                    </div>
+                </div>
+
+                <!-- Drop Zone 2: Unsuitable (Red Light) -->
+                <div class="bucket red-bucket" id="bucket-unsuitable" data-target="unsuitable">
+                    <div class="bucket-header">
+                        <span class="bucket-icon">🔴</span>
+                        <div>
+                            <h3>KEEP HUMAN (Unsuitable)</h3>
+                            <p>Subjective Judgment • Creative Artistry • Complex Negotiations</p>
+                        </div>
+                    </div>
+                    <div class="bucket-drop-area" id="drop-unsuitable">
+                        <p class="drop-hint">Drop or click here to protect Human Hospitality</p>
+                        <div class="placed-items" id="placed-unsuitable"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Available Tasks Queue -->
+            <div class="queue-card">
+                <div class="queue-header">
+                    <h3>📋 Incoming Shift Workflows</h3>
+                    <span class="queue-count" id="queue-count">8 tasks remaining</span>
+                </div>
+                <p class="queue-help">Select a task card below, choose a bucket, then hit Submit Decision:</p>
+
+                <div class="task-deck" id="task-deck">
+                    <!-- Cards will be populated dynamically via JavaScript -->
+                </div>
+
+                <!-- Feedback Banner -->
+                <div class="feedback-banner" id="feedback-banner" aria-live="polite"></div>
+
+                <!-- Action Controls -->
+                <div class="action-bar">
+                    <button id="submit-btn" class="btn btn-primary" disabled>Submit Triage Decision</button>
+                    <button id="reset-btn" class="btn btn-secondary" onclick="resetActivity()">Restart & Shuffle</button>
+                </div>
+
+                <!-- Completion Summary Modal/Card -->
+                <div id="completion-card" class="completion-card hidden">
+                    <div class="trophy-icon">🏆</div>
+                    <h3>Audit Complete: Operational Balance Restored!</h3>
+                    <p id="completion-summary"></p>
+                    <div class="takeaways-box">
+                        <strong>Topic 2 Golden Takeaways:</strong>
+                        <ul>
+                            <li><strong>Automate the Robotic:</strong> If it's repetitive, predictable, and data-heavy, let scripts and APIs free up staff hours.</li>
+                            <li><strong>Protect the Human:</strong> Emotional connection, taste, bespoke menu creativity, and high-stakes conflict resolution are where your brand value lives.</li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-primary" onclick="resetActivity()">Play Again with New Shuffle</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Process Improvement Fundamentals | Topic 2: Identifying Automation Opportunities. Built for GitHub Pages.</p>
+        </div>
+    </footer>
+
+    <script>
+        const taskDatabase = [
+            {
+                id: "task-1",
+                title: "86-ing Menu Items Across Delivery Apps",
+                desc: "Updating Deliveroo, UberEats, and in-house POS simultaneously when the pass runs out of sea bass.",
+                correctCategory: "suitable",
+                trait: "Standardised Workflow & Data Handling",
+                explanation: "Correct! This is pure data synchronization across APIs. A single trigger should auto-update all platforms instantly without manual multi-app typing."
+            },
+            {
+                id: "task-2",
+                title: "Chef Tasting & Seasoning Before Service",
+                desc: "Adjusting acidity, salt, and seasoning balance on the braised beef jus 15 minutes before doors open.",
+                correctCategory: "unsuitable",
+                trait: "Highly Subjective Decision",
+                explanation: "Correct! Taste, aroma, and palate balance require human sensory judgment and culinary experience that no algorithm or sensor can duplicate."
+            },
+            {
+                id: "task-3",
+                title: "Reservation Reminders & Confirmation Pings",
+                desc: "Sending SMS confirmations and 24-hour deposit check-in requests to 220 Friday night bookings.",
+                correctCategory: "suitable",
+                trait: "High-Volume Activity & Rule-Based",
+                explanation: "Correct! Calling or texting 200+ guests manually wastes hours. Automated two-way messaging handles confirmations and deposit releases seamlessly."
+            },
+            {
+                id: "task-4",
+                title: "Resolving a Furious VIP Anniversary Complaint",
+                desc: "A high-spending couple had their main courses delayed by 40 minutes on their 25th wedding anniversary.",
+                correctCategory: "unsuitable",
+                trait: "Complex Negotiation & High Emotion",
+                explanation: "Correct! Giving an angry guest an automated voucher or chatbot link destroys loyalty. Genuine empathy, listening, and bespoke resolution require a human manager."
+            },
+            {
+                id: "task-5",
+                title: "Authorising a £0.00 Drink Swap at the Till",
+                desc: "A customer switches diet cola for lemonade; system prompts for supervisory credential override.",
+                correctCategory: "suitable",
+                trait: "Rule-Based Decision (If-Then Logic)",
+                explanation: "Correct! This requires zero managerial judgment. A Policy-as-Code rule should auto-clear low-risk swaps, freeing managers from chasing card swipes."
+            },
+            {
+                id: "task-6",
+                title: "Crafting a Signature Autumn Cocktail Menu",
+                desc: "Inventing four seasonal drinks balancing spiced bitters, local orchard fruits, and venue identity.",
+                correctCategory: "unsuitable",
+                trait: "Creative Task & Brand Storytelling",
+                explanation: "Correct! While AI can generate recipe lists, designing a beverage concept with emotional resonance and local heritage is human culinary craft."
+            },
+            {
+                id: "task-7",
+                title: "Daily Fridge HACCP Temperature Logging",
+                desc: "Recording chillers 1 to 6 temperatures at 08:00, 14:00, and 22:00 onto compliance clipboards.",
+                correctCategory: "suitable",
+                trait: "Repetitive Task & Data Handling",
+                explanation: "Correct! Ambient IoT temperature probes capture telemetry every minute automatically, alerting staff only if a compressor breaches safe thresholds."
+            },
+            {
+                id: "task-8",
+                title: "Negotiating an Exclusive £18,000 Corporate Buyout",
+                desc: "Customizing bespoke bar packages, dietary concessions, and staged payment schedules for an agency event.",
+                correctCategory: "unsuitable",
+                trait: "Complex Commercial Negotiation",
+                explanation: "Correct! High-value event contracts require commercial trade-offs, relationship building, and nuanced compromise that bots cannot navigate."
+            }
+        ];
+
+        let availableTasks = [];
+        let selectedTask = null;
+        let selectedBucket = null;
+        let solvedCount = 0;
+        let totalAttempts = 0;
+        let correctAttempts = 0;
+        let streak = 0;
+
+        const taskDeck = document.getElementById("task-deck");
+        const submitBtn = document.getElementById("submit-btn");
+        const feedbackBanner = document.getElementById("feedback-banner");
+        const progressVal = document.getElementById("progress-val");
+        const scoreVal = document.getElementById("score-val");
+        const streakVal = document.getElementById("streak-val");
+        const queueCount = document.getElementById("queue-count");
+        const completionCard = document.getElementById("completion-card");
+        const completionSummary = document.getElementById("completion-summary");
+
+        const bucketSuitable = document.getElementById("bucket-suitable");
+        const bucketUnsuitable = document.getElementById("bucket-unsuitable");
+        const placedSuitable = document.getElementById("placed-suitable");
+        const placedUnsuitable = document.getElementById("placed-unsuitable");
+
+        function showFeedback(text, type = "success") {
+            feedbackBanner.textContent = text;
+            feedbackBanner.className = `feedback-banner show ${type}`;
+            clearTimeout(feedbackBanner.timer);
+            feedbackBanner.timer = setTimeout(() => {
+                feedbackBanner.className = "feedback-banner";
+            }, 4000);
+        }
+
+        function updateStats() {
+            progressVal.textContent = `${solvedCount} / ${taskDatabase.length} Triaged`;
+            queueCount.textContent = `${availableTasks.length} tasks remaining`;
+            const accuracy = totalAttempts > 0 ? Math.round((correctAttempts / totalAttempts) * 100) : 100;
+            scoreVal.textContent = `${accuracy}%`;
+            streakVal.textContent = `🔥 ${streak}`;
+        }
+
+        function updateSubmitButton() {
+            submitBtn.disabled = !(selectedTask && selectedBucket);
+        }
+
+        function renderDeck() {
+            taskDeck.innerHTML = "";
+            availableTasks.forEach(task => {
+                const card = document.createElement("div");
+                card.className = "task-card";
+                card.id = task.id;
+                card.draggable = true;
+
+                card.innerHTML = `
+                    <div class="task-title">${task.title}</div>
+                    <div class="task-desc">${task.desc}</div>
+                `;
+
+                // Click selection
+                card.addEventListener("click", () => {
+                    if (selectedTask === task) {
+                        card.classList.remove("selected");
+                        selectedTask = null;
+                    } else {
+                        document.querySelectorAll(".task-card").forEach(c => c.classList.remove("selected"));
+                        card.classList.add("selected");
+                        selectedTask = task;
+                    }
+                    updateSubmitButton();
+                });
+
+                // HTML5 Drag
+                card.addEventListener("dragstart", (e) => {
+                    e.dataTransfer.setData("text/plain", task.id);
+                    selectedTask = task;
+                    document.querySelectorAll(".task-card").forEach(c => c.classList.remove("selected"));
+                    card.classList.add("selected");
+                });
+
+                taskDeck.appendChild(card);
+            });
+        }
+
+        function setupBuckets() {
+            [bucketSuitable, bucketUnsuitable].forEach(bucket => {
+                bucket.addEventListener("click", () => {
+                    const category = bucket.getAttribute("data-target");
+                    if (selectedBucket === category) {
+                        bucket.classList.remove("selected-bucket");
+                        selectedBucket = null;
+                    } else {
+                        [bucketSuitable, bucketUnsuitable].forEach(b => b.classList.remove("selected-bucket"));
+                        bucket.classList.add("selected-bucket");
+                        selectedBucket = category;
+                    }
+                    updateSubmitButton();
+                });
+
+                // Drag and drop events
+                bucket.addEventListener("dragover", (e) => {
+                    e.preventDefault();
+                    bucket.classList.add("drag-hover");
+                });
+
+                bucket.addEventListener("dragleave", () => {
+                    bucket.classList.remove("drag-hover");
+                });
+
+                bucket.addEventListener("drop", (e) => {
+                    e.preventDefault();
+                    bucket.classList.remove("drag-hover");
+                    const taskId = e.dataTransfer.getData("text/plain");
+                    const task = taskDatabase.find(t => t.id === taskId);
+                    const category = bucket.getAttribute("data-target");
+
+                    if (task) {
+                        selectedTask = task;
+                        selectedBucket = category;
+                        evaluateDecision();
+                    }
+                });
+            });
+        }
+
+        function evaluateDecision() {
+            if (!selectedTask || !selectedBucket) return;
+
+            totalAttempts++;
+            const isMatch = selectedTask.correctCategory === selectedBucket;
+
+            if (isMatch) {
+                correctAttempts++;
+                streak++;
+                solvedCount++;
+
+                showFeedback(`✓ Perfect Triage! [${selectedTask.trait}]: ${selectedTask.explanation}`, "success");
+
+                // Move visual item into target bucket
+                const targetArea = selectedBucket === "suitable" ? placedSuitable : placedUnsuitable;
+                const placedItem = document.createElement("div");
+                placedItem.className = `placed-badge ${selectedBucket}`;
+                placedItem.innerHTML = `<strong>✔ ${selectedTask.title}</strong><span>${selectedTask.trait}</span>`;
+                targetArea.appendChild(placedItem);
+
+                // Remove from deck
+                availableTasks = availableTasks.filter(t => t.id !== selectedTask.id);
+                selectedTask = null;
+                selectedBucket = null;
+                [bucketSuitable, bucketUnsuitable].forEach(b => b.classList.remove("selected-bucket"));
+
+                renderDeck();
+                updateStats();
+                updateSubmitButton();
+
+                if (availableTasks.length === 0) {
+                    showCompletion();
+                }
+            } else {
+                streak = 0;
+                updateStats();
+                const activeBucket = selectedBucket === "suitable" ? bucketSuitable : bucketUnsuitable;
+                activeBucket.classList.add("shake");
+                setTimeout(() => activeBucket.classList.remove("shake"), 450);
+
+                const advice = selectedTask.correctCategory === "suitable" 
+                    ? `This task has fixed rules and high volume. It belongs in 'AUTOMATE NOW'!`
+                    : `This task requires human empathy, taste, or negotiation. Automating it creates customer friction!`;
+                showFeedback(`✗ Misallocated! ${advice}`, "error");
+            }
+        }
+
+        submitBtn.addEventListener("click", evaluateDecision);
+
+        function showCompletion() {
+            taskDeck.style.display = "none";
+            submitBtn.parentElement.style.display = "none";
+            completionCard.classList.remove("hidden");
+
+            const finalAcc = Math.round((correctAttempts / totalAttempts) * 100);
+            completionSummary.textContent = `You audited all 8 restaurant workflows with a final diagnostic accuracy of ${finalAcc}%. Your front-of-house team has more time for guests, and your automated systems handle the routine!`;
+        }
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function resetActivity() {
+            availableTasks = shuffle([...taskDatabase]);
+            selectedTask = null;
+            selectedBucket = null;
+            solvedCount = 0;
+            totalAttempts = 0;
+            correctAttempts = 0;
+            streak = 0;
+
+            placedSuitable.innerHTML = "";
+            placedUnsuitable.innerHTML = "";
+            [bucketSuitable, bucketUnsuitable].forEach(b => b.classList.remove("selected-bucket"));
+
+            taskDeck.style.display = "flex";
+            submitBtn.parentElement.style.display = "flex";
+            completionCard.classList.add("hidden");
+            feedbackBanner.className = "feedback-banner";
+
+            renderDeck();
+            updateStats();
+            updateSubmitButton();
+        }
+
+        // Initialize
+        setupBuckets();
+        resetActivity();
+    </script>
+</body>
+</html>
