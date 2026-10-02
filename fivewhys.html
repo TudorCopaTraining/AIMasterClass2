@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The 5 Whys Challenge: Resolving Complaint Delays</title>
+    <link rel="stylesheet" href="fivewhys.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <span class="badge">Interactive Process Improvement Lab</span>
+            <h1>The 5 Whys Diagnostic Challenge</h1>
+            <p>Drill past symptoms and personal blame to expose the underlying operational failure.</p>
+        </header>
+
+        <!-- Scenario Section -->
+        <section class="scenario-card">
+            <h2>🚨 The Operational Problem Statement</h2>
+            <div class="problem-statement">
+                "Customer complaints take too long to resolve across our venues."
+            </div>
+            <p style="font-size: 0.92rem; color: var(--text-muted);">
+                <strong>Your Mission:</strong> The leadership team wants to hire more customer support staff. As the process analyst, use the <strong>Five Whys technique</strong> to investigate the true breakdown before costly capital is wasted.
+            </p>
+        </section>
+
+        <!-- Progress Tracker -->
+        <div class="stepper">
+            <div class="step-progress-bar" id="progressBar"></div>
+            <div class="step-node active" id="node-1">1</div>
+            <div class="step-node" id="node-2">2</div>
+            <div class="step-node" id="node-3">3</div>
+            <div class="step-node" id="node-4">4</div>
+            <div class="step-node" id="node-5">5</div>
+        </div>
+
+        <!-- Investigation Interactive Area -->
+        <section class="workspace" id="workspace">
+            <div class="step-header">
+                <span class="step-title" id="stepIndicator">Why #1 of 5</span>
+                <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;" id="scoreTracker">Attempts: 0</span>
+            </div>
+
+            <div class="why-question" id="whyQuestion">
+                Loading question...
+            </div>
+
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 14px;">
+                Evaluate the three candidate hypotheses. Which answer investigates the <em>systemic operational breakdown</em> rather than passing superficial blame?
+            </p>
+
+            <div class="options-grid" id="optionsGrid">
+                <!-- Dynamic options injected here -->
+            </div>
+
+            <div class="feedback" id="feedbackBox"></div>
+
+            <div class="actions">
+                <button class="btn btn-primary" id="submitBtn" disabled>Verify Step</button>
+                <button class="btn btn-primary" id="nextBtn" style="display: none;">Next Why ➔</button>
+            </div>
+        </section>
+
+        <!-- Dynamic 5 Whys Chain Summary -->
+        <section class="chain-summary">
+            <h3>
+                <span>📋 Verified Causal Chain</span>
+                <span style="font-size: 0.8rem; font-weight: 500; color: var(--text-muted);" id="chainProgress">0 of 5 Validated</span>
+            </h3>
+            <div class="chain-list" id="chainList">
+                <div class="chain-item" style="color: var(--text-muted); font-style: italic;">
+                    No causal steps verified yet. Select and test hypotheses above to build the chain.
+                </div>
+            </div>
+        </section>
+
+        <!-- Completion Modal / Card -->
+        <section class="completion-card" id="completionCard">
+            <h2>🎉 Root Cause Discovered!</h2>
+            <p>
+                You successfully avoided the trap of blaming individual employees and resisted hiring redundant support staff. You drilled past the noise down to the true operational engine breakdown.
+            </p>
+
+            <div class="root-cause-box">
+                <h4>Verified Root Cause (Why #5)</h4>
+                <p id="rootCauseText">Lack of frontline delegation policy and missing dynamic risk-threshold rules in the CRM.</p>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.8); padding: 16px; border-radius: 8px; margin-bottom: 20px; text-align: left; font-size: 0.92rem; color: #065f46;">
+                <strong>Recommended Lean / AI Interventions:</strong>
+                <ul style="margin-left: 20px; margin-top: 6px;">
+                    <li><strong>Policy-as-Code:</strong> Empower frontline agents to auto-resolve routine complaints under £50 without supervisor review.</li>
+                    <li><strong>Intelligent Triage & Routing:</strong> Use NLP sentiment and intent classification to direct high-severity issues to specialists instantly.</li>
+                </ul>
+            </div>
+
+            <button class="btn btn-primary" onclick="restartActivity()">Restart Diagnostic Lab</button>
+        </section>
+    </div>
+
+    <script>
+        const scenarioData = [
+            {
+                step: 1,
+                question: "Problem: 'Customer complaints take too long to resolve.' Why?",
+                options: [
+                    {
+                        text: "Frontline staff spend excessive time waiting for duty managers to authorize refunds and remedies.",
+                        desc: "Operational telemetry reveals 72% of resolution time is spent idling in a supervisory approval queue.",
+                        isCorrect: true,
+                        feedback: "Spot on! Telemetry shows tickets sit dormant waiting for supervisory review, not because agents are slow."
+                    },
+                    {
+                        text: "Frontline customer service agents are lazy and work too slowly on their shifts.",
+                        desc: "Assumes employee incompetence without measuring workflow bottlenecks.",
+                        isCorrect: false,
+                        feedback: "Superficial blame trap! Blaming staff motivation ignores system queues and leads to low morale without fixing delays."
+                    },
+                    {
+                        text: "Customers are increasingly unreasonable and demand unrealistic resolution times.",
+                        desc: "Deflects responsibility away from internal business operations.",
+                        isCorrect: false,
+                        feedback: "External blame deflection! Customer expectations haven't changed; the internal workflow has stagnated."
+                    }
+                ],
+                chainSummary: "Tickets sit dormant in supervisor approval queues for hours."
+            },
+            {
+                step: 2,
+                question: "Why do frontline staff spend excessive time waiting for duty managers to authorize resolutions?",
+                options: [
+                    {
+                        text: "Managers are always in pointless corporate meetings and ignore staff messages.",
+                        desc: "Assumes interpersonal friction rather than examining policy design.",
+                        isCorrect: false,
+                        feedback: "Interpersonal blame trap! Managers are busy, but why is their physical sign-off required for routine matters?"
+                    },
+                    {
+                        text: "Company policy mandates explicit supervisor sign-off on 100% of customer compensation, even small items under £5.",
+                        desc: "Reveals an inflexible governance policy and zero frontline delegation thresholds.",
+                        isCorrect: true,
+                        feedback: "Correct! The governance rule forces every minor concession through a managerial bottleneck."
+                    },
+                    {
+                        text: "The CRM software crashes every time an employee tries to click the refund button.",
+                        desc: "A technical bug hypothesis not supported by IT logs.",
+                        isCorrect: false,
+                        feedback: "Incorrect. The software is functional; the procedural protocol requires manager credentials."
+                    }
+                ],
+                chainSummary: "Company policy mandates manager sign-off on 100% of resolutions (even < £5)."
+            },
+            {
+                step: 3,
+                question: "Why does company policy mandate supervisor sign-off on every single complaint resolution?",
+                options: [
+                    {
+                        text: "Senior leadership introduced blanket authorization controls following a historic spike in unchecked till discounts.",
+                        desc: "Identifies a reactive historical rule enacted to prevent financial leakage.",
+                        isCorrect: true,
+                        feedback: "Exactly. A knee-jerk governance rule was created after a past incident, treating all refunds as high risk."
+                    },
+                    {
+                        text: "The finance department enjoys exercising authority over customer service operations.",
+                        desc: "Personalizes procedural friction as departmental politics.",
+                        isCorrect: false,
+                        feedback: "Avoid assuming malice. Departmental rules exist for perceived risk management, not power dynamics."
+                    },
+                    {
+                        text: "Frontline agents have never received basic customer service training.",
+                        desc: "Training gap hypothesis irrelevant to financial authorization rules.",
+                        isCorrect: false,
+                        feedback: "Off-target. Even fully trained agents are prohibited from pressing the approval button by policy."
+                    }
+                ],
+                chainSummary: "Blanket authorization was implemented following historic unchecked discounts."
+            },
+            {
+                step: 4,
+                question: "Why was a blanket rule introduced instead of targeted, risk-based thresholds?",
+                options: [
+                    {
+                        text: "The business lacked telemetry to differentiate normal agent appeasements from fraudulent transactions.",
+                        desc: "Exposes absence of transaction monitoring and inability to assess risk objectively.",
+                        isCorrect: true,
+                        feedback: "Bullseye! Without data analytics or fraud scoring, leadership implemented a blunt 100% lock."
+                    },
+                    {
+                        text: "The IT department refused to build complex software rules because they were understaffed.",
+                        desc: "Speculative IT blame without evaluating business capability.",
+                        isCorrect: false,
+                        feedback: "Incorrect. The company never scoped automated risk thresholding requirements."
+                    },
+                    {
+                        text: "Nobody thought customer resolution speed had any impact on guest retention.",
+                        desc: "Unrealistic assumption regarding leadership business awareness.",
+                        isCorrect: false,
+                        feedback: "Unlikely. Leadership cared about speed, but fear of financial shrinkage trumped efficiency."
+                    }
+                ],
+                chainSummary: "The business lacked data analytics to differentiate routine care from fraud."
+            },
+            {
+                step: 5,
+                question: "Why has the business never deployed risk-based controls or automated triage?",
+                options: [
+                    {
+                        text: "Operations treats complaint handling as an isolated cost center rather than an integrated, measurable value stream.",
+                        desc: "The true systemic root cause: lack of continuous process improvement governance and telemetry.",
+                        isCorrect: true,
+                        feedback: "Root Cause Unlocked! Complaints are treated as reactive overhead rather than an engineered process with feedback loops."
+                    },
+                    {
+                        text: "Artificial intelligence is too expensive for customer service workflows.",
+                        desc: "Factually incorrect regarding modern low-code and automated rule engines.",
+                        isCorrect: false,
+                        feedback: "Incorrect. Basic threshold rules and modern ML classification require minimal capital."
+                    },
+                    {
+                        text: "Customer service managers never bother reading complaints data.",
+                        desc: "Superficial finger-pointing at management diligence.",
+                        isCorrect: false,
+                        feedback: "Avoid individual blame. Without an architected value-stream process, managers lack actionable telemetry."
+                    }
+                ],
+                chainSummary: "Root Cause: Complaint management is treated as an isolated cost center without value-stream engineering."
+            }
+        ];
+
+        let currentStep = 0;
+        let selectedOptionIndex = null;
+        let attemptsCount = 0;
+        let verifiedChain = [];
+
+        const stepIndicator = document.getElementById('stepIndicator');
+        const scoreTracker = document.getElementById('scoreTracker');
+        const whyQuestion = document.getElementById('whyQuestion');
+        const optionsGrid = document.getElementById('optionsGrid');
+        const feedbackBox = document.getElementById('feedbackBox');
+        const submitBtn = document.getElementById('submitBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const chainList = document.getElementById('chainList');
+        const chainProgress = document.getElementById('chainProgress');
+        const progressBar = document.getElementById('progressBar');
+        const workspace = document.getElementById('workspace');
+        const completionCard = document.getElementById('completionCard');
+
+        function loadStep(index) {
+            const data = scenarioData[index];
+            selectedOptionIndex = null;
+            feedbackBox.className = 'feedback';
+            feedbackBox.style.display = 'none';
+            submitBtn.style.display = 'inline-block';
+            submitBtn.disabled = true;
+            nextBtn.style.display = 'none';
+
+            stepIndicator.textContent = `Why #${data.step} of 5`;
+            whyQuestion.textContent = data.question;
+
+            for (let i = 1; i <= 5; i++) {
+                const node = document.getElementById(`node-${i}`);
+                node.className = 'step-node';
+                if (i < data.step) {
+                    node.classList.add('completed');
+                } else if (i === data.step) {
+                    node.classList.add('active');
+                }
+            }
+            progressBar.style.width = `${((data.step - 1) / 4) * 100}%`;
+
+            optionsGrid.innerHTML = '';
+            data.options.forEach((opt, idx) => {
+                const card = document.createElement('div');
+                card.className = 'option-card';
+                card.id = `option-${idx}`;
+                card.innerHTML = `
+                    <div class="option-radio"></div>
+                    <div class="option-text">
+                        <strong>Option ${String.fromCharCode(65 + idx)}: ${opt.text}</strong>
+                        <p>${opt.desc}</p>
+                    </div>
+                `;
+                card.onclick = () => selectOption(idx);
+                optionsGrid.appendChild(card);
+            });
+        }
+
+        function selectOption(index) {
+            selectedOptionIndex = index;
+            document.querySelectorAll('.option-card').forEach((card, idx) => {
+                card.classList.toggle('selected', idx === index);
+            });
+            submitBtn.disabled = false;
+        }
+
+        submitBtn.onclick = () => {
+            if (selectedOptionIndex === null) return;
+
+            attemptsCount++;
+            scoreTracker.textContent = `Attempts: ${attemptsCount}`;
+
+            const data = scenarioData[currentStep];
+            const chosen = data.options[selectedOptionIndex];
+            const chosenCard = document.getElementById(`option-${selectedOptionIndex}`);
+
+            if (chosen.isCorrect) {
+                chosenCard.classList.add('correct');
+                feedbackBox.className = 'feedback success show';
+                feedbackBox.innerHTML = `<strong>✓ Investigation Validated:</strong> ${chosen.feedback}`;
+                submitBtn.style.display = 'none';
+                nextBtn.style.display = 'inline-block';
+
+                document.querySelectorAll('.option-card').forEach(card => card.style.pointerEvents = 'none');
+
+                verifiedChain.push(`Why #${data.step}: ${data.chainSummary}`);
+                renderChain();
+            } else {
+                chosenCard.classList.add('incorrect');
+                feedbackBox.className = 'feedback error show';
+                feedbackBox.innerHTML = `<strong>✗ Diagnostic Flaw:</strong> ${chosen.feedback}`;
+            }
+        };
+
+        nextBtn.onclick = () => {
+            currentStep++;
+            if (currentStep < scenarioData.length) {
+                loadStep(currentStep);
+            } else {
+                showCompletion();
+            }
+        };
+
+        function renderChain() {
+            chainList.innerHTML = '';
+            verifiedChain.forEach((item, idx) => {
+                const row = document.createElement('div');
+                row.className = 'chain-item verified';
+                row.innerHTML = `
+                    <span class="tag">Why #${idx + 1}</span>
+                    <span>${item.replace(`Why #${idx + 1}: `, '')}</span>
+                `;
+                chainList.appendChild(row);
+            });
+            chainProgress.textContent = `${verifiedChain.length} of 5 Validated`;
+        }
+
+        function showCompletion() {
+            workspace.style.display = 'none';
+            completionCard.classList.add('show');
+            progressBar.style.width = '100%';
+            document.getElementById('node-5').className = 'step-node completed';
+        }
+
+        function restartActivity() {
+            currentStep = 0;
+            attemptsCount = 0;
+            verifiedChain = [];
+            scoreTracker.textContent = `Attempts: 0`;
+            workspace.style.display = 'block';
+            completionCard.classList.remove('show');
+            chainList.innerHTML = `
+                <div class="chain-item" style="color: var(--text-muted); font-style: italic;">
+                    No causal steps verified yet. Select and test hypotheses above to build the chain.
+                </div>
+            `;
+            chainProgress.textContent = `0 of 5 Validated`;
+            loadStep(0);
+        }
+
+        loadStep(0);
+    </script>
+</body>
+</html>
