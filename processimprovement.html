@@ -3,202 +3,283 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hospitality Process Improvement Activity</title>
-    <link rel="stylesheet" href="ProcessImprovement.css">
+    <title>Identifying Process Waste in Hospitality - Lean & AI Simulation</title>
+    <link rel="stylesheet" href="processwaste.css">
 </head>
 <body>
     <header>
         <div class="container">
-            <h1>The Broken Bistro Challenge</h1>
-            <p class="subtitle">An Interactive Hospitality Process Improvement Simulation</p>
+            <span class="badge">Process Improvement Fundamentals</span>
+            <h1>Topic 4: Identifying Process Waste</h1>
+            <p class="subtitle">Hospitality Diagnostic Lab: Deconstruct Operational Friction & Deploy Intelligent Solutions</p>
         </div>
     </header>
 
     <main class="container">
-        <!-- Scenario Introduction -->
+        <!-- Scenario Briefing -->
         <section class="card intro-card">
-            <h2>The Situation</h2>
-            <p>You are running a popular city-centre restaurant. Tonight is Friday peak service, and operations are failing. Read the live feedback from the shift below, then match the correct operational solution to its specific bottleneck to turn the restaurant around.</p>
+            <h2>The Challenge: The Shift Audit</h2>
+            <p>
+                Welcome to <strong>The Grand Central Brasserie</strong> during Friday evening dinner service. Six critical operational breakdowns have been flagged across front-of-house, kitchen, and administration.
+            </p>
+            <p>
+                Your objective: <strong>Identify the core form of Lean waste</strong> for each operational bottleneck, then deploy the matching <strong>Intelligent Automation / AI intervention</strong> to optimize service.
+            </p>
+            <div class="instructions-banner">
+                <strong>How to play:</strong> Click to select an operational fix card, click the matching bottleneck, and hit <strong>Deploy Intervention</strong> — or drag and drop directly onto the bottleneck card.
+            </div>
         </section>
 
-        <!-- Live Shift Dashboard -->
+        <!-- Simulation Grid -->
         <div class="grid">
+            <!-- Left: Operational Bottlenecks (Lean Wastes) -->
             <section class="card column">
-                <h2>⚠️ Current Shift Bottlenecks</h2>
-                <p class="instructions">Drag a fix onto a card, or click a bottleneck to target it.</p>
+                <div class="column-header">
+                    <h2>⚠️ Shift Bottlenecks (Lean Wastes)</h2>
+                    <span class="counter" id="waste-counter">0 / 6 Solved</span>
+                </div>
+                <p class="section-help">Click or drop the correct operational remedy onto its matching shift problem below.</p>
+
                 <div class="metric-grid" id="bottlenecks-container">
-                    <div class="metric-card bad" id="metric-efficiency" data-key="efficiency">
-                        <h3>Efficiency</h3>
-                        <p class="value">Slow</p>
-                        <p class="desc">Kitchen staff walking across the room constantly for basic seasonings.</p>
+                    <!-- Waste 1: Waiting -->
+                    <div class="metric-card bad" id="waste-waiting" data-waste="waiting">
+                        <div class="waste-tag">1. Waiting</div>
+                        <h3 class="metric-title">Service Pacing Breakdown</h3>
+                        <p class="desc">Kitchen line cooks stand idle waiting for cellar stock, while tables wait 25+ minutes between starter clearance and mains delivery.</p>
+                        <div class="solution-box hidden">
+                            <span class="solution-label">AI / Tech Remedy:</span>
+                            <p class="solution-text"></p>
+                        </div>
                     </div>
-                    <div class="metric-card bad" id="metric-productivity" data-key="productivity">
-                        <h3>Productivity</h3>
-                        <p class="value">Low</p>
-                        <p class="desc">Waiters stuck at the central till point typing orders instead of on the floor.</p>
+
+                    <!-- Waste 2: Over-processing -->
+                    <div class="metric-card bad" id="waste-overprocessing" data-waste="overprocessing">
+                        <div class="waste-tag">2. Over-Processing</div>
+                        <h3 class="metric-title">Manual Data Entry & Logs</h3>
+                        <p class="desc">Head chef manually re-keys paper supplier delivery invoices row-by-row into spreadsheets, and staff handwrite routine fridge temperatures across 3 separate clipboards.</p>
+                        <div class="solution-box hidden">
+                            <span class="solution-label">AI / Tech Remedy:</span>
+                            <p class="solution-text"></p>
+                        </div>
                     </div>
-                    <div class="metric-card bad" id="metric-quality" data-key="quality">
-                        <h3>Quality</h3>
-                        <p class="value">Unstable</p>
-                        <p class="desc">3 steaks sent back to the kitchen because of incorrect cooking levels.</p>
+
+                    <!-- Waste 3: Rework -->
+                    <div class="metric-card bad" id="waste-rework" data-waste="rework">
+                        <div class="waste-tag">3. Rework</div>
+                        <h3 class="metric-title">Defects & Remake Loops</h3>
+                        <p class="desc">Four ribeye steaks sent back to the pass due to incorrect cooking temperatures, and reception manually reassigns rooms after allocating uncleaned suites.</p>
+                        <div class="solution-box hidden">
+                            <span class="solution-label">AI / Tech Remedy:</span>
+                            <p class="solution-text"></p>
+                        </div>
                     </div>
-                    <div class="metric-card bad" id="metric-cost" data-key="cost">
-                        <h3>Cost Reduction</h3>
-                        <p class="value">Wasting 15%</p>
-                        <p class="desc">Excessive food waste found in bins due to poor stock rotation (FIFO).</p>
+
+                    <!-- Waste 4: Duplication -->
+                    <div class="metric-card bad" id="waste-duplication" data-waste="duplication">
+                        <div class="waste-tag">4. Duplication</div>
+                        <h3 class="metric-title">Siloed Customer Records</h3>
+                        <p class="desc">Guests report severe nut allergies during online reservation, re-explain them to reception on arrival, and repeat them a third time to the floor server.</p>
+                        <div class="solution-box hidden">
+                            <span class="solution-label">AI / Tech Remedy:</span>
+                            <p class="solution-text"></p>
+                        </div>
                     </div>
-                    <div class="metric-card bad" id="metric-cx" data-key="cx">
-                        <h3>Customer Exp (CX)</h3>
-                        <p class="value">2.1 Stars</p>
-                        <p class="desc">TripAdvisor complaints rolling in regarding long payment wait times.</p>
+
+                    <!-- Waste 5: Excess Approvals -->
+                    <div class="metric-card bad" id="waste-approvals" data-waste="approvals">
+                        <div class="waste-tag">5. Excess Approvals</div>
+                        <h3 class="metric-title">Manager Keycard Stagnation</h3>
+                        <p class="desc">Payment processing stops completely while waiters search the floor for a duty manager to swipe an authorization card for £1.50 tea voids and bill splits.</p>
+                        <div class="solution-box hidden">
+                            <span class="solution-label">AI / Tech Remedy:</span>
+                            <p class="solution-text"></p>
+                        </div>
                     </div>
-                    <div class="metric-card bad" id="metric-ex" data-key="ex">
-                        <h3>Employee Exp (EX)</h3>
-                        <p class="value">Burnout Risk</p>
-                        <p class="desc">Floor staff arguing over whose turn it is to track down missing cutlery.</p>
+
+                    <!-- Waste 6: Unnecessary Movement of Information -->
+                    <div class="metric-card bad" id="waste-movement" data-waste="movement">
+                        <div class="waste-tag">6. Unnecessary Movement of Info</div>
+                        <h3 class="metric-title">Fragmented Handoff Hops</h3>
+                        <p class="desc">Waiters walk across the floor to a stationary terminal to type tickets, while cellar maintenance issues are passed verbally, written on napkins, and forgotten.</p>
+                        <div class="solution-box hidden">
+                            <span class="solution-label">AI / Tech Remedy:</span>
+                            <p class="solution-text"></p>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Interactive Work Area -->
+            <!-- Right: Remediation Solutions Toolkit -->
             <section class="card column">
-                <h2>🛠️ Process Improvement Toolkit</h2>
-                <p class="instructions">Click a solution and bottleneck, then hit <strong>Deploy Selected Fix</strong> (or drag and drop directly).</p>
-                
-                <div class="drag-container" id="draggable-items">
-                    <div class="drag-item" draggable="true" id="fix-efficiency" data-match="efficiency">
-                        <span>🏷️ Kitchen Layout: Rearrange prep benches to keep seasonings at arm's length.</span>
+                <div class="column-header">
+                    <h2>🛠️ Optimization & Automation Toolkit</h2>
+                </div>
+                <p class="section-help">Select or drag the appropriate intelligent solution to resolve the corresponding waste:</p>
+
+                <div class="drag-container" id="solutions-container">
+                    <div class="drag-item" draggable="true" id="fix-waiting" data-match="waiting">
+                        <span class="icon">⏱️</span>
+                        <div class="item-text">
+                            <strong>Predictive Kitchen Pacing & QR Pay:</strong>
+                            <p>ML-driven ticket pacing coordinates station call-times dynamically, while tableside QR checkout eliminates register queues.</p>
+                        </div>
                     </div>
-                    <div class="drag-item" draggable="true" id="fix-productivity" data-match="productivity">
-                        <span>📱 Mobile POS: Equipping waiters with handheld digital tablets for tableside ordering.</span>
+
+                    <div class="drag-item" draggable="true" id="fix-overprocessing" data-match="overprocessing">
+                        <span class="icon">📄</span>
+                        <div class="item-text">
+                            <strong>Intelligent Document Processing & IoT:</strong>
+                            <p>Vision-based OCR automatically ingests supplier delivery dockets into ERPs, while edge probes stream continuous temperature telemetry.</p>
+                        </div>
                     </div>
-                    <div class="drag-item" draggable="true" id="fix-quality" data-match="quality">
-                        <span>📋 Spec Sheets: Implement visual recipe checklists and automated timer logs.</span>
+
+                    <div class="drag-item" draggable="true" id="fix-rework" data-match="rework">
+                        <span class="icon">👁️</span>
+                        <div class="item-text">
+                            <strong>Computer Vision Quality Gates & Strict Schemas:</strong>
+                            <p>Pass-side edge cameras verify plate garnish and temperature against spec sheets; digital ordering enforces strict allergy schemas.</p>
+                        </div>
                     </div>
-                    <div class="drag-item" draggable="true" id="fix-cost" data-match="cost">
-                        <span>🔄 FIFO System: Deploy automated cellar tracking and strict inventory rotation.</span>
+
+                    <div class="drag-item" draggable="true" id="fix-duplication" data-match="duplication">
+                        <span class="icon">🔗</span>
+                        <div class="item-text">
+                            <strong>Fuzzy Entity Resolution & Master Data Sync:</strong>
+                            <p>Probabilistic record linkage connects PMS, dining reservations, and POS into a unified guest profile with zero redundant questioning.</p>
+                        </div>
                     </div>
-                    <div class="drag-item" draggable="true" id="fix-cx" data-match="cx">
-                        <span>💳 Pay at Table: Introduce automated tableside QR code scanning and direct billing.</span>
+
+                    <div class="drag-item" draggable="true" id="fix-approvals" data-match="approvals">
+                        <span class="icon">🛡️</span>
+                        <div class="item-text">
+                            <strong>Real-Time ML Anomaly Scoring & Policy Rules:</strong>
+                            <p>Isolation Forest algorithm auto-approves low-risk routine voids within statistical parameters, routing only fraud patterns to managers.</p>
+                        </div>
                     </div>
-                    <div class="drag-item" draggable="true" id="fix-ex" data-match="ex">
-                        <span>🍴 Cutlery Station: Standardise pre-shift sorting setup to remove search irritation.</span>
+
+                    <div class="drag-item" draggable="true" id="fix-movement" data-match="movement">
+                        <span class="icon">📡</span>
+                        <div class="item-text">
+                            <strong>Edge Mobile POS & NLU Voice Ticketing:</strong>
+                            <p>Tableside tablets stream orders via WebSockets directly to prep stations, while voice notes are converted into facility maintenance tickets.</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="feedback-banner" id="feedback-banner"></div>
+                <div class="feedback-banner" id="feedback-banner" aria-live="polite"></div>
 
                 <div class="action-bar">
-                    <button id="deploy-btn" class="btn" disabled>Deploy Selected Fix</button>
-                    <button id="reset-btn" class="btn btn-secondary" onclick="resetSimulation()">Reset Shift</button>
+                    <button id="deploy-btn" class="btn" disabled>Deploy Intervention</button>
+                    <button id="reset-btn" class="btn btn-secondary" onclick="resetSimulation()">Reset & Shuffle</button>
                 </div>
 
                 <div id="completion-message" class="hidden">
-                    <h3>🎉 Shift Successfully Fixed!</h3>
-                    <p>You have optimized your hospitality operations across all 6 core pillars. Your efficiency is up, waste is down, and guests are happy!</p>
-                    <button onclick="resetSimulation()" class="btn">Play Again</button>
+                    <div class="completion-icon">🏆</div>
+                    <h3>Shift Fully Optimized!</h3>
+                    <p>You have diagnosed all 6 forms of Lean process waste and deployed targeted intelligent automation interventions. The venue is running at maximum efficiency, error loops have collapsed, and guest satisfaction is restored.</p>
+                    <button onclick="resetSimulation()" class="btn">Run Another Shift</button>
                 </div>
             </section>
         </div>
     </main>
 
     <footer>
-        <p>&copy; 2026 Hospitality Process Improvement Workshop Tool. Built for GitHub Pages.</p>
+        <div class="container">
+            <p>&copy; 2026 Process Improvement Fundamentals | Topic 4: Identifying Process Waste. Designed for GitHub Pages.</p>
+        </div>
     </footer>
 
     <script>
-        const dragContainer = document.getElementById('draggable-items');
         const bottlenecksContainer = document.getElementById('bottlenecks-container');
-        const dragItems = document.querySelectorAll('.drag-item');
+        const solutionsContainer = document.getElementById('solutions-container');
         const metricCards = document.querySelectorAll('.metric-card');
+        const solutionItems = document.querySelectorAll('.drag-item');
         const deployBtn = document.getElementById('deploy-btn');
         const feedbackBanner = document.getElementById('feedback-banner');
+        const counterEl = document.getElementById('waste-counter');
+        const completionEl = document.getElementById('completion-message');
 
         let selectedFix = null;
         let selectedBottleneck = null;
-        let matchedCount = 0;
+        let solvedCount = 0;
 
-        const metricData = {
-            'efficiency': { value: 'Optimized', desc: 'Zero wasted steps. Layout streamlined.' },
-            'productivity': { value: 'High', desc: 'Tables turned 25% faster with mobile POS.' },
-            'quality': { value: 'Consistent', desc: 'Zero steak sendbacks recorded.' },
-            'cost': { value: 'Controlled', desc: 'Waste reduced down to under 2%.' },
-            'cx': { value: '4.9 Stars', desc: 'Guests praise instant, secure digital checkout.' },
-            'ex': { value: 'High Morale', desc: 'No operational irritation. Focus on guest care.' }
-        };
-
-        function showFeedback(message, isError = false) {
+        function showFeedback(message, type = 'success') {
             feedbackBanner.textContent = message;
-            feedbackBanner.className = 'feedback-banner show ' + (isError ? 'error' : 'success');
+            feedbackBanner.className = `feedback-banner show ${type}`;
             clearTimeout(feedbackBanner.timer);
             feedbackBanner.timer = setTimeout(() => {
                 feedbackBanner.className = 'feedback-banner';
-            }, 3000);
+            }, 3500);
         }
 
-        function checkMatch(fixElement, bottleneckElement) {
-            const fixMatch = fixElement.getAttribute('data-match');
-            const targetKey = bottleneckElement.getAttribute('data-key');
+        function checkMatch(solutionEl, bottleneckEl) {
+            const solutionMatch = solutionEl.getAttribute('data-match');
+            const targetWaste = bottleneckEl.getAttribute('data-waste');
 
-            if (fixMatch === targetKey) {
+            if (solutionMatch === targetWaste) {
                 // Correct Match
-                bottleneckElement.classList.remove('bad', 'selected-target');
-                bottleneckElement.classList.add('good');
-                
-                const data = metricData[targetKey];
-                bottleneckElement.querySelector('.value').innerText = data.value;
-                bottleneckElement.querySelector('.desc').innerText = data.desc;
+                bottleneckEl.classList.remove('bad', 'selected-target', 'drag-hover');
+                bottleneckEl.classList.add('good');
 
-                fixElement.classList.remove('selected');
-                fixElement.style.display = 'none';
+                const remedyText = solutionEl.querySelector('.item-text strong').textContent;
+                const remedyBox = bottleneckEl.querySelector('.solution-box');
+                bottleneckEl.querySelector('.solution-text').textContent = remedyText;
+                remedyBox.classList.remove('hidden');
 
-                if (selectedFix === fixElement) selectedFix = null;
-                if (selectedBottleneck === bottleneckElement) selectedBottleneck = null;
+                // Animate removal of solution card
+                solutionEl.classList.remove('selected');
+                solutionEl.style.display = 'none';
 
-                matchedCount++;
-                showFeedback('✓ Correct operational solution applied!');
+                if (selectedFix === solutionEl) selectedFix = null;
+                if (selectedBottleneck === bottleneckEl) selectedBottleneck = null;
 
-                if (matchedCount === 6) {
-                    document.getElementById('completion-message').classList.remove('hidden');
+                solvedCount++;
+                counterEl.textContent = `${solvedCount} / 6 Solved`;
+                showFeedback(`✓ Correct! Deployed: ${remedyText}`, 'success');
+
+                if (solvedCount === 6) {
+                    completionEl.classList.remove('hidden');
+                    solutionsContainer.style.display = 'none';
+                    deployBtn.parentElement.style.display = 'none';
                 }
             } else {
                 // Incorrect Match
-                bottleneckElement.classList.add('shake');
-                setTimeout(() => bottleneckElement.classList.remove('shake'), 500);
-                showFeedback('✗ That fix does not solve this bottleneck. Try another!', true);
+                bottleneckEl.classList.add('shake');
+                setTimeout(() => bottleneckEl.classList.remove('shake'), 450);
+                showFeedback('✗ That intervention does not target this specific process waste. Re-examine the root cause!', 'error');
             }
 
-            updateDeployButtonState();
+            updateDeployBtnState();
         }
 
-        function updateDeployButtonState() {
+        function updateDeployBtnState() {
             deployBtn.disabled = !(selectedFix && selectedBottleneck);
         }
 
-        // Selection: Solutions (Right Side)
-        dragItems.forEach(item => {
+        // Click-to-select: Solutions (Right Side)
+        solutionItems.forEach(item => {
             item.addEventListener('click', () => {
                 if (selectedFix === item) {
                     item.classList.remove('selected');
                     selectedFix = null;
                 } else {
-                    dragItems.forEach(i => i.classList.remove('selected'));
+                    solutionItems.forEach(i => i.classList.remove('selected'));
                     item.classList.add('selected');
                     selectedFix = item;
                 }
-                updateDeployButtonState();
+                updateDeployBtnState();
             });
 
-            // HTML5 Drag support
+            // HTML5 Drag handling
             item.addEventListener('dragstart', (e) => {
                 e.dataTransfer.setData('text/plain', item.id);
             });
         });
 
-        // Selection & Drop Target: Bottlenecks (Left Side)
+        // Click-to-select & Drop Target: Bottlenecks (Left Side)
         metricCards.forEach(card => {
             card.addEventListener('click', () => {
-                if (card.classList.contains('good')) return; // already solved
+                if (card.classList.contains('good')) return;
 
                 if (selectedBottleneck === card) {
                     card.classList.remove('selected-target');
@@ -208,10 +289,9 @@
                     card.classList.add('selected-target');
                     selectedBottleneck = card;
                 }
-                updateDeployButtonState();
+                updateDeployBtnState();
             });
 
-            // Drag and drop events directly onto each card
             card.addEventListener('dragover', (e) => {
                 if (!card.classList.contains('good')) {
                     e.preventDefault();
@@ -236,68 +316,55 @@
             });
         });
 
-        // Deploy button
+        // Deploy button event
         deployBtn.addEventListener('click', () => {
             if (selectedFix && selectedBottleneck) {
                 checkMatch(selectedFix, selectedBottleneck);
             }
         });
 
-        // Fisher-Yates element shuffler
-        function shuffleContainer(container) {
-            const items = Array.from(container.children);
-            for (let i = items.length - 1; i > 0; i--) {
+        // Fisher-Yates array shuffling for DOM containers
+        function shuffleChildren(container) {
+            const children = Array.from(container.children);
+            for (let i = children.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [items[i], items[j]] = [items[j], items[i]];
+                [children[i], children[j]] = [children[j], children[i]];
             }
-            items.forEach(item => container.appendChild(item));
+            children.forEach(c => container.appendChild(c));
         }
 
         function resetSimulation() {
-            matchedCount = 0;
+            solvedCount = 0;
             selectedFix = null;
             selectedBottleneck = null;
+            counterEl.textContent = '0 / 6 Solved';
             feedbackBanner.className = 'feedback-banner';
+            completionEl.classList.add('hidden');
+            solutionsContainer.style.display = 'flex';
+            deployBtn.parentElement.style.display = 'flex';
             deployBtn.disabled = true;
-            document.getElementById('completion-message').classList.add('hidden');
 
-            dragItems.forEach(item => {
-                item.style.display = 'block';
+            solutionItems.forEach(item => {
+                item.style.display = 'flex';
                 item.classList.remove('selected');
             });
 
             metricCards.forEach(card => {
                 card.classList.remove('good', 'selected-target', 'drag-hover');
                 card.classList.add('bad');
+                const remedyBox = card.querySelector('.solution-box');
+                remedyBox.classList.add('hidden');
+                card.querySelector('.solution-text').textContent = '';
             });
 
-            // Reset text descriptions
-            document.getElementById('metric-efficiency').querySelector('.value').innerText = 'Slow';
-            document.getElementById('metric-efficiency').querySelector('.desc').innerText = 'Kitchen staff walking across the room constantly for basic seasonings.';
-
-            document.getElementById('metric-productivity').querySelector('.value').innerText = 'Low';
-            document.getElementById('metric-productivity').querySelector('.desc').innerText = 'Waiters stuck at the central till point typing orders instead of on the floor.';
-
-            document.getElementById('metric-quality').querySelector('.value').innerText = 'Unstable';
-            document.getElementById('metric-quality').querySelector('.desc').innerText = '3 steaks sent back to the kitchen because of incorrect cooking levels.';
-
-            document.getElementById('metric-cost').querySelector('.value').innerText = 'Wasting 15%';
-            document.getElementById('metric-cost').querySelector('.desc').innerText = 'Excessive food waste found in bins due to poor stock rotation (FIFO).';
-
-            document.getElementById('metric-cx').querySelector('.value').innerText = '2.1 Stars';
-            document.getElementById('metric-cx').querySelector('.desc').innerText = 'TripAdvisor complaints rolling in regarding long payment wait times.';
-
-            document.getElementById('metric-ex').querySelector('.value').innerText = 'Burnout Risk';
-            document.getElementById('metric-ex').querySelector('.desc').innerText = 'Floor staff arguing over whose turn it is to track down missing cutlery.';
-
-            // Shuffle BOTH the bottlenecks and the fixes
-            shuffleContainer(bottlenecksContainer);
-            shuffleContainer(dragContainer);
+            // Randomise both columns on reset
+            shuffleChildren(bottlenecksContainer);
+            shuffleChildren(solutionsContainer);
         }
 
-        // Shuffle initially on page load
-        shuffleContainer(bottlenecksContainer);
-        shuffleContainer(dragContainer);
+        // Initial shuffle on first load
+        shuffleChildren(bottlenecksContainer);
+        shuffleChildren(solutionsContainer);
     </script>
 </body>
 </html>
