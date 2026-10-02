@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COPA | Prioritising Improvement Opportunities Lab</title>
+  <link rel="stylesheet" href="improvementopp.css">
+</head>
+<body>
+
+  <header>
+    <div class="brand-title">
+      <h1>Process Prioritisation Diagnostic Lab</h1>
+      <p>COPA Level 4 AI & Automation Practitioner | K4: Organisational Constraints & Piloting</p>
+    </div>
+    <div class="score-badge">
+      <div>Completed Triage: <span class="score-val" id="score-text">0 / 8</span></div>
+    </div>
+  </header>
+
+  <nav class="nav-tabs">
+    <button class="tab-btn active" onclick="switchTab('matrix')">1. Impact vs. Effort Matrix</button>
+    <button class="tab-btn" onclick="switchTab('moscow')">2. MoSCoW Prioritisation Board</button>
+    <button class="tab-btn" onclick="switchTab('summary')">3. K4 Evidence Summary</button>
+  </nav>
+
+  <main class="container">
+    
+    <!-- TAB 1: 2x2 MATRIX -->
+    <div id="tab-matrix" class="tab-content active">
+      <section class="deck-section">
+        <div class="deck-header">
+          <h2>Candidate Improvement Pipeline (Drag to Target Quadrant)</h2>
+          <button class="btn-reset" onclick="resetMatrix()">Reset Matrix</button>
+        </div>
+        <div class="deck-cards" id="matrix-deck">
+          <!-- Cards populated by JS -->
+        </div>
+      </section>
+
+      <section class="matrix-grid">
+        <!-- Q1: Quick Wins -->
+        <div class="quadrant q-quick-wins" data-quadrant="quick-wins" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'matrix')">
+          <div class="quadrant-header">
+            <h3>Quick Wins (Do First)</h3>
+            <span>HIGH IMPACT | LOW EFFORT</span>
+          </div>
+          <div class="quadrant-cards" id="drop-quick-wins"></div>
+        </div>
+
+        <!-- Q2: Strategic -->
+        <div class="quadrant q-strategic" data-quadrant="strategic" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'matrix')">
+          <div class="quadrant-header">
+            <h3>Strategic Projects (Plan & Budget)</h3>
+            <span>HIGH IMPACT | HIGH EFFORT</span>
+          </div>
+          <div class="quadrant-cards" id="drop-strategic"></div>
+        </div>
+
+        <!-- Q3: Fill-ins -->
+        <div class="quadrant q-fillins" data-quadrant="fill-ins" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'matrix')">
+          <div class="quadrant-header">
+            <h3>Fill-Ins / Secondary (When Time Permits)</h3>
+            <span>LOW IMPACT | LOW EFFORT</span>
+          </div>
+          <div class="quadrant-cards" id="drop-fill-ins"></div>
+        </div>
+
+        <!-- Q4: Time Sinks -->
+        <div class="quadrant q-timesinks" data-quadrant="time-sinks" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'matrix')">
+          <div class="quadrant-header">
+            <h3>Time Sinks (De-prioritise / Avoid)</h3>
+            <span>LOW IMPACT | HIGH EFFORT</span>
+          </div>
+          <div class="quadrant-cards" id="drop-time-sinks"></div>
+        </div>
+      </section>
+      
+      <div class="feedback-banner">
+        <div id="matrix-feedback">Drag all candidate cards onto the matrix to evaluate your prioritization alignment.</div>
+        <button class="btn-action" onclick="validateMatrix()">Validate Matrix</button>
+      </div>
+    </div>
+
+    <!-- TAB 2: MOSCOW BOARD -->
+    <div id="tab-moscow" class="tab-content">
+      <section class="deck-section">
+        <div class="deck-header">
+          <h2>Project Scope Backlog (Drag into Governance Classification)</h2>
+          <button class="btn-reset" onclick="resetMoscow()">Reset MoSCoW</button>
+        </div>
+        <div class="deck-cards" id="moscow-deck">
+          <!-- Cards populated by JS -->
+        </div>
+      </section>
+
+      <section class="moscow-grid">
+        <div class="moscow-col m-must" data-moscow="must" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'moscow')">
+          <div class="quadrant-header">
+            <h3>Must Have</h3>
+            <span style="background:#FCA5A5; color:#991B1B;">NON-NEGOTIABLE</span>
+          </div>
+          <div class="quadrant-cards" id="drop-must"></div>
+        </div>
+
+        <div class="moscow-col m-should" data-moscow="should" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'moscow')">
+          <div class="quadrant-header">
+            <h3>Should Have</h3>
+            <span style="background:#BFDBFE; color:#1E40AF;">HIGH VALUE ROI</span>
+          </div>
+          <div class="quadrant-cards" id="drop-should"></div>
+        </div>
+
+        <div class="moscow-col m-could" data-moscow="could" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'moscow')">
+          <div class="quadrant-header">
+            <h3>Could Have</h3>
+            <span style="background:#FDE68A; color:#92400E;">DESIRABLE</span>
+          </div>
+          <div class="quadrant-cards" id="drop-could"></div>
+        </div>
+
+        <div class="moscow-col m-wont" data-moscow="wont" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'moscow')">
+          <div class="quadrant-header">
+            <h3>Won't Have (Now)</h3>
+            <span style="background:#E2E8F0; color:#475569;">OUT OF SCOPE</span>
+          </div>
+          <div class="quadrant-cards" id="drop-wont"></div>
+        </div>
+      </section>
+
+      <div class="feedback-banner">
+        <div id="moscow-feedback">Categorise features to establish release boundaries and prevent project scope creep.</div>
+        <button class="btn-action" onclick="validateMoscow()">Validate MoSCoW Scope</button>
+      </div>
+    </div>
+
+    <!-- TAB 3: SUMMARY & PORTFOLIO EXPORT -->
+    <div id="tab-summary" class="tab-content">
+      <div class="deck-section" style="max-width: 800px; margin: 0 auto;">
+        <h2 style="margin-bottom: 1rem; color: var(--copa-navy);">Apprenticeship Evidence Mapping (K4 & K5)</h2>
+        <p style="margin-bottom: 1.5rem; color: #475569; line-height: 1.5;">
+          This interactive assessment evaluates your ability to evaluate solutions against organizational constraints (budget, time, risk) and prioritize high-value productivity gains.
+        </p>
+        
+        <div class="evidence-box">
+          <h4>Generated Reflective Statement Template:</h4>
+          <p id="evidence-text" style="margin-top: 0.5rem; line-height: 1.6;">
+            Complete both interactive boards to generate your formal portfolio statement.
+          </p>
+        </div>
+
+        <button class="btn-action" onclick="copyEvidence()">Copy Evidence to Clipboard</button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Success Modal -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal-content">
+      <h3>Audit Validated!</h3>
+      <p id="modal-desc">All candidate items have been categorized accurately according to operational return and organizational constraints.</p>
+      <button class="btn-action" onclick="closeModal()">Continue</button>
+    </div>
+  </div>
+
+  <script>
+    const initiatives = [
+      {
+        id: "item-1",
+        title: "Digital Form Validation Gate",
+        desc: "Add regex schema validation to public client onboarding to eliminate manual data-entry errors.",
+        matrixTarget: "quick-wins",
+        moscowTarget: "must",
+        tag: "Data Quality"
+      },
+      {
+        id: "item-2",
+        title: "Enterprise ERP & CRM Integration",
+        desc: "Full bi-directional microservice synchronisation across legacy databases and cloud billing systems.",
+        matrixTarget: "strategic",
+        moscowTarget: "should",
+        tag: "Architecture"
+      },
+      {
+        id: "item-3",
+        title: "Dark-Mode UI Theme Customisation",
+        desc: "Allow internal administration staff to toggle custom dark or high-contrast palette modes.",
+        matrixTarget: "fill-ins",
+        moscowTarget: "could",
+        tag: "UI Enhancement"
+      },
+      {
+        id: "item-4",
+        title: "Complete Core Hardware Rewrite",
+        desc: "Replacing all onsite physical edge servers before end-of-life to gain a 2% faster indexing cycle.",
+        matrixTarget: "time-sinks",
+        moscowTarget: "wont",
+        tag: "Infrastructure"
+      },
+      {
+        id: "item-5",
+        title: "Automated Till Override Logic",
+        desc: "Policy-as-code micro-approvals for low-risk transactions under £5, ending supervisory wait bottlenecks.",
+        matrixTarget: "quick-wins",
+        moscowTarget: "should",
+        tag: "Governance"
+      },
+      {
+        id: "item-6",
+        title: "Autonomous Agentic Decision Bot",
+        desc: "Granting unconstrained generative AI full authority to auto-refund high-value customer dispute accounts.",
+        matrixTarget: "time-sinks",
+        moscowTarget: "wont",
+        tag: "High-Risk AI"
+      },
+      {
+        id: "item-7",
+        title: "GDPR Article 22 Consent Checkpoint",
+        desc: "Enforce automated fallback and explicit opt-in controls for all algorithmic profiling models.",
+        matrixTarget: "quick-wins",
+        moscowTarget: "must",
+        tag: "Statutory Law"
+      },
+      {
+        id: "item-8",
+        title: "Machine Learning Demand Forecasting",
+        desc: "Predict workload volumes 14 days ahead using time-series telemetry to optimize staffing curves.",
+        matrixTarget: "strategic",
+        moscowTarget: "should",
+        tag: "Predictive Analytics"
+      }
+    ];
+
+    let matrixState = {};
+    let moscowState = {};
+
+    function init() {
+      renderMatrixDeck();
+      renderMoscowDeck();
+    }
+
+    function renderMatrixDeck() {
+      const deck = document.getElementById("matrix-deck");
+      deck.innerHTML = "";
+      initiatives.forEach(item => {
+        if (!matrixState[item.id]) {
+          deck.appendChild(createCard(item));
+        }
+      });
+    }
+
+    function renderMoscowDeck() {
+      const deck = document.getElementById("moscow-deck");
+      deck.innerHTML = "";
+      initiatives.forEach(item => {
+        if (!moscowState[item.id]) {
+          deck.appendChild(createCard(item));
+        }
+      });
+    }
+
+    function createCard(item) {
+      const el = document.createElement("div");
+      el.className = "item-card";
+      el.draggable = true;
+      el.id = item.id;
+      el.ondragstart = (e) => {
+        e.dataTransfer.setData("text/plain", item.id);
+        el.classList.add("dragging");
+      };
+      el.ondragend = () => el.classList.remove("dragging");
+      
+      el.innerHTML = `
+        <div>
+          <h4>${item.title}</h4>
+          <p>${item.desc}</p>
+        </div>
+        <span class="meta-tag">${item.tag}</span>
+      `;
+      return el;
+    }
+
+    function allowDrop(e) {
+      e.preventDefault();
+      e.currentTarget.classList.add("drag-over");
+    }
+
+    function handleDrop(e, mode) {
+      e.preventDefault();
+      const dropZone = e.currentTarget;
+      dropZone.classList.remove("drag-over");
+      const id = e.dataTransfer.getData("text/plain");
+      const item = initiatives.find(i => i.id === id);
+      if (!item) return;
+
+      if (mode === "matrix") {
+        const quadrant = dropZone.dataset.quadrant;
+        matrixState[id] = quadrant;
+        document.getElementById(`drop-${quadrant}`).appendChild(createPlacedCard(item, () => {
+          delete matrixState[id];
+          renderMatrixDeck();
+          document.getElementById(item.id + "-placed").remove();
+          updateTotalProgress();
+        }));
+        renderMatrixDeck();
+      } else {
+        const target = dropZone.dataset.moscow;
+        moscowState[id] = target;
+        document.getElementById(`drop-${target}`).appendChild(createPlacedCard(item, () => {
+          delete moscowState[id];
+          renderMoscowDeck();
+          document.getElementById(item.id + "-placed").remove();
+          updateTotalProgress();
+        }));
+        renderMoscowDeck();
+      }
+      updateTotalProgress();
+    }
+
+    function createPlacedCard(item, onRemove) {
+      const el = document.createElement("div");
+      el.className = "item-card";
+      el.id = item.id + "-placed";
+      el.style.maxWidth = "100%";
+      el.style.minWidth = "auto";
+      el.style.marginBottom = "0.5rem";
+      el.style.cursor = "default";
+      el.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <h4 style="font-size:0.85rem;">${item.title}</h4>
+          <button style="border:none; background:none; color:#EF4444; font-weight:700; cursor:pointer;" onclick="this.parentElement.parentElement.remove()">✕</button>
+        </div>
+        <p style="font-size:0.75rem; margin-bottom:0.4rem;">${item.desc}</p>
+        <span class="meta-tag" style="font-size:0.65rem;">${item.tag}</span>
+      `;
+      el.querySelector("button").onclick = onRemove;
+      return el;
+    }
+
+    function validateMatrix() {
+      const total = initiatives.length;
+      let placed = Object.keys(matrixState).length;
+      if (placed < total) {
+        document.getElementById("matrix-feedback").innerText = `⚠️ Please place all 8 candidate items on the matrix before validating (Currently placed: ${placed}/8).`;
+        return;
+      }
+      let correct = 0;
+      initiatives.forEach(i => {
+        if (matrixState[i.id] === i.matrixTarget) correct++;
+      });
+
+      if (correct === total) {
+        document.getElementById("matrix-feedback").innerHTML = `<strong style="color:var(--green-text);">✓ Perfect Matrix Alignment!</strong> All 8 initiatives classified accurately across Impact vs. Effort.`;
+        showModal("Matrix Evaluation Complete", "You have successfully categorized high-impact pilots from resource-draining time sinks.");
+      } else {
+        document.getElementById("matrix-feedback").innerText = `Triage Result: ${correct} / ${total} aligned. Re-evaluate high-effort items with minimal organizational return.`;
+      }
+      updateEvidence();
+    }
+
+    function validateMoscow() {
+      const total = initiatives.length;
+      let placed = Object.keys(moscowState).length;
+      if (placed < total) {
+        document.getElementById("moscow-feedback").innerText = `⚠️ Please classify all 8 backlog items into MoSCoW buckets (Currently placed: ${placed}/8).`;
+        return;
+      }
+      let correct = 0;
+      initiatives.forEach(i => {
+        if (moscowState[i.id] === i.moscowTarget) correct++;
+      });
+
+      if (correct === total) {
+        document.getElementById("moscow-feedback").innerHTML = `<strong style="color:var(--green-text);">✓ MoSCoW Scope Validated!</strong> Scope boundaries prevent project fatigue and protect delivery deadlines.`;
+        showModal("MoSCoW Scope Validated", "Your governance scope locks in critical Must-Haves while deferring non-essential enhancements.");
+      } else {
+        document.getElementById("moscow-feedback").innerText = `Scope Result: ${correct} / ${total} aligned. Remember: non-negotiable statutory & safety controls must always be Must-Have.`;
+      }
+      updateEvidence();
+    }
+
+    function resetMatrix() {
+      matrixState = {};
+      ["quick-wins", "strategic", "fill-ins", "time-sinks"].forEach(q => {
+        document.getElementById(`drop-${q}`).innerHTML = "";
+      });
+      renderMatrixDeck();
+      document.getElementById("matrix-feedback").innerText = "Matrix reset. Drag items to evaluate.";
+      updateTotalProgress();
+    }
+
+    function resetMoscow() {
+      moscowState = {};
+      ["must", "should", "could", "wont"].forEach(q => {
+        document.getElementById(`drop-${q}`).innerHTML = "";
+      });
+      renderMoscowDeck();
+      document.getElementById("moscow-feedback").innerText = "MoSCoW board reset.";
+      updateTotalProgress();
+    }
+
+    function updateTotalProgress() {
+      const mCount = Object.keys(matrixState).length;
+      const mosCount = Object.keys(moscowState).length;
+      document.getElementById("score-text").innerText = `${Math.floor((mCount + mosCount) / 2)} / 8`;
+      updateEvidence();
+    }
+
+    function updateEvidence() {
+      const text = `During the Process Prioritisation Simulation, I evaluated 8 candidate digital process improvements across organizational constraints (K4). Using an Impact vs. Effort matrix, I isolated immediate 'Quick Wins' (e.g. digital input validation and policy-as-code till overrides) to establish early ROI without capital risk. In parallel, I applied the MoSCoW framework to establish clear governance boundaries, designating statutory GDPR Article 22 safeguards as non-negotiable 'Must-Haves' while explicitly classifying unconstrained agentic execution as 'Won't-Have' to prevent project creep and compliance risk (K4/K5).`;
+      document.getElementById("evidence-text").innerText = text;
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+      event.target.classList.add("active");
+      document.getElementById(`tab-${tab}`).classList.add("active");
+    }
+
+    function showModal(title, msg) {
+      document.getElementById("modal").style.display = "flex";
+      document.querySelector(".modal-content h3").innerText = title;
+      document.getElementById("modal-desc").innerText = msg;
+    }
+
+    function closeModal() {
+      document.getElementById("modal").style.display = "none";
+    }
+
+    function copyEvidence() {
+      const t = document.getElementById("evidence-text").innerText;
+      navigator.clipboard.writeText(t).then(() => {
+        alert("Evidence statement copied to clipboard! You can paste this directly into OneFile / your apprentice portfolio.");
+      });
+    }
+
+    init();
+  </script>
+</body>
+</html>
