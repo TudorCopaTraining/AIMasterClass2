@@ -31,20 +31,20 @@
       <section class="deck-section" style="background: #F8FAFC; border-left: 5px solid var(--copa-navy);">
         <h2 style="font-size: 1.15rem; margin-bottom: 0.4rem; color: var(--copa-navy);">Task Overview: Impact vs. Effort Evaluation</h2>
         <p style="font-size: 0.875rem; color: #475569; line-height: 1.5; margin-bottom: 0.5rem;">
-          In digital transformation and process automation, organisations face finite budgets, delivery windows, and engineering capacity. Your objective is to triage the 8 candidate initiatives below across two strategic dimensions:
+          In digital transformation and process improvement, organisations must balance business value against time, budget, and implementation difficulty. Your objective is to triage the 8 candidate initiatives below across two strategic dimensions:
         </p>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem; font-size: 0.825rem; color: #334155;">
           <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
-            <strong style="color: var(--green-text);">• Quick Wins (High Impact, Low Effort):</strong> Deploy first. Immediate ROI, low complexity, rapid stakeholder buy-in.
+            <strong style="color: var(--green-text);">• Quick Wins (High Impact, Low Effort):</strong> Deploy first. Delivers rapid results, minimal technical barrier, and early team buy-in.
           </div>
           <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
-            <strong style="color: var(--blue-text);">• Strategic (High Impact, High Effort):</strong> Plan & budget. Transformative gains requiring phased milestones.
+            <strong style="color: var(--blue-text);">• Strategic (High Impact, High Effort):</strong> Plan & budget. Major long-term gains requiring structured project planning.
           </div>
           <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
-            <strong style="color: var(--amber-text);">• Fill-Ins (Low Impact, Low Effort):</strong> Execute when spare capacity permits. Minor incremental gains.
+            <strong style="color: var(--amber-text);">• Fill-Ins (Low Impact, Low Effort):</strong> Execute when time permits. Small, low-risk procedural adjustments.
           </div>
           <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
-            <strong style="color: var(--red-text);">• Time Sinks (Low Impact, High Effort):</strong> De-prioritise or avoid. High technical complexity for negligible return.
+            <strong style="color: var(--red-text);">• Time Sinks (Low Impact, High Effort):</strong> De-prioritise or avoid. High cost or effort with very little practical return.
           </div>
         </div>
       </section>
@@ -109,20 +109,20 @@
       <section class="deck-section" style="background: #F8FAFC; border-left: 5px solid var(--copa-navy);">
         <h2 style="font-size: 1.15rem; margin-bottom: 0.4rem; color: var(--copa-navy);">Task Overview: MoSCoW Scope & Governance Classification</h2>
         <p style="font-size: 0.875rem; color: #475569; line-height: 1.5; margin-bottom: 0.5rem;">
-          To prevent scope creep and manage operational constraints, categorize each proposed initiative into an agile MoSCoW governance release tier:
+          To keep projects on schedule and avoid scope creep, categorize each proposed initiative into an agreed project release tier:
         </p>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem; font-size: 0.825rem; color: #334155;">
           <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
-            <strong style="color: #DC2626;">• Must Have:</strong> Non-negotiable statutory requirements, data governance, safety, or core functionality.
+            <strong style="color: #DC2626;">• Must Have:</strong> Non-negotiable requirements, legal compliance, safety checks, or essential baseline functionality.
           </div>
           <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
-            <strong style="color: #2563EB;">• Should Have:</strong> High-value operational improvements delivering strong ROI where workarounds exist.
+            <strong style="color: #2563EB;">• Should Have:</strong> Important operational improvements delivering clear business value, but with short-term workarounds available.
           </div>
           <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
-            <strong style="color: #D97706;">• Could Have:</strong> Desirable enhancements that offer convenience but can be dropped if timelines compress.
+            <strong style="color: #D97706;">• Could Have:</strong> Useful additions that improve user convenience, but can be safely postponed if time runs short.
           </div>
           <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
-            <strong style="color: #475569;">• Won't Have (Now):</strong> Explicitly agreed as out of scope to protect deadlines and eliminate liability.
+            <strong style="color: #475569;">• Won't Have (Now):</strong> Agreed as out of scope for the current rollout to protect deadlines and budget.
           </div>
         </div>
       </section>
@@ -189,70 +189,71 @@
   </div>
 
   <script>
+    // Universal, accessible enterprise initiatives free from niche developer jargon
     const initiatives = [
       {
         id: "item-1",
-        title: "Digital Form Validation Gate",
-        desc: "Add regex schema validation to public client onboarding to eliminate manual data-entry errors.",
+        title: "Mandatory Digital Form Field Checks",
+        desc: "Add automated format checking (such as email and phone number verification) to online intake forms to eliminate typing errors.",
         matrixTarget: "quick-wins",
         moscowTarget: "must",
         tag: "Data Quality"
       },
       {
         id: "item-2",
-        title: "Enterprise ERP & CRM Integration",
-        desc: "Full bi-directional microservice synchronisation across legacy databases and cloud billing systems.",
+        title: "Connecting Central Database & Accounts",
+        desc: "Build an automated link between your customer records and billing system so details update everywhere at the same time.",
         matrixTarget: "strategic",
         moscowTarget: "should",
-        tag: "Architecture"
+        tag: "Core Systems"
       },
       {
         id: "item-3",
-        title: "Dark-Mode UI Theme Customisation",
-        desc: "Allow internal administration staff to toggle custom dark or high-contrast palette modes.",
+        title: "Staff Dashboard Color & Display Themes",
+        desc: "Allow internal staff to customize screen colors and switch to a dark background theme for personal preference.",
         matrixTarget: "fill-ins",
         moscowTarget: "could",
-        tag: "UI Enhancement"
+        tag: "Visual Design"
       },
       {
         id: "item-4",
-        title: "Complete Core Hardware Rewrite",
-        desc: "Replacing all onsite physical edge servers before end-of-life to gain a 2% faster indexing cycle.",
+        title: "Premature Full Office Computer Replacement",
+        desc: "Replacing all working office computers and servers years before necessary to gain a barely noticeable 2% speed boost.",
         matrixTarget: "time-sinks",
         moscowTarget: "wont",
-        tag: "Infrastructure"
+        tag: "Equipment"
       },
       {
         id: "item-5",
-        title: "Automated Till Override Logic",
-        desc: "Policy-as-code micro-approvals for low-risk transactions under £5, ending supervisory wait bottlenecks.",
+        title: "Automated Sign-Off for Small Refunds",
+        desc: "Set automatic approval rules for minor customer corrections under £5, eliminating the need to wait for a supervisor's signature.",
         matrixTarget: "quick-wins",
         moscowTarget: "should",
-        tag: "Governance"
+        tag: "Team Approvals"
       },
       {
         id: "item-6",
-        title: "Autonomous Agentic Decision Bot",
-        desc: "Granting unconstrained generative AI full authority to auto-refund high-value customer dispute accounts.",
+        title: "Unsupervised AI Issuing Large Financial Refunds",
+        desc: "Allowing an experimental customer chatbot to approve and transfer unlimited cash refunds with no human checking.",
         matrixTarget: "time-sinks",
         moscowTarget: "wont",
-        tag: "High-Risk AI"
+        tag: "Financial Risk"
       },
       {
         id: "item-7",
-        title: "GDPR Article 22 Consent Checkpoint",
-        desc: "Enforce automated fallback and explicit opt-in controls for all algorithmic profiling models.",
+        title: "Customer Privacy & Consent Checkpoint",
+        desc: "Add clear opt-in tickboxes and human-review options whenever customer data is evaluated by automated profiling systems.",
         matrixTarget: "quick-wins",
         moscowTarget: "must",
-        tag: "Statutory Law"
+        tag: "Legal Compliance"
       },
       {
         id: "item-8",
-        title: "Machine Learning Demand Forecasting",
-        desc: "Predict workload volumes 14 days ahead using time-series telemetry to optimize staffing curves.",
+        title: "Predictive Demand & Staffing Forecasts",
+        desc: "Use historical workload trends and seasonal data to accurately project customer demand two weeks ahead.",
         matrixTarget: "strategic",
         moscowTarget: "should",
-        tag: "Predictive Analytics"
+        tag: "Forecasting"
       }
     ];
 
@@ -376,9 +377,9 @@
 
       if (correct === total) {
         document.getElementById("matrix-feedback").innerHTML = `<strong style="color:var(--green-text);">✓ Perfect Matrix Alignment!</strong> All 8 initiatives classified accurately across Impact vs. Effort.`;
-        showModal("Matrix Evaluation Complete", "You have successfully categorized high-impact pilots from resource-draining time sinks.");
+        showModal("Matrix Evaluation Complete", "You have successfully separated high-impact quick wins and strategic projects from low-value distractions and risky time sinks.");
       } else {
-        document.getElementById("matrix-feedback").innerText = `Triage Result: ${correct} / ${total} aligned. Re-evaluate high-effort items with minimal organizational return.`;
+        document.getElementById("matrix-feedback").innerText = `Triage Result: ${correct} / ${total} aligned. Re-evaluate high-effort items that deliver very little practical return to the organisation.`;
       }
     }
 
@@ -395,10 +396,10 @@
       });
 
       if (correct === total) {
-        document.getElementById("moscow-feedback").innerHTML = `<strong style="color:var(--green-text);">✓ MoSCoW Scope Validated!</strong> Scope boundaries prevent project fatigue and protect delivery deadlines.`;
-        showModal("MoSCoW Scope Validated", "Your governance scope locks in critical Must-Haves while deferring non-essential enhancements.");
+        document.getElementById("moscow-feedback").innerHTML = `<strong style="color:var(--green-text);">✓ MoSCoW Scope Validated!</strong> Scope boundaries protect project delivery deadlines and prevent unnecessary expenditure.`;
+        showModal("MoSCoW Scope Validated", "Your governance scope secures critical legal and operational Must-Haves while deferring non-essential enhancements.");
       } else {
-        document.getElementById("moscow-feedback").innerText = `Scope Result: ${correct} / ${total} aligned. Remember: non-negotiable statutory & safety controls must always be Must-Have.`;
+        document.getElementById("moscow-feedback").innerText = `Scope Result: ${correct} / ${total} aligned. Remember: mandatory legal rules and basic quality safeguards must always be Must-Have.`;
       }
     }
 
