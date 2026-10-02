@@ -1,0 +1,460 @@
+/* ==========================================================================
+   fivewhys.css - The 5 Whys Diagnostic Challenge Stylesheet
+   ========================================================================== */
+
+:root {
+    --bg-color: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --primary: #0284c7;
+    --primary-dark: #0369a1;
+    --primary-light: #e0f2fe;
+    --accent: #f59e0b;
+    --success: #10b981;
+    --success-light: #d1fae5;
+    --danger: #ef4444;
+    --danger-light: #fee2e2;
+    --border: #e2e8f0;
+    --radius: 12px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.5;
+    padding: 24px 16px;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Header */
+header {
+    background: linear-gradient(135deg, #0f172a 0%, #0369a1 100%);
+    color: #ffffff;
+    padding: 28px 24px;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 24px;
+}
+
+.badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    color: #bae6fd;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+}
+
+header h1 {
+    font-size: 1.85rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+    letter-spacing: -0.02em;
+}
+
+header p {
+    color: #cbd5e1;
+    font-size: 0.95rem;
+}
+
+/* Scenario Box */
+.scenario-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-left: 5px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.scenario-card h2 {
+    font-size: 1.1rem;
+    color: var(--text-main);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.problem-statement {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #b45309;
+    background: #fffbeb;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin: 12px 0 8px 0;
+    border: 1px dashed #fcd34d;
+}
+
+/* Progress Steps */
+.stepper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    margin: 28px 0;
+}
+
+.stepper::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--border);
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.step-progress-bar {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 3px;
+    background: var(--primary);
+    transform: translateY(-50%);
+    z-index: 2;
+    transition: width 0.3s ease;
+    width: 0%;
+}
+
+.step-node {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--card-bg);
+    border: 3px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    z-index: 3;
+    transition: all 0.25s ease;
+}
+
+.step-node.active {
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: scale(1.15);
+    box-shadow: 0 0 0 4px var(--primary-light);
+}
+
+.step-node.completed {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #ffffff;
+}
+
+/* Investigation Workspace */
+.workspace {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    margin-bottom: 24px;
+}
+
+.step-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 12px;
+}
+
+.step-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.why-question {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin-bottom: 16px;
+}
+
+/* Options */
+.options-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.option-card {
+    background: #ffffff;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.option-card:hover {
+    border-color: #94a3b8;
+    background: #f8fafc;
+    transform: translateY(-1px);
+}
+
+.option-card.selected {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.2);
+}
+
+.option-card.correct {
+    border-color: var(--success) !important;
+    background: var(--success-light) !important;
+}
+
+.option-card.incorrect {
+    border-color: var(--danger) !important;
+    background: var(--danger-light) !important;
+}
+
+.option-radio {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #cbd5e1;
+    margin-top: 2px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.option-card.selected .option-radio {
+    border-color: var(--primary);
+}
+
+.option-card.selected .option-radio::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: var(--primary);
+    border-radius: 50%;
+}
+
+.option-text strong {
+    display: block;
+    font-size: 0.98rem;
+    color: var(--text-main);
+    margin-bottom: 2px;
+}
+
+.option-text p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+}
+
+/* Action Buttons */
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: #ffffff;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: var(--primary-dark);
+}
+
+.btn-primary:disabled {
+    background: #cbd5e1;
+    cursor: not-allowed;
+}
+
+.btn-secondary {
+    background: #e2e8f0;
+    color: var(--text-main);
+}
+
+.btn-secondary:hover {
+    background: #cbd5e1;
+}
+
+/* Feedback box */
+.feedback {
+    margin-top: 16px;
+    padding: 14px 18px;
+    border-radius: 8px;
+    font-size: 0.92rem;
+    display: none;
+    line-height: 1.45;
+}
+
+.feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.feedback.success {
+    background: var(--success-light);
+    color: #065f46;
+    border-left: 4px solid var(--success);
+}
+
+.feedback.error {
+    background: var(--danger-light);
+    color: #991b1b;
+    border-left: 4px solid var(--danger);
+}
+
+/* The 5 Whys Chain Summary Log */
+.chain-summary {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 24px;
+}
+
+.chain-summary h3 {
+    font-size: 1.05rem;
+    margin-bottom: 14px;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.chain-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+}
+
+.chain-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 14px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border-left: 4px solid var(--border);
+    font-size: 0.9rem;
+}
+
+.chain-item.verified {
+    border-left-color: var(--success);
+    background: #f0fdf4;
+}
+
+.chain-item .tag {
+    font-weight: 700;
+    color: var(--primary);
+    min-width: 65px;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+}
+
+/* Completion Screen */
+.completion-card {
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+    border: 2px solid #6ee7b7;
+    border-radius: var(--radius);
+    padding: 30px;
+    text-align: center;
+    display: none;
+}
+
+.completion-card.show {
+    display: block;
+    animation: fadeIn 0.4s ease;
+}
+
+.completion-card h2 {
+    font-size: 1.6rem;
+    color: #065f46;
+    margin-bottom: 10px;
+}
+
+.completion-card p {
+    color: #047857;
+    max-width: 650px;
+    margin: 0 auto 20px auto;
+    font-size: 1rem;
+}
+
+.root-cause-box {
+    background: #ffffff;
+    border: 2px solid var(--success);
+    border-radius: 10px;
+    padding: 18px;
+    max-width: 650px;
+    margin: 0 auto 24px auto;
+    text-align: left;
+}
+
+.root-cause-box h4 {
+    color: #065f46;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+}
+
+.root-cause-box p {
+    color: var(--text-main);
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+    header h1 { font-size: 1.45rem; }
+    .workspace { padding: 16px; }
+    .option-card { padding: 12px; }
+}
