@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COPA | As-Is Process Map Builder</title>
+  <link rel="stylesheet" href="process_map_builder.css">
+</head>
+<body>
+
+  <header>
+    <div class="brand-title">
+      <h1>As-Is Swimlane Process Map Builder</h1>
+      <p>COPA Level 4 AI & Automation Practitioner | Session 3A: Topic 1 Process Mapping</p>
+    </div>
+    <div class="score-badge">
+      <div>Placed Steps: <span class="score-val" id="placed-count">0 / 6</span></div>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <section class="info-banner">
+      <h2>Task Instructions: Construct the Correct 'Customer Order & Delivery' Workflow</h2>
+      <p>
+        Map the sequential end-to-end journey by dragging each process element from the bank into its correct <strong>functional stakeholder swimlane</strong> and chronological stage (Columns 1 to 6). Observe standard notation: <em>Ovals</em> indicate Trigger/End points, <em>Rectangles</em> represent action tasks, and <em>Diamonds</em> indicate decision gates.
+      </p>
+    </section>
+
+    <!-- Component Bank -->
+    <section class="bank-section">
+      <div class="bank-header">
+        <h3>Process Step Bank (Drag items into the swimlane grid below)</h3>
+        <button class="btn-secondary" onclick="resetBuilder()">Reset Map</button>
+      </div>
+      <div class="bank-cards" id="step-bank">
+        <!-- Populated via JavaScript -->
+      </div>
+    </section>
+
+    <!-- Swimlane Grid -->
+    <section class="swimlane-container">
+      
+      <!-- Lane 1: Customer -->
+      <div class="swimlane-row">
+        <div class="lane-header">
+          <h4>Customer</h4>
+          <span>Trigger & Delivery</span>
+        </div>
+        <div class="lane-slots" data-lane="customer">
+          <div class="drop-slot" data-slot="1"><span class="slot-label">Stage 1</span></div>
+          <div class="drop-slot" data-slot="2"><span class="slot-label">Stage 2</span></div>
+          <div class="drop-slot" data-slot="3"><span class="slot-label">Stage 3</span></div>
+          <div class="drop-slot" data-slot="4"><span class="slot-label">Stage 4</span></div>
+          <div class="drop-slot" data-slot="5"><span class="slot-label">Stage 5</span></div>
+          <div class="drop-slot" data-slot="6"><span class="slot-label">Stage 6</span></div>
+        </div>
+      </div>
+
+      <!-- Lane 2: Sales Team -->
+      <div class="swimlane-row lane-row-alt">
+        <div class="lane-header">
+          <h4>Sales & Admin</h4>
+          <span>Order Review</span>
+        </div>
+        <div class="lane-slots" data-lane="sales">
+          <div class="drop-slot" data-slot="1"><span class="slot-label">Stage 1</span></div>
+          <div class="drop-slot" data-slot="2"><span class="slot-label">Stage 2</span></div>
+          <div class="drop-slot" data-slot="3"><span class="slot-label">Stage 3</span></div>
+          <div class="drop-slot" data-slot="4"><span class="slot-label">Stage 4</span></div>
+          <div class="drop-slot" data-slot="5"><span class="slot-label">Stage 5</span></div>
+          <div class="drop-slot" data-slot="6"><span class="slot-label">Stage 6</span></div>
+        </div>
+      </div>
+
+      <!-- Lane 3: Warehouse & Logistics -->
+      <div class="swimlane-row">
+        <div class="lane-header">
+          <h4>Warehouse</h4>
+          <span>Inventory & Packing</span>
+        </div>
+        <div class="lane-slots" data-lane="warehouse">
+          <div class="drop-slot" data-slot="1"><span class="slot-label">Stage 1</span></div>
+          <div class="drop-slot" data-slot="2"><span class="slot-label">Stage 2</span></div>
+          <div class="drop-slot" data-slot="3"><span class="slot-label">Stage 3</span></div>
+          <div class="drop-slot" data-slot="4"><span class="slot-label">Stage 4</span></div>
+          <div class="drop-slot" data-slot="5"><span class="slot-label">Stage 5</span></div>
+          <div class="drop-slot" data-slot="6"><span class="slot-label">Stage 6</span></div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Controls -->
+    <div class="action-bar">
+      <div class="feedback-msg" id="feedback">Drag all 6 workflow items into their designated stakeholder lanes.</div>
+      <button class="btn-primary" onclick="validateMap()">Validate Process Map</button>
+    </div>
+
+  </main>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal-card">
+      <h3 id="modal-title">Process Map Validated!</h3>
+      <p id="modal-desc">All steps and decision gates have been accurately positioned in their corresponding stakeholder lanes with clear cross-functional handoffs.</p>
+      <button class="btn-primary" onclick="closeModal()">Close & Review</button>
+    </div>
+  </div>
+
+  <script>
+    const stepsData = [
+      {
+        id: "step-1",
+        title: "Place Online Order",
+        desc: "Customer selects items, inputs address, and confirms payment.",
+        type: "Trigger",
+        typeClass: "type-start",
+        targetLane: "customer",
+        targetSlot: "1"
+      },
+      {
+        id: "step-2",
+        title: "Verify Order Details",
+        desc: "Sales admin checks payment receipt and customer account.",
+        type: "Process Step",
+        typeClass: "type-step",
+        targetLane: "sales",
+        targetSlot: "2"
+      },
+      {
+        id: "step-3",
+        title: "Stock Available?",
+        desc: "Warehouse manager checks real-time inventory levels.",
+        type: "Decision Gate",
+        typeClass: "type-decision",
+        targetLane: "warehouse",
+        targetSlot: "3"
+      },
+      {
+        id: "step-4",
+        title: "Notify Client / Backorder",
+        desc: "If out of stock, sales contacts customer with revised ETA.",
+        type: "Process Step",
+        typeClass: "type-step",
+        targetLane: "sales",
+        targetSlot: "4"
+      },
+      {
+        id: "step-5",
+        title: "Pick, Pack & Dispatch",
+        desc: "If in stock, warehouse packs goods and assigns delivery courier.",
+        type: "Process Step",
+        typeClass: "type-step",
+        targetLane: "warehouse",
+        targetSlot: "5"
+      },
+      {
+        id: "step-6",
+        title: "Receive Goods & Sign",
+        desc: "Customer accepts delivery parcel and signs proof of receipt.",
+        type: "Process End",
+        typeClass: "type-end",
+        targetLane: "customer",
+        targetSlot: "6"
+      }
+    ];
+
+    let currentPlacements = {}; // cardId -> { lane, slot }
+
+    function init() {
+      renderBank();
+      setupSlots();
+    }
+
+    function renderBank() {
+      const bank = document.getElementById("step-bank");
+      bank.innerHTML = "";
+      stepsData.forEach(item => {
+        if (!currentPlacements[item.id]) {
+          const card = document.createElement("div");
+          card.className = "flow-card";
+          card.draggable = true;
+          card.id = item.id;
+          card.innerHTML = `
+            <span class="symbol-type ${item.typeClass}">${item.type}</span>
+            <h4>${item.title}</h4>
+            <p>${item.desc}</p>
+          `;
+          card.ondragstart = (e) => {
+            e.dataTransfer.setData("text/plain", item.id);
+            card.classList.add("dragging");
+          };
+          card.ondragend = () => card.classList.remove("dragging");
+          bank.appendChild(card);
+        }
+      });
+      updateCount();
+    }
+
+    function setupSlots() {
+      document.querySelectorAll(".drop-slot").forEach(slot => {
+        slot.ondragover = (e) => {
+          e.preventDefault();
+          slot.classList.add("drag-over");
+        };
+        slot.ondragleave = () => slot.classList.remove("drag-over");
+        slot.ondrop = (e) => {
+          e.preventDefault();
+          slot.classList.remove("drag-over");
+          const cardId = e.dataTransfer.getData("text/plain");
+          const item = stepsData.find(s => s.id === cardId);
+          if (!item) return;
+
+          if (slot.querySelector(".placed-card")) {
+            alert("This stage slot is already occupied. Remove the existing step first.");
+            return;
+          }
+
+          const lane = slot.parentElement.dataset.lane;
+          const slotNum = slot.dataset.slot;
+
+          currentPlacements[cardId] = { lane, slot: slotNum };
+          placeCardInSlot(slot, item);
+          renderBank();
+        };
+      });
+    }
+
+    function placeCardInSlot(slotElement, item) {
+      const placed = document.createElement("div");
+      placed.className = "placed-card";
+      placed.id = "placed-" + item.id;
+      placed.innerHTML = `
+        <button class="remove-btn" title="Remove" onclick="removePlacement('${item.id}', this)">✕</button>
+        <div>
+          <span class="symbol-type ${item.typeClass}" style="font-size:0.55rem; padding:1px 3px;">${item.type}</span>
+          <strong style="display:block; font-size:0.75rem; margin-top:2px;">${item.title}</strong>
+        </div>
+        <span style="font-size:0.65rem; color:#64748B;">Lane: ${item.targetLane}</span>
+      `;
+      slotElement.appendChild(placed);
+    }
+
+    function removePlacement(cardId, btn) {
+      const placedNode = btn.parentElement;
+      placedNode.parentElement.classList.remove("drag-over");
+      placedNode.remove();
+      delete currentPlacements[cardId];
+      renderBank();
+    }
+
+    function updateCount() {
+      const count = Object.keys(currentPlacements).length;
+      document.getElementById("placed-count").innerText = `${count} / ${stepsData.length}`;
+    }
+
+    function validateMap() {
+      const total = stepsData.length;
+      const placed = Object.keys(currentPlacements).length;
+      if (placed < total) {
+        document.getElementById("feedback").innerText = `⚠️ Please place all 6 steps onto the swimlane map before validating (Currently placed: ${placed}/6).`;
+        return;
+      }
+
+      let correct = 0;
+      stepsData.forEach(s => {
+        const p = currentPlacements[s.id];
+        if (p && p.lane === s.targetLane && p.slot === s.targetSlot) {
+          correct++;
+        }
+      });
+
+      if (correct === total) {
+        document.getElementById("feedback").innerHTML = `<strong style="color:var(--green-text);">✓ Perfect Process Flow!</strong> All steps, decision gates, and handoffs are accurately mapped.`;
+        showModal("Process Map Validated!", "You have correctly mapped the end-to-end journey with clear ownership, sequence, and decision logic.");
+      } else {
+        document.getElementById("feedback").innerText = `Flow Audit: ${correct} / ${total} steps positioned accurately. Review swimlane ownership and chronological stages.`;
+      }
+    }
+
+    function resetBuilder() {
+      currentPlacements = {};
+      document.querySelectorAll(".placed-card").forEach(el => el.remove());
+      renderBank();
+      document.getElementById("feedback").innerText = "Process map reset. Drag items to construct.";
+    }
+
+    function showModal(title, msg) {
+      document.getElementById("modal").style.display = "flex";
+      document.getElementById("modal-title").innerText = title;
+      document.getElementById("modal-desc").innerText = msg;
+    }
+
+    function closeModal() {
+      document.getElementById("modal").style.display = "none";
+    }
+
+    init();
+  </script>
+</body>
+</html>
