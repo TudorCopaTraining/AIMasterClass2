@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workplace Process Mapping Workshop</title>
+    <link rel="stylesheet" href="ProcessMapping.css">
+    <!-- Lucide Icons for clean UI -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between">
+
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur px-6 py-4 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-4">
+            <div>
+                <h1 class="text-xl font-bold bg-gradient-to-r from-sky-400 to-indigo-400 bg-clip-text text-transparent">
+                    Workplace Process Mapping Activity
+                </h1>
+                <p class="text-xs text-slate-400">Apprentice Workshop: Linear vs Swimlane Process Modelling</p>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="switchTab('guide')" id="tabBtn-guide" class="nav-tab active px-4 py-2 rounded-lg text-xs font-semibold transition-all">1. Choose Map Type</button>
+                <button onclick="switchTab('builder')" id="tabBtn-builder" class="nav-tab px-4 py-2 rounded-lg text-xs font-semibold transition-all">2. Task Builder</button>
+                <button onclick="switchTab('preview')" id="tabBtn-preview" class="nav-tab px-4 py-2 rounded-lg text-xs font-semibold transition-all">3. Review & Export</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 py-8 w-full flex-grow">
+
+        <!-- TAB 1: GUIDE -->
+        <section id="section-guide" class="tab-section space-y-6">
+            <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-3">
+                <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                    <i data-lucide="compass" class="w-5 h-5 text-sky-400"></i> Step 1: Select Your Mapping Methodology
+                </h2>
+                <p class="text-sm text-slate-300">
+                    Before mapping a task from your workplace, determine whether your process is straightforward and sequential, or involves multiple departments and hand-offs.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Linear Map Card -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-4 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-950 text-sky-300 text-xs font-mono font-semibold border border-sky-800">
+                            <i data-lucide="arrow-right-left" class="w-3.5 h-3.5"></i> Linear Process Map
+                        </div>
+                        <h3 class="font-bold text-white text-base">Sequential End-to-End Flow</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            A chronological sequence of steps showing how a task flows from a specific trigger to a final outcome. Best for single-person workflows or straightforward standard operating procedures (SOPs).
+                        </p>
+                        <ul class="text-xs text-slate-400 space-y-1.5 pl-4 list-disc">
+                            <li>Focuses on chronological actions (Start $\rightarrow$ Step $\rightarrow$ End).</li>
+                            <li>Identifies bottlenecks, delays, and approval gates.</li>
+                            <li>Ideal for simple administrative tasks or data entry workflows.</li>
+                        </ul>
+                    </div>
+                    <button onclick="selectMapType('Linear')" class="w-full py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold transition-colors">
+                        Select Linear Map
+                    </button>
+                </div>
+
+                <!-- Swimlane Map Card -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-4 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-950 text-indigo-300 text-xs font-mono font-semibold border border-indigo-800">
+                            <i data-lucide="columns" class="w-3.5 h-3.5"></i> Swimlane Process Map
+                        </div>
+                        <h3 class="font-bold text-white text-base">Cross-Functional Swimlane Flow</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Maps processes across different roles, departments, or systems (lanes). Crucial for highlighting hand-offs, communication gaps, and accountability across a wider business operation.
+                        </p>
+                        <ul class="text-xs text-slate-400 space-y-1.5 pl-4 list-disc">
+                            <li>Separates tasks into distinct horizontal or vertical lanes (e.g., Customer $\rightarrow$ Sales $\rightarrow$ Finance).</li>
+                            <li>Exposes delays caused by inter-departmental hand-offs.</li>
+                            <li>Essential for complex procurement, onboarding, or IT support workflows.</li>
+                        </ul>
+                    </div>
+                    <button onclick="selectMapType('Swimlane')" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-colors">
+                        Select Swimlane Map
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: BUILDER -->
+        <section id="section-builder" class="tab-section hidden space-y-6">
+            <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-lg font-bold text-white">Step 2: Define Your Workplace Task</h2>
+                        <p class="text-xs text-slate-400">Selected Type: <span id="displayMapType" class="text-sky-400 font-bold">Linear</span></p>
+                    </div>
+                    <button onclick="switchTab('guide')" class="text-xs text-slate-400 hover:text-white underline">Change Type</button>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-semibold text-slate-300">Apprentice Name:</label>
+                        <input type="text" id="inputName" placeholder="e.g. Alex Morgan" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-400">
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-semibold text-slate-300">Workplace Task Title:</label>
+                        <input type="text" id="inputTask" placeholder="e.g. New Employee IT Hardware Onboarding" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-400">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dynamic Steps Builder -->
+            <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-4">
+                <div class="flex items-center justify-between">
+                    <h3 class="font-bold text-white text-sm">Process Steps & Hand-offs</h3>
+                    <button onclick="addStep()" class="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors">
+                        <i data-lucide="plus" class="w-3.5 h-3.5"></i> Add Step
+                    </button>
+                </div>
+
+                <div id="stepsContainer" class="space-y-3">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+
+            <div class="flex justify-end">
+                <button onclick="generatePreview()" class="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-2 shadow-lg shadow-emerald-600/20 transition-all">
+                    <span>Generate Final Map & Review</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- TAB 3: PREVIEW & EXPORT -->
+        <section id="section-preview" class="tab-section hidden space-y-6">
+            <div class="glass-panel p-8 rounded-2xl border border-slate-800 space-y-6 relative overflow-hidden bg-slate-900/90">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                    <div>
+                        <span class="text-[10px] font-mono text-sky-400 uppercase tracking-widest font-bold">Process Mapping Artifact</span>
+                        <h2 id="previewTitle" class="text-xl font-extrabold text-white">Task Title Here</h2>
+                    </div>
+                    <div class="text-right">
+                        <div id="previewAuthor" class="text-xs text-slate-300 font-semibold">Author: --</div>
+                        <div id="previewType" class="text-[11px] font-mono text-slate-400">Type: Linear Map</div>
+                    </div>
+                </div>
+
+                <div id="previewFlowContainer" class="space-y-4 py-2">
+                    <!-- Rendered map steps -->
+                </div>
+
+                <div class="border-t border-slate-800 pt-4 flex items-center justify-between text-xs text-slate-400">
+                    <span>Workshop Activity · Process Improvement & Mapping</span>
+                    <button onclick="window.print()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors">
+                        <i data-lucide="printer" class="w-4 h-4"></i> Print / Save as PDF
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex justify-start">
+                <button onclick="switchTab('builder')" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition-colors">
+                    <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i> Back to Builder
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-slate-800/80 py-4 text-center text-xs text-slate-500">
+        <p>Apprentice Process Mapping Tool · Hosted on GitHub Pages</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        let currentMapType = 'Linear';
+        let stepsData = [
+            { role: 'Employee', action: 'Submit hardware request form via intranet', output: 'Ticket # created' },
+            { role: 'IT Support', action: 'Review request and check stock levels', output: 'Approval or query sent' },
+            { role: 'Procurement', action: 'Order device if out of stock', output: 'Supplier PO confirmation' }
+        ];
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-section').forEach(s => s.classList.add('hidden'));
+            document.getElementById(`section-${tabId}`).classList.remove('hidden');
+
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active', 'bg-sky-600', 'text-white'));
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.add('text-slate-400', 'hover:text-white'));
+            
+            const activeBtn = document.getElementById(`tabBtn-${tabId}`);
+            if(activeBtn) {
+                activeBtn.classList.add('active', 'bg-sky-600', 'text-white');
+                activeBtn.classList.remove('text-slate-400', 'hover:text-white');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function selectMapType(type) {
+            currentMapType = type;
+            document.getElementById('displayMapType').innerText = type;
+            renderSteps();
+            switchTab('builder');
+        }
+
+        function renderSteps() {
+            const container = document.getElementById('stepsContainer');
+            container.innerHTML = '';
+
+            stepsData.forEach((step, index) => {
+                const div = document.createElement('div');
+                div.className = 'p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-3 relative group';
+                
+                let roleInputHTML = currentMapType === 'Swimlane' ? `
+                    <div class="space-y-1">
+                        <label class="text-[10px] uppercase font-mono text-indigo-400 font-bold">Lane / Role / System:</label>
+                        <input type="text" value="${step.role}" oninput="updateStep(${index}, 'role', this.value)" placeholder="e.g. Line Manager" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white">
+                    </div>
+                ` : `
+                    <div class="space-y-1">
+                        <label class="text-[10px] uppercase font-mono text-sky-400 font-bold">Step #${index+1} Stage:</label>
+                        <input type="text" value="Step ${index+1}" readonly class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-slate-400 cursor-not-allowed">
+                    </div>
+                `;
+
+                div.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-mono font-bold text-slate-400">Step ${index + 1}</span>
+                        <button onclick="removeStep(${index})" class="text-rose-400 hover:text-rose-300 text-xs p-1"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        ${roleInputHTML}
+                        <div class="space-y-1 sm:col-span-${currentMapType === 'Swimlane' ? '1' : '2'}">
+                            <label class="text-[10px] uppercase font-mono text-slate-400 font-bold">Action / Process Step:</label>
+                            <input type="text" value="${step.action}" oninput="updateStep(${index}, 'action', this.value)" placeholder="What happens here?" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] uppercase font-mono text-emerald-400 font-bold">Output / Document / Hand-off:</label>
+                            <input type="text" value="${step.output}" oninput="updateStep(${index}, 'output', this.value)" placeholder="Result of this step" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white">
+                        </div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+            lucide.createIcons();
+        }
+
+        function addStep() {
+            stepsData.push({ role: currentMapType === 'Swimlane' ? 'Department / Role' : 'Stage', action: '', output: '' });
+            renderSteps();
+        }
+
+        function removeStep(index) {
+            if(stepsData.length <= 1) {
+                alert("You must keep at least one step in your process map.");
+                return;
+            }
+            stepsData.splice(index, 1);
+            renderSteps();
+        }
+
+        function updateStep(index, field, value) {
+            stepsData[index][field] = value;
+        }
+
+        function generatePreview() {
+            const taskName = document.getElementById('inputTask').value.trim() || "Untitled Workplace Task";
+            const authorName = document.getElementById('inputName').value.trim() || "Anonymous Apprentice";
+
+            document.getElementById('previewTitle').innerText = taskName;
+            document.getElementById('previewAuthor').innerText = `Author: ${authorName}`;
+            document.getElementById('previewType').innerText = `Type: ${currentMapType} Process Map`;
+
+            const flowContainer = document.getElementById('previewFlowContainer');
+            flowContainer.innerHTML = '';
+
+            stepsData.forEach((step, i) => {
+                const card = document.createElement('div');
+                card.className = "p-4 rounded-xl bg-slate-950 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 relative";
+                
+                let roleBadge = currentMapType === 'Swimlane' ? `<span class="px-2 py-0.5 rounded bg-indigo-950 text-indigo-300 border border-indigo-800 text-[10px] font-mono font-bold">${step.role}</span>` : `<span class="text-xs font-mono text-sky-400 font-bold">Step ${i+1}</span>`;
+
+                card.innerHTML = `
+                    <div class="space-y-1 flex items-center gap-3">
+                        ${roleBadge}
+                        <p class="text-xs text-white font-medium">${step.action || 'No action specified'}</p>
+                    </div>
+                    <div class="text-[11px] text-emerald-400 font-mono bg-emerald-950/50 border border-emerald-900/50 px-2.5 py-1 rounded">
+                        Output: ${step.output || 'None'}
+                    </div>
+                `;
+                flowContainer.appendChild(card);
+
+                if(i < stepsData.length - 1) {
+                    const arrow = document.createElement('div');
+                    arrow.className = "flex justify-center text-slate-600 py-1";
+                    arrow.innerHTML = `<i data-lucide="arrow-down" class="w-4 h-4"></i>`;
+                    flowContainer.appendChild(arrow);
+                }
+            });
+
+            lucide.createIcons();
+            switchTab('preview');
+        }
+
+        // Initial render
+        renderSteps();
+    </script>
+</body>
+</html>
