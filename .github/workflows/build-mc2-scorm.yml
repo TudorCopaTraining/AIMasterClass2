@@ -1,0 +1,28 @@
+name: Build MC2 SCORM Package
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch: # Allows manual trigger from the Actions tab
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Run MC2 SCORM Builder Script
+      run: python build-scorm.py
+
+    - name: Upload MC2 SCORM Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: mc2-masterclass-package
+        path: MC2_Complete_SCORM.zip
