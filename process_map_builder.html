@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>COPA | As-Is Process Map Builder</title>
   <link rel="stylesheet" href="process_map_builder.css">
+  <style>
+    .next-nav-btn { background: #0284c7; color: white; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; }
+    .next-nav-btn.locked { background: #334155 !important; color: #64748b !important; pointer-events: none; cursor: not-allowed; }
+  </style>
 </head>
 <body>
 
@@ -19,50 +23,24 @@
   </header>
 
   <main class="container">
-    
-    <!-- Detailed Task Overview & Context Banner -->
     <section class="info-banner">
       <h2 style="font-size: 1.2rem; color: var(--copa-navy); margin-bottom: 0.5rem;">Task Overview: As-Is Process Mapping & Stakeholder Flow</h2>
       <p style="margin-bottom: 0.75rem;">
         Before introducing artificial intelligence or workflow automation, practitioners must accurately capture the baseline reality of how work is completed today. An <strong>'As-Is' Swimlane Process Map</strong> provides transparency by illustrating chronological sequence, clear role accountability, and departmental handoffs.
       </p>
-
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem; margin-top: 0.5rem; font-size: 0.825rem; color: #334155;">
-        <div style="background: #F8FAFC; padding: 0.75rem; border-radius: 6px; border: 1px solid var(--border-color);">
-          <strong style="color: var(--copa-navy); display: block; margin-bottom: 0.2rem;">1. Swimlane Ownership</strong>
-          Horizontal lanes represent specific stakeholders or teams. Placing a step in a lane explicitly defines who holds operational responsibility for that action.
-        </div>
-        <div style="background: #F8FAFC; padding: 0.75rem; border-radius: 6px; border: 1px solid var(--border-color);">
-          <strong style="color: var(--copa-navy); display: block; margin-bottom: 0.2rem;">2. Standard Geometric Notation</strong>
-          <span style="color: var(--green-text); font-weight: 600;">Ovals</span> represent starting triggers and terminal ends. <span style="color: #1E40AF; font-weight: 600;">Rectangles</span> represent action tasks. <span style="color: var(--amber-text); font-weight: 600;">Diamonds</span> indicate decision gateways.
-        </div>
-        <div style="background: #F8FAFC; padding: 0.75rem; border-radius: 6px; border: 1px solid var(--border-color);">
-          <strong style="color: var(--copa-navy); display: block; margin-bottom: 0.2rem;">3. Objective of this Exercise</strong>
-          Reconstruct the end-to-end <em>'Customer Order & Delivery'</em> workflow by dragging the 6 cards below into their correct stakeholder lane and chronological stage (Columns 1 to 6).
-        </div>
-      </div>
     </section>
 
-    <!-- Component Bank -->
     <section class="bank-section">
       <div class="bank-header">
         <h3>Process Step Bank (Drag items into the swimlane grid below)</h3>
         <button class="btn-secondary" onclick="resetBuilder()">Reset Map</button>
       </div>
-      <div class="bank-cards" id="step-bank">
-        <!-- Populated via JavaScript -->
-      </div>
+      <div class="bank-cards" id="step-bank"></div>
     </section>
 
-    <!-- Swimlane Grid -->
     <section class="swimlane-container">
-      
-      <!-- Lane 1: Customer -->
       <div class="swimlane-row">
-        <div class="lane-header">
-          <h4>Customer</h4>
-          <span>Trigger & Delivery</span>
-        </div>
+        <div class="lane-header"><h4>Customer</h4><span>Trigger & Delivery</span></div>
         <div class="lane-slots" data-lane="customer">
           <div class="drop-slot" data-slot="1"><span class="slot-label">Stage 1</span></div>
           <div class="drop-slot" data-slot="2"><span class="slot-label">Stage 2</span></div>
@@ -73,12 +51,8 @@
         </div>
       </div>
 
-      <!-- Lane 2: Sales Team -->
       <div class="swimlane-row lane-row-alt">
-        <div class="lane-header">
-          <h4>Sales & Admin</h4>
-          <span>Order Review</span>
-        </div>
+        <div class="lane-header"><h4>Sales & Admin</h4><span>Order Review</span></div>
         <div class="lane-slots" data-lane="sales">
           <div class="drop-slot" data-slot="1"><span class="slot-label">Stage 1</span></div>
           <div class="drop-slot" data-slot="2"><span class="slot-label">Stage 2</span></div>
@@ -89,12 +63,8 @@
         </div>
       </div>
 
-      <!-- Lane 3: Warehouse & Logistics -->
       <div class="swimlane-row">
-        <div class="lane-header">
-          <h4>Warehouse</h4>
-          <span>Inventory & Packing</span>
-        </div>
+        <div class="lane-header"><h4>Warehouse</h4><span>Inventory & Packing</span></div>
         <div class="lane-slots" data-lane="warehouse">
           <div class="drop-slot" data-slot="1"><span class="slot-label">Stage 1</span></div>
           <div class="drop-slot" data-slot="2"><span class="slot-label">Stage 2</span></div>
@@ -104,90 +74,40 @@
           <div class="drop-slot" data-slot="6"><span class="slot-label">Stage 6</span></div>
         </div>
       </div>
-
     </section>
 
-    <!-- Controls -->
     <div class="action-bar">
       <div class="feedback-msg" id="feedback">Drag all 6 workflow items into their designated stakeholder lanes.</div>
       <button class="btn-primary" onclick="validateMap()">Validate Process Map</button>
     </div>
 
-  </main>
-
-  <!-- Modal -->
-  <div class="modal-overlay" id="modal">
-    <div class="modal-card">
-      <h3 id="modal-title">Process Map Validated!</h3>
-      <p id="modal-desc">All steps and decision gates have been accurately positioned in their corresponding stakeholder lanes with clear cross-functional handoffs.</p>
-      <button class="btn-primary" onclick="closeModal()">Close & Review</button>
+    <!-- Locked Navigation Footer -->
+    <div style="margin-top: 40px; width: 100%;">
+      <div style="background: #131b2e; border: 1px solid #334155; padding: 1.25rem 1.5rem; border-radius: 12px; display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <span style="font-size: 10px; font-family: monospace; color: #38bdf8; font-weight: bold; text-transform: uppercase; display: block;">MC2 Masterclass Sequence</span>
+          <span id="nav-status-text" style="font-size: 12px; color: #f59e0b;">🔒 Validate your process map to unlock the next task</span>
+        </div>
+        <a id="next-activity-btn" href="Processwaste.html" class="next-nav-btn locked">
+          <span>Proceed to Process Waste Analysis</span> &rarr;
+        </a>
+      </div>
     </div>
-  </div>
+  </main>
 
   <script>
     const stepsData = [
-      {
-        id: "step-1",
-        title: "Place Online Order",
-        desc: "Customer selects items, inputs address, and confirms payment.",
-        type: "Trigger",
-        typeClass: "type-start",
-        targetLane: "customer",
-        targetSlot: "1"
-      },
-      {
-        id: "step-2",
-        title: "Verify Order Details",
-        desc: "Sales admin checks payment receipt and customer account.",
-        type: "Process Step",
-        typeClass: "type-step",
-        targetLane: "sales",
-        targetSlot: "2"
-      },
-      {
-        id: "step-3",
-        title: "Stock Available?",
-        desc: "Warehouse manager checks real-time inventory levels.",
-        type: "Decision Gate",
-        typeClass: "type-decision",
-        targetLane: "warehouse",
-        targetSlot: "3"
-      },
-      {
-        id: "step-4",
-        title: "Notify Client / Backorder",
-        desc: "If out of stock, sales contacts customer with revised ETA.",
-        type: "Process Step",
-        typeClass: "type-step",
-        targetLane: "sales",
-        targetSlot: "4"
-      },
-      {
-        id: "step-5",
-        title: "Pick, Pack & Dispatch",
-        desc: "If in stock, warehouse packs goods and assigns delivery courier.",
-        type: "Process Step",
-        typeClass: "type-step",
-        targetLane: "warehouse",
-        targetSlot: "5"
-      },
-      {
-        id: "step-6",
-        title: "Receive Goods & Sign",
-        desc: "Customer accepts delivery parcel and signs proof of receipt.",
-        type: "Process End",
-        typeClass: "type-end",
-        targetLane: "customer",
-        targetSlot: "6"
-      }
+      { id: "step-1", title: "Place Online Order", desc: "Customer selects items, inputs address, and confirms payment.", type: "Trigger", typeClass: "type-start", targetLane: "customer", targetSlot: "1" },
+      { id: "step-2", title: "Verify Order Details", desc: "Sales admin checks payment receipt and customer account.", type: "Process Step", typeClass: "type-step", targetLane: "sales", targetSlot: "2" },
+      { id: "step-3", title: "Stock Available?", desc: "Warehouse manager checks real-time inventory levels.", type: "Decision Gate", typeClass: "type-decision", targetLane: "warehouse", targetSlot: "3" },
+      { id: "step-4", title: "Notify Client / Backorder", desc: "If out of stock, sales contacts customer with revised ETA.", type: "Process Step", typeClass: "type-step", targetLane: "sales", targetSlot: "4" },
+      { id: "step-5", title: "Pick, Pack & Dispatch", desc: "If in stock, warehouse packs goods and assigns delivery courier.", type: "Process Step", typeClass: "type-step", targetLane: "warehouse", targetSlot: "5" },
+      { id: "step-6", title: "Receive Goods & Sign", desc: "Customer accepts delivery parcel and signs proof of receipt.", type: "Process End", typeClass: "type-end", targetLane: "customer", targetSlot: "6" }
     ];
 
-    let currentPlacements = {}; // cardId -> { lane, slot }
+    let currentPlacements = {};
 
-    function init() {
-      renderBank();
-      setupSlots();
-    }
+    function init() { renderBank(); setupSlots(); }
 
     function renderBank() {
       const bank = document.getElementById("step-bank");
@@ -198,15 +118,8 @@
           card.className = "flow-card";
           card.draggable = true;
           card.id = item.id;
-          card.innerHTML = `
-            <span class="symbol-type ${item.typeClass}">${item.type}</span>
-            <h4>${item.title}</h4>
-            <p>${item.desc}</p>
-          `;
-          card.ondragstart = (e) => {
-            e.dataTransfer.setData("text/plain", item.id);
-            card.classList.add("dragging");
-          };
+          card.innerHTML = `<span class="symbol-type ${item.typeClass}">${item.type}</span><h4>${item.title}</h4><p>${item.desc}</p>`;
+          card.ondragstart = (e) => { e.dataTransfer.setData("text/plain", item.id); card.classList.add("dragging"); };
           card.ondragend = () => card.classList.remove("dragging");
           bank.appendChild(card);
         }
@@ -216,10 +129,7 @@
 
     function setupSlots() {
       document.querySelectorAll(".drop-slot").forEach(slot => {
-        slot.ondragover = (e) => {
-          e.preventDefault();
-          slot.classList.add("drag-over");
-        };
+        slot.ondragover = (e) => { e.preventDefault(); slot.classList.add("drag-over"); };
         slot.ondragleave = () => slot.classList.remove("drag-over");
         slot.ondrop = (e) => {
           e.preventDefault();
@@ -227,15 +137,9 @@
           const cardId = e.dataTransfer.getData("text/plain");
           const item = stepsData.find(s => s.id === cardId);
           if (!item) return;
-
-          if (slot.querySelector(".placed-card")) {
-            alert("This stage slot is already occupied. Remove the existing step first.");
-            return;
-          }
-
+          if (slot.querySelector(".placed-card")) { alert("Slot already occupied."); return; }
           const lane = slot.parentElement.dataset.lane;
           const slotNum = slot.dataset.slot;
-
           currentPlacements[cardId] = { lane, slot: slotNum };
           placeCardInSlot(slot, item);
           renderBank();
@@ -247,51 +151,36 @@
       const placed = document.createElement("div");
       placed.className = "placed-card";
       placed.id = "placed-" + item.id;
-      placed.innerHTML = `
-        <button class="remove-btn" title="Remove" onclick="removePlacement('${item.id}', this)">✕</button>
-        <div>
-          <span class="symbol-type ${item.typeClass}" style="font-size:0.55rem; padding:1px 3px;">${item.type}</span>
-          <strong style="display:block; font-size:0.75rem; margin-top:2px;">${item.title}</strong>
-        </div>
-        <span style="font-size:0.65rem; color:#64748B;">Lane: ${item.targetLane}</span>
-      `;
+      placed.innerHTML = `<button class="remove-btn" onclick="removePlacement('${item.id}', this)">✕</button><div><span class="symbol-type ${item.typeClass}" style="font-size:0.55rem; padding:1px 3px;">${item.type}</span><strong style="display:block; font-size:0.75rem; margin-top:2px;">${item.title}</strong></div>`;
       slotElement.appendChild(placed);
     }
 
     function removePlacement(cardId, btn) {
-      const placedNode = btn.parentElement;
-      placedNode.parentElement.classList.remove("drag-over");
-      placedNode.remove();
+      btn.parentElement.remove();
       delete currentPlacements[cardId];
       renderBank();
     }
 
     function updateCount() {
-      const count = Object.keys(currentPlacements).length;
-      document.getElementById("placed-count").innerText = `${count} / ${stepsData.length}`;
+      document.getElementById("placed-count").innerText = `${Object.keys(currentPlacements).length} / ${stepsData.length}`;
     }
 
     function validateMap() {
-      const total = stepsData.length;
-      const placed = Object.keys(currentPlacements).length;
-      if (placed < total) {
-        document.getElementById("feedback").innerText = `⚠️ Please place all 6 steps onto the swimlane map before validating (Currently placed: ${placed}/6).`;
-        return;
-      }
-
       let correct = 0;
       stepsData.forEach(s => {
         const p = currentPlacements[s.id];
-        if (p && p.lane === s.targetLane && p.slot === s.targetSlot) {
-          correct++;
-        }
+        if (p && p.lane === s.targetLane && p.slot === s.targetSlot) correct++;
       });
 
-      if (correct === total) {
-        document.getElementById("feedback").innerHTML = `<strong style="color:var(--green-text);">✓ Perfect Process Flow!</strong> All steps, decision gates, and handoffs are accurately mapped.`;
-        showModal("Process Map Validated!", "You have correctly mapped the end-to-end journey with clear ownership, sequence, and decision logic.");
+      if (correct === stepsData.length) {
+        document.getElementById("feedback").innerHTML = `<strong style="color:var(--green-text);">✓ Perfect Process Flow!</strong>`;
+        // Unlock Navigation
+        const nextBtn = document.getElementById("next-activity-btn");
+        nextBtn.classList.remove("locked");
+        document.getElementById("nav-status-text").style.color = "#34d399";
+        document.getElementById("nav-status-text").innerText = "✨ Unlocked! Ready for next task.";
       } else {
-        document.getElementById("feedback").innerText = `Flow Audit: ${correct} / ${total} steps positioned accurately. Review swimlane ownership and chronological stages.`;
+        document.getElementById("feedback").innerText = `Flow Audit: ${correct} / ${stepsData.length} steps positioned accurately. Keep refining!`;
       }
     }
 
@@ -299,31 +188,10 @@
       currentPlacements = {};
       document.querySelectorAll(".placed-card").forEach(el => el.remove());
       renderBank();
-      document.getElementById("feedback").innerText = "Process map reset. Drag items to construct.";
-    }
-
-    function showModal(title, msg) {
-      document.getElementById("modal").style.display = "flex";
-      document.getElementById("modal-title").innerText = title;
-      document.getElementById("modal-desc").innerText = msg;
-    }
-
-    function closeModal() {
-      document.getElementById("modal").style.display = "none";
+      document.getElementById("feedback").innerText = "Process map reset.";
     }
 
     init();
   </script>
-  <div style="max-width: 1100px; margin: 30px auto; padding: 0 1.5rem;">
-    <div style="background: #131b2e; border: 1px solid #334155; padding: 1.25rem 1.5rem; border-radius: 12px; display: flex; align-items: center; justify-content: space-between;">
-        <div>
-            <span style="font-size: 10px; font-family: monospace; color: #38bdf8; font-weight: bold; text-transform: uppercase; display: block;">MC2 Masterclass Sequence</span>
-            <span style="font-size: 12px; color: #94a3b8;">Ready for the next workshop task?</span>
-        </div>
-        <a href="Processwaste.html" style="background: #0284c7; color: white; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
-            <span>Proceed to Process Waste Analysis</span> &rarr;
-        </a>
-    </div>
-</div>
 </body>
 </html>
