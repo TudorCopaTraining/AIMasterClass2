@@ -19,8 +19,8 @@
   </header>
 
   <nav class="nav-tabs">
-    <button class="tab-btn active" onclick="switchTab('matrix')">1. Impact vs. Effort Matrix</button>
-    <button class="tab-btn" onclick="switchTab('moscow')">2. MoSCoW Prioritisation Board</button>
+    <button class="tab-btn active" onclick="switchTab('matrix', event)">1. Impact vs. Effort Matrix</button>
+    <button class="tab-btn" onclick="switchTab('moscow', event)">2. MoSCoW Prioritisation Board</button>
   </nav>
 
   <main class="container">
@@ -32,6 +32,20 @@
         <p style="font-size: 0.875rem; color: #475569; line-height: 1.5; margin-bottom: 0.5rem;">
           In digital transformation and process improvement, organisations must balance business value against time, budget, and implementation difficulty. Triage the 8 candidate initiatives below across two strategic dimensions:
         </p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem; font-size: 0.825rem; color: #334155;">
+          <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
+            <strong style="color: var(--green-text);">• Quick Wins (High Impact, Low Effort):</strong> Deploy first. Delivers rapid results, minimal technical barrier, and early team buy-in.
+          </div>
+          <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
+            <strong style="color: var(--blue-text);">• Strategic (High Impact, High Effort):</strong> Plan & budget. Major long-term gains requiring structured project planning.
+          </div>
+          <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
+            <strong style="color: var(--amber-text);">• Fill-Ins (Low Impact, Low Effort):</strong> Execute when time permits. Small, low-risk procedural adjustments.
+          </div>
+          <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
+            <strong style="color: var(--red-text);">• Time Sinks (Low Impact, High Effort):</strong> De-prioritise or avoid. High cost or effort with very little practical return.
+          </div>
+        </div>
       </section>
 
       <section class="deck-section">
@@ -46,20 +60,35 @@
       </section>
 
       <section class="matrix-grid">
-        <div class="quadrant q-quick-wins" data-quadrant="quick-wins" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'matrix')">
-          <div class="quadrant-header"><h3>Quick Wins (Do First)</h3><span>HIGH IMPACT | LOW EFFORT</span></div>
+        <div class="quadrant q-quick-wins" data-quadrant="quick-wins" ondragover="allowDrop(event)" ondragleave="removeDrop(event)" ondrop="handleDrop(event, 'matrix')">
+          <div class="quadrant-header">
+            <h3>Quick Wins (Do First)</h3>
+            <span>HIGH IMPACT | LOW EFFORT</span>
+          </div>
           <div class="quadrant-cards" id="drop-quick-wins"></div>
         </div>
-        <div class="quadrant q-strategic" data-quadrant="strategic" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'matrix')">
-          <div class="quadrant-header"><h3>Strategic Projects (Plan & Budget)</h3><span>HIGH IMPACT | HIGH EFFORT</span></div>
+
+        <div class="quadrant q-strategic" data-quadrant="strategic" ondragover="allowDrop(event)" ondragleave="removeDrop(event)" ondrop="handleDrop(event, 'matrix')">
+          <div class="quadrant-header">
+            <h3>Strategic Projects (Plan & Budget)</h3>
+            <span>HIGH IMPACT | HIGH EFFORT</span>
+          </div>
           <div class="quadrant-cards" id="drop-strategic"></div>
         </div>
-        <div class="quadrant q-fillins" data-quadrant="fill-ins" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'matrix')">
-          <div class="quadrant-header"><h3>Fill-Ins / Secondary (When Time Permits)</h3><span>LOW IMPACT | LOW EFFORT</span></div>
+
+        <div class="quadrant q-fillins" data-quadrant="fill-ins" ondragover="allowDrop(event)" ondragleave="removeDrop(event)" ondrop="handleDrop(event, 'matrix')">
+          <div class="quadrant-header">
+            <h3>Fill-Ins / Secondary (When Time Permits)</h3>
+            <span>LOW IMPACT | LOW EFFORT</span>
+          </div>
           <div class="quadrant-cards" id="drop-fill-ins"></div>
         </div>
-        <div class="quadrant q-timesinks" data-quadrant="time-sinks" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'matrix')">
-          <div class="quadrant-header"><h3>Time Sinks (De-prioritise / Avoid)</h3><span>LOW IMPACT | HIGH EFFORT</span></div>
+
+        <div class="quadrant q-timesinks" data-quadrant="time-sinks" ondragover="allowDrop(event)" ondragleave="removeDrop(event)" ondrop="handleDrop(event, 'matrix')">
+          <div class="quadrant-header">
+            <h3>Time Sinks (De-prioritise / Avoid)</h3>
+            <span>LOW IMPACT | HIGH EFFORT</span>
+          </div>
           <div class="quadrant-cards" id="drop-time-sinks"></div>
         </div>
       </section>
@@ -75,8 +104,22 @@
       <section class="deck-section" style="background: #F8FAFC; border-left: 5px solid var(--copa-navy);">
         <h2 style="font-size: 1.15rem; margin-bottom: 0.4rem; color: var(--copa-navy);">Task Overview: MoSCoW Scope & Governance Classification</h2>
         <p style="font-size: 0.875rem; color: #475569; line-height: 1.5; margin-bottom: 0.5rem;">
-          Categorize each proposed initiative into an agreed project release tier to protect deadlines and budget.
+          To keep projects on schedule and avoid scope creep, categorize each proposed initiative into an agreed project release tier:
         </p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem; font-size: 0.825rem; color: #334155;">
+          <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
+            <strong style="color: #DC2626;">• Must Have:</strong> Non-negotiable requirements, legal compliance, safety checks, or essential baseline functionality.
+          </div>
+          <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
+            <strong style="color: #2563EB;">• Should Have:</strong> Important operational improvements delivering clear business value, but with short-term workarounds available.
+          </div>
+          <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
+            <strong style="color: #D97706;">• Could Have:</strong> Useful additions that improve user convenience, but can be safely postponed if time runs short.
+          </div>
+          <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
+            <strong style="color: #475569;">• Won't Have (Now):</strong> Agreed as out of scope for the current rollout to protect deadlines and budget.
+          </div>
+        </div>
       </section>
 
       <section class="deck-section">
@@ -91,20 +134,35 @@
       </section>
 
       <section class="moscow-grid">
-        <div class="moscow-col m-must" data-moscow="must" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'moscow')">
-          <div class="quadrant-header"><h3>Must Have</h3><span style="background:#FCA5A5; color:#991B1B;">NON-NEGOTIABLE</span></div>
+        <div class="moscow-col m-must" data-moscow="must" ondragover="allowDrop(event)" ondragleave="removeDrop(event)" ondrop="handleDrop(event, 'moscow')">
+          <div class="quadrant-header">
+            <h3>Must Have</h3>
+            <span style="background:#FCA5A5; color:#991B1B;">NON-NEGOTIABLE</span>
+          </div>
           <div class="quadrant-cards" id="drop-must"></div>
         </div>
-        <div class="moscow-col m-should" data-moscow="should" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'moscow')">
-          <div class="quadrant-header"><h3>Should Have</h3><span style="background:#BFDBFE; color:#1E40AF;">HIGH VALUE ROI</span></div>
+
+        <div class="moscow-col m-should" data-moscow="should" ondragover="allowDrop(event)" ondragleave="removeDrop(event)" ondrop="handleDrop(event, 'moscow')">
+          <div class="quadrant-header">
+            <h3>Should Have</h3>
+            <span style="background:#BFDBFE; color:#1E40AF;">HIGH VALUE ROI</span>
+          </div>
           <div class="quadrant-cards" id="drop-should"></div>
         </div>
-        <div class="moscow-col m-could" data-moscow="could" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'moscow')">
-          <div class="quadrant-header"><h3>Could Have</h3><span style="background:#FDE68A; color:#92400E;">DESIRABLE</span></div>
+
+        <div class="moscow-col m-could" data-moscow="could" ondragover="allowDrop(event)" ondragleave="removeDrop(event)" ondrop="handleDrop(event, 'moscow')">
+          <div class="quadrant-header">
+            <h3>Could Have</h3>
+            <span style="background:#FDE68A; color:#92400E;">DESIRABLE</span>
+          </div>
           <div class="quadrant-cards" id="drop-could"></div>
         </div>
-        <div class="moscow-col m-wont" data-moscow="wont" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'moscow')">
-          <div class="quadrant-header"><h3>Won't Have (Now)</h3><span style="background:#E2E8F0; color:#475569;">OUT OF SCOPE</span></div>
+
+        <div class="moscow-col m-wont" data-moscow="wont" ondragover="allowDrop(event)" ondragleave="removeDrop(event)" ondrop="handleDrop(event, 'moscow')">
+          <div class="quadrant-header">
+            <h3>Won't Have (Now)</h3>
+            <span style="background:#E2E8F0; color:#475569;">OUT OF SCOPE</span>
+          </div>
           <div class="quadrant-cards" id="drop-wont"></div>
         </div>
       </section>
@@ -133,24 +191,24 @@
   </div>
 
   <!-- Modal -->
-  <div class="modal-overlay" id="modal">
-    <div class="modal-content">
-      <h3 id="modal-title">Evaluation Validated!</h3>
-      <p id="modal-desc">All candidate items have been categorized accurately.</p>
-      <button class="btn-action" onclick="closeModal()">Continue</button>
+  <div class="modal-overlay" id="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); align-items:center; justify-content:center; z-index:9999;">
+    <div class="modal-content" style="background:#1e293b; padding:30px; border-radius:12px; text-align:center; max-width:400px; color:white; border:1px solid #334155;">
+      <h3 id="modal-title" style="color:#38bdf8; margin-bottom:10px;">Evaluation Validated!</h3>
+      <p id="modal-desc" style="color:#94a3b8; font-size:14px; margin-bottom:20px;">All candidate items have been categorized accurately.</p>
+      <button class="btn-action" onclick="closeModal()" style="background:#0284c7; color:white; border:none; padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer;">Continue</button>
     </div>
   </div>
 
   <script>
     const initiatives = [
-      { id: "item-1", title: "Mandatory Digital Form Field Checks", desc: "Add automated format checking to online intake forms to eliminate typing errors.", matrixTarget: "quick-wins", moscowTarget: "must", tag: "Data Quality" },
-      { id: "item-2", title: "Connecting Central Database & Accounts", desc: "Build an automated link between customer records and billing system.", matrixTarget: "strategic", moscowTarget: "should", tag: "Core Systems" },
-      { id: "item-3", title: "Staff Dashboard Color & Display Themes", desc: "Allow internal staff to customize screen colors and dark theme.", matrixTarget: "fill-ins", moscowTarget: "could", tag: "Visual Design" },
-      { id: "item-4", title: "Premature Full Office Computer Replacement", desc: "Replacing all working hardware years before necessary.", matrixTarget: "time-sinks", moscowTarget: "wont", tag: "Equipment" },
-      { id: "item-5", title: "Automated Sign-Off for Small Refunds", desc: "Set automatic approval rules for minor customer corrections under £5.", matrixTarget: "quick-wins", moscowTarget: "should", tag: "Team Approvals" },
-      { id: "item-6", title: "Unsupervised AI Issuing Large Financial Refunds", desc: "Allowing an experimental customer chatbot to approve unlimited cash transfers.", matrixTarget: "time-sinks", moscowTarget: "wont", tag: "Financial Risk" },
-      { id: "item-7", title: "Customer Privacy & Consent Checkpoint", desc: "Add clear opt-in tickboxes whenever customer data is evaluated.", matrixTarget: "quick-wins", moscowTarget: "must", tag: "Legal Compliance" },
-      { id: "item-8", title: "Predictive Demand & Staffing Forecasts", desc: "Use historical workload trends to project customer demand.", matrixTarget: "strategic", moscowTarget: "should", tag: "Forecasting" }
+      { id: "item-1", title: "Mandatory Digital Form Field Checks", desc: "Add automated format checking (such as email and phone number verification) to online intake forms to eliminate typing errors.", matrixTarget: "quick-wins", moscowTarget: "must", tag: "Data Quality" },
+      { id: "item-2", title: "Connecting Central Database & Accounts", desc: "Build an automated link between your customer records and billing system so details update everywhere at the same time.", matrixTarget: "strategic", moscowTarget: "should", tag: "Core Systems" },
+      { id: "item-3", title: "Staff Dashboard Color & Display Themes", desc: "Allow internal staff to customize screen colors and switch to a dark background theme for personal preference.", matrixTarget: "fill-ins", moscowTarget: "could", tag: "Visual Design" },
+      { id: "item-4", title: "Premature Full Office Computer Replacement", desc: "Replacing all working office computers and servers years before necessary to gain a barely noticeable 2% speed boost.", matrixTarget: "time-sinks", moscowTarget: "wont", tag: "Equipment" },
+      { id: "item-5", title: "Automated Sign-Off for Small Refunds", desc: "Set automatic approval rules for minor customer corrections under £5, eliminating the need to wait for a supervisor's signature.", matrixTarget: "quick-wins", moscowTarget: "should", tag: "Team Approvals" },
+      { id: "item-6", title: "Unsupervised AI Issuing Large Financial Refunds", desc: "Allowing an experimental customer chatbot to approve and transfer unlimited cash refunds with no human checking.", matrixTarget: "time-sinks", moscowTarget: "wont", tag: "Financial Risk" },
+      { id: "item-7", title: "Customer Privacy & Consent Checkpoint", desc: "Add clear opt-in tickboxes and human-review options whenever customer data is evaluated by automated profiling systems.", matrixTarget: "quick-wins", moscowTarget: "must", tag: "Legal Compliance" },
+      { id: "item-8", title: "Predictive Demand & Staffing Forecasts", desc: "Use historical workload trends and seasonal data to accurately project customer demand two weeks ahead.", matrixTarget: "strategic", moscowTarget: "should", tag: "Forecasting" }
     ];
 
     let matrixState = {};
@@ -165,7 +223,9 @@
       const deck = document.getElementById("matrix-deck");
       deck.innerHTML = "";
       initiatives.forEach(item => {
-        if (!matrixState[item.id]) deck.appendChild(createCard(item, 'matrix'));
+        if (!matrixState[item.id]) {
+          deck.appendChild(createCard(item, 'matrix'));
+        }
       });
     }
 
@@ -173,7 +233,9 @@
       const deck = document.getElementById("moscow-deck");
       deck.innerHTML = "";
       initiatives.forEach(item => {
-        if (!moscowState[item.id]) deck.appendChild(createCard(item, 'moscow'));
+        if (!moscowState[item.id]) {
+          deck.appendChild(createCard(item, 'moscow'));
+        }
       });
     }
 
@@ -182,13 +244,30 @@
       el.className = "item-card";
       el.draggable = true;
       el.id = `${mode}-${item.id}`;
-      el.ondragstart = (e) => { e.dataTransfer.setData("text/plain", item.id); el.classList.add("dragging"); };
+      el.ondragstart = (e) => { 
+        e.dataTransfer.setData("text/plain", item.id); 
+        e.dataTransfer.setData("mode", mode);
+        el.classList.add("dragging"); 
+      };
       el.ondragend = () => el.classList.remove("dragging");
-      el.innerHTML = `<div><h4>${item.title}</h4><p>${item.desc}</p></div><span class="meta-tag">${item.tag}</span>`;
+      el.innerHTML = `
+        <div>
+          <h4>${item.title}</h4>
+          <p>${item.desc}</p>
+        </div>
+        <span class="meta-tag">${item.tag}</span>
+      `;
       return el;
     }
 
-    function allowDrop(e) { e.preventDefault(); e.currentTarget.classList.add("drag-over"); }
+    function allowDrop(e) { 
+      e.preventDefault(); 
+      e.currentTarget.classList.add("drag-over"); 
+    }
+
+    function removeDrop(e) {
+      e.currentTarget.classList.remove("drag-over");
+    }
 
     function handleDrop(e, mode) {
       e.preventDefault();
@@ -200,18 +279,34 @@
 
       if (mode === "matrix") {
         const quadrant = dropZone.dataset.quadrant;
+        if (!quadrant) return;
         matrixState[id] = quadrant;
-        document.getElementById(`drop-${quadrant}`).appendChild(createPlacedCard(item, 'matrix', () => {
-          delete matrixState[id]; renderMatrixDeck(); document.getElementById(`matrix-placed-${item.id}`).remove(); updateTotalProgress();
-        }));
         renderMatrixDeck();
+        const dropContainer = document.getElementById(`drop-${quadrant}`);
+        const existingPlaced = document.getElementById(`matrix-placed-${id}`);
+        if(existingPlaced) existingPlaced.remove();
+        dropContainer.appendChild(createPlacedCard(item, 'matrix', () => {
+          delete matrixState[id]; 
+          renderMatrixDeck(); 
+          const node = document.getElementById(`matrix-placed-${id}`);
+          if(node) node.remove(); 
+          updateTotalProgress();
+        }));
       } else {
         const target = dropZone.dataset.moscow;
+        if (!target) return;
         moscowState[id] = target;
-        document.getElementById(`drop-${target}`).appendChild(createPlacedCard(item, 'moscow', () => {
-          delete moscowState[id]; renderMoscowDeck(); document.getElementById(`moscow-placed-${item.id}`).remove(); updateTotalProgress();
-        }));
         renderMoscowDeck();
+        const dropContainer = document.getElementById(`drop-${target}`);
+        const existingPlaced = document.getElementById(`moscow-placed-${id}`);
+        if(existingPlaced) existingPlaced.remove();
+        dropContainer.appendChild(createPlacedCard(item, 'moscow', () => {
+          delete moscowState[id]; 
+          renderMoscowDeck(); 
+          const node = document.getElementById(`moscow-placed-${id}`);
+          if(node) node.remove(); 
+          updateTotalProgress();
+        }));
       }
       updateTotalProgress();
     }
@@ -220,19 +315,35 @@
       const el = document.createElement("div");
       el.className = "item-card";
       el.id = `${mode}-placed-${item.id}`;
-      el.style.maxWidth = "100%"; el.style.minWidth = "auto"; el.style.marginBottom = "0.5rem"; el.style.cursor = "default";
-      el.innerHTML = `<div style="display:flex; justify-content:space-between; align-items:flex-start;"><h4 style="font-size:0.85rem;">${item.title}</h4><button style="border:none; background:none; color:#EF4444; font-weight:700; cursor:pointer;">✕</button></div><p style="font-size:0.75rem; margin-bottom:0.4rem;">${item.desc}</p><span class="meta-tag" style="font-size:0.65rem;">${item.tag}</span>`;
+      el.style.maxWidth = "100%"; 
+      el.style.minWidth = "auto"; 
+      el.style.marginBottom = "0.5rem"; 
+      el.style.cursor = "default";
+      el.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <h4 style="font-size:0.85rem;">${item.title}</h4>
+          <button type="button" style="border:none; background:none; color:#EF4444; font-weight:700; cursor:pointer;">✕</button>
+        </div>
+        <p style="font-size:0.75rem; margin-bottom:0.4rem;">${item.desc}</p>
+        <span class="meta-tag" style="font-size:0.65rem;">${item.tag}</span>
+      `;
       el.querySelector("button").onclick = onRemove;
       return el;
     }
 
     function revealMatrixAnswers() {
       matrixState = {};
-      ["quick-wins", "strategic", "fill-ins", "time-sinks"].forEach(q => document.getElementById(`drop-${q}`).innerHTML = "");
+      ["quick-wins", "strategic", "fill-ins", "time-sinks"].forEach(q => {
+        document.getElementById(`drop-${q}`).innerHTML = "";
+      });
       initiatives.forEach(item => {
         matrixState[item.id] = item.matrixTarget;
         document.getElementById(`drop-${item.matrixTarget}`).appendChild(createPlacedCard(item, 'matrix', () => {
-          delete matrixState[item.id]; renderMatrixDeck(); document.getElementById(`matrix-placed-${item.id}`).remove(); updateTotalProgress();
+          delete matrixState[item.id]; 
+          renderMatrixDeck(); 
+          const node = document.getElementById(`matrix-placed-${item.id}`);
+          if(node) node.remove(); 
+          updateTotalProgress();
         }));
       });
       renderMatrixDeck();
@@ -242,13 +353,108 @@
 
     function revealMoscowAnswers() {
       moscowState = {};
-      ["must", "should", "could", "wont"].forEach(q => document.getElementById(`drop-${q}`).innerHTML = "");
+      ["must", "should", "could", "wont"].forEach(q => {
+        document.getElementById(`drop-${q}`).innerHTML = "";
+      });
       initiatives.forEach(item => {
         moscowState[item.id] = item.moscowTarget;
         document.getElementById(`drop-${item.moscowTarget}`).appendChild(createPlacedCard(item, 'moscow', () => {
-          delete moscowState[item.id]; renderMoscowDeck(); document.getElementById(`moscow-placed-${item.id}`).remove(); updateTotalProgress();
+          delete moscowState[item.id]; 
+          renderMoscowDeck(); 
+          const node = document.getElementById(`moscow-placed-${item.id}`);
+          if(node) node.remove(); 
+          updateTotalProgress();
         }));
       });
       renderMoscowDeck();
       updateTotalProgress();
       document.getElementById("moscow-feedback").innerText = "💡 Correct MoSCoW answers revealed.";
+    }
+
+    function validateMatrix() {
+      const total = initiatives.length;
+      let placed = Object.keys(matrixState).length;
+      if (placed < total) {
+        document.getElementById("matrix-feedback").innerText = `⚠️ Please place all 8 candidate items on the matrix before validating (Currently placed: ${placed}/8).`;
+        return;
+      }
+      let correct = 0;
+      initiatives.forEach(i => {
+        if (matrixState[i.id] === i.matrixTarget) correct++;
+      });
+
+      if (correct === total) {
+        document.getElementById("matrix-feedback").innerHTML = `<strong style="color:var(--green-text);">✓ Perfect Matrix Alignment!</strong> All 8 initiatives classified accurately across Impact vs. Effort.`;
+        showModal("Matrix Evaluation Complete", "You have successfully separated high-impact quick wins and strategic projects from low-value distractions and risky time sinks.");
+      } else {
+        document.getElementById("matrix-feedback").innerText = `Triage Result: ${correct} / ${total} aligned. Re-evaluate high-effort items that deliver very little practical return to the organisation.`;
+      }
+    }
+
+    function validateMoscow() {
+      const total = initiatives.length;
+      let placed = Object.keys(moscowState).length;
+      if (placed < total) {
+        document.getElementById("moscow-feedback").innerText = `⚠️ Please classify all 8 backlog items into MoSCoW buckets (Currently placed: ${placed}/8).`;
+        return;
+      }
+      let correct = 0;
+      initiatives.forEach(i => {
+        if (moscowState[i.id] === i.moscowTarget) correct++;
+      });
+
+      if (correct === total) {
+        document.getElementById("moscow-feedback").innerHTML = `<strong style="color:var(--green-text);">✓ MoSCoW Scope Validated!</strong> Scope boundaries protect project delivery deadlines and prevent unnecessary expenditure.`;
+        showModal("MoSCoW Scope Validated", "Your governance scope secures critical legal and operational Must-Haves while deferring non-essential enhancements.");
+      } else {
+        document.getElementById("moscow-feedback").innerText = `Scope Result: ${correct} / ${total} aligned. Remember: mandatory legal rules and basic quality safeguards must always be Must-Have.`;
+      }
+    }
+
+    function resetMatrix() {
+      matrixState = {};
+      ["quick-wins", "strategic", "fill-ins", "time-sinks"].forEach(q => {
+        document.getElementById(`drop-${q}`).innerHTML = "";
+      });
+      renderMatrixDeck();
+      document.getElementById("matrix-feedback").innerText = "Matrix reset. Drag items to evaluate.";
+      updateTotalProgress();
+    }
+
+    function resetMoscow() {
+      moscowState = {};
+      ["must", "should", "could", "wont"].forEach(q => {
+        document.getElementById(`drop-${q}`).innerHTML = "";
+      });
+      renderMoscowDeck();
+      document.getElementById("moscow-feedback").innerText = "MoSCoW board reset.";
+      updateTotalProgress();
+    }
+
+    function updateTotalProgress() {
+      const mCount = Object.keys(matrixState).length;
+      const mosCount = Object.keys(moscowState).length;
+      document.getElementById("score-text").innerText = `${Math.floor((mCount + mosCount) / 2)} / 8`;
+    }
+
+    function switchTab(tab, event) {
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+      if(event && event.currentTarget) event.currentTarget.classList.add("active");
+      document.getElementById(`tab-${tab}`).classList.add("active");
+    }
+
+    function showModal(title, msg) {
+      document.getElementById("modal").style.display = "flex";
+      document.getElementById("modal-title").innerText = title;
+      document.getElementById("modal-desc").innerText = msg;
+    }
+
+    function closeModal() {
+      document.getElementById("modal").style.display = "none";
+    }
+
+    init();
+  </script>
+</body>
+</html>
