@@ -21,15 +21,15 @@
         <div class="container">
             <span class="badge">MC2 Masterclass Sequence</span>
             <h1>Topic 1: Process Improvement Fundamentals</h1>
-            <p class="subtitle">Operational Excellence: Dual-Sector Triage & Baseline Analysis</p>
+            <p class="subtitle">Operational Excellence: Dual-Sector Multi-Task Triage Lab</p>
         </div>
     </header>
 
     <main class="container">
         <!-- Scenario Tabs Navigation -->
         <div class="scenario-tabs">
-            <button class="tab-btn active" onclick="switchScenario('bistro', event)">🍽️ Scenario 1: Broken Bistro</button>
-            <button class="tab-btn" onclick="switchScenario('tech', event)">💻 Scenario 2: Tangled Tech Desk</button>
+            <button class="tab-btn active" onclick="switchScenario('bistro', event)">🍽️ Scenario 1: Broken Bistro (5 Tasks)</button>
+            <button class="tab-btn" onclick="switchScenario('tech', event)">💻 Scenario 2: Tangled Tech Desk (5 Tasks)</button>
         </div>
 
         <!-- SCENARIO 1: BROKEN BISTRO -->
@@ -37,34 +37,68 @@
             <section class="card intro-card">
                 <h2>The Situation: Broken Bistro</h2>
                 <p>
-                    You are running a popular city-centre restaurant. Tonight is Friday peak service, and operations are failing across physical floor workflows and digital backend systems. Read the live feedback from the shift below, then match or select the correct operational solution to its specific bottleneck to turn the restaurant around.
+                    You are running a popular city-centre restaurant during Friday peak service. Operations are failing across floor workflows and digital backends. Complete all 5 triage tasks below to turn the restaurant around.
                 </p>
                 
+                <!-- Task 1 -->
                 <div class="task-card">
-                    <h3 style="color: #38bdf8; font-size: 15px; margin-bottom: 10px;">Task 1: Select the correct floor & backend intervention</h3>
-                    <p style="font-size: 13px; color: #cbd5e1; margin-bottom: 12px;">Which operational strategy resolves the paper-pad bottleneck and booking discrepancies?</p>
-                    
+                    <h3 style="color: #38bdf8; font-size: 15px; margin-bottom: 6px;">Task 1: Floor Order Bottlenecks</h3>
+                    <p style="font-size: 13px; color: #cbd5e1; margin-bottom: 10px;">Waiters waste valuable time double-handling paper pads and walking to fixed terminals.</p>
                     <div class="options-group">
-                        <label class="option-label">
-                            <input type="radio" name="bistro-opt" value="wrong" onclick="evalBistro(false)">
-                            <span>Hire 3 extra front-of-house managers to manually sign off paper receipts and double-check phone logs.</span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="bistro-opt" value="right" onclick="evalBistro(true)">
-                            <span>Deploy tableside mobile POS tablets to stream orders directly to kitchen passes and configure an API webhook to sync booking logs automatically.</span>
-                        </label>
+                        <label class="option-label"><input type="radio" name="b1" onclick="evalTask('b', 1, false)"><span>Hire extra runners to carry paper notes faster.</span></label>
+                        <label class="option-label"><input type="radio" name="b1" onclick="evalTask('b', 1, true)"><span>Deploy tableside mobile POS tablets linked directly to kitchen displays.</span></label>
                     </div>
-                    <div id="bistro-feedback" style="margin-top: 10px; font-size: 13px; font-weight: bold;"></div>
+                    <div id="b1-feed" style="font-size: 12px; font-weight: bold; margin-top: 6px;"></div>
                 </div>
 
-                <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap;">
-                    <button onclick="revealAnswers('bistro')" class="btn btn-secondary" style="background: #0284c7; color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer;">
-                        💡 Show Correct Bistro Solutions
+                <!-- Task 2 -->
+                <div class="task-card">
+                    <h3 style="color: #38bdf8; font-size: 15px; margin-bottom: 6px;">Task 2: Reservation Synchronization</h3>
+                    <p style="font-size: 13px; color: #cbd5e1; margin-bottom: 10px;">Booking logs on third-party apps and the front desk clash, causing double-bookings.</p>
+                    <div class="options-group">
+                        <label class="option-label"><input type="radio" name="b2" onclick="evalTask('b', 2, false)"><span>Call all guests manually each morning to confirm tables.</span></label>
+                        <label class="option-label"><input type="radio" name="b2" onclick="evalTask('b', 2, true)"><span>Integrate a centralised booking API web-hook to sync inventories instantly.</span></label>
+                    </div>
+                    <div id="b2-feed" style="font-size: 12px; font-weight: bold; margin-top: 6px;"></div>
+                </div>
+
+                <!-- Task 3 -->
+                <div class="task-card">
+                    <h3 style="color: #38bdf8; font-size: 15px; margin-bottom: 6px;">Task 3: Inventory Re-ordering Friction</h3>
+                    <p style="font-size: 13px; color: #cbd5e1; margin-bottom: 10px;">Chefs spend hours manually counting stock and keying paper delivery invoices into spreadsheets.</p>
+                    <div class="options-group">
+                        <label class="option-label"><input type="radio" name="b3" onclick="evalTask('b', 3, false)"><span>Close the restaurant an hour early every Tuesday for stock checks.</span></label>
+                        <label class="option-label"><input type="radio" name="b3" onclick="evalTask('b', 3, true)"><span>Utilise Intelligent Document Processing (OCR) and automated inventory threshold triggers.</span></label>
+                    </div>
+                    <div id="b3-feed" style="font-size: 12px; font-weight: bold; margin-top: 6px;"></div>
+                </div>
+
+                <!-- Task 4 -->
+                <div class="task-card">
+                    <h3 style="color: #38bdf8; font-size: 15px; margin-bottom: 6px;">Task 4: Payment Authorisation Delays</h3>
+                    <p style="font-size: 13px; color: #cbd5e1; margin-bottom: 10px;">Staff waste time chasing duty managers to swipe keycards for minor bill splits and discounts.</p>
+                    <div class="options-group">
+                        <label class="option-label"><input type="radio" name="b4" onclick="evalTask('b', 4, false)"><span>Give all 20 floor staff master keycards with unlimited override power.</span></label>
+                        <label class="option-label"><input type="radio" name="b4" onclick="evalTask('b', 4, true)"><span>Implement automated Policy-as-Code limits allowing routine minor adjustments instantly.</span></label>
+                    </div>
+                    <div id="b4-feed" style="font-size: 12px; font-weight: bold; margin-top: 6px;"></div>
+                </div>
+
+                <!-- Task 5 -->
+                <div class="task-card">
+                    <h3 style="color: #38bdf8; font-size: 15px; margin-bottom: 6px;">Task 5: Kitchen Allergen Safety Tracking</h3>
+                    <p style="font-size: 13px; color: #cbd5e1; margin-bottom: 10px;">Dietary requirements noted during reservation are frequently missed on kitchen handwritten tickets.</p>
+                    <div class="options-group">
+                        <label class="option-label"><input type="radio" name="b5" onclick="evalTask('b', 5, false)"><span>Ask customers to shout out allergies again when their food arrives.</span></label>
+                        <label class="option-label"><input type="radio" name="b5" onclick="evalTask('b', 5, true)"><span>Enforce strict digital schema profiles that flag allergens directly on ticket screens.</span></label>
+                    </div>
+                    <div id="b5-feed" style="font-size: 12px; font-weight: bold; margin-top: 6px;"></div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <button onclick="revealAll('b')" class="btn btn-secondary" style="background: #0284c7; color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer;">
+                        💡 Reveal All Bistro Answers
                     </button>
-                </div>
-
-                <div id="bistro-answer-box" style="display: none; margin-top: 16px; padding: 14px; background: #0b0f19; border: 1px solid #10b981; border-radius: 8px; color: #a7f3d0; font-size: 13px; line-height: 1.5;">
-                    <strong>Correct Bistro Solutions:</strong> Deploy tableside mobile POS tablets to eliminate floor walking, and configure an API webhook connector to sync booking tables automatically.
                 </div>
             </section>
         </div>
@@ -74,34 +108,68 @@
             <section class="card intro-card">
                 <h2>The Situation: The Tangled Tech Desk</h2>
                 <p>
-                    You are the Lead DevOps & IT Operations Manager for a growing SaaS enterprise. A cascading series of system outages and team bottlenecks are bottlenecking release cycles and damaging client SLAs. Diagnose the root causes and deploy the correct fixes.
+                    You are the Lead DevOps & IT Operations Manager for a growing SaaS enterprise. Diagnose and solve all 5 release and infrastructure bottlenecks below.
                 </p>
 
+                <!-- Task 1 -->
                 <div class="task-card">
-                    <h3 style="color: #38bdf8; font-size: 15px; margin-bottom: 10px;">Task 2: Select the correct DevOps & infrastructure remediation</h3>
-                    <p style="font-size: 13px; color: #cbd5e1; margin-bottom: 12px;">How should you resolve manual release queues and cloud traffic timeout spikes?</p>
-                    
+                    <h3 style="color: #38bdf8; font-size: 15px; margin-bottom: 6px;">Task 1: Manual Deployment Queue</h3>
+                    <p style="font-size: 13px; color: #cbd5e1; margin-bottom: 10px;">Releases require manual multi-day code reviews and sluggish QA sign-off queues.</p>
                     <div class="options-group">
-                        <label class="option-label">
-                            <input type="radio" name="tech-opt" value="wrong" onclick="evalTech(false)">
-                            <span>Force developers to submit manual code review paperwork via email and reboot physical servers nightly.</span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="tech-opt" value="right" onclick="evalTech(true)">
-                            <span>Implement automated CI/CD pipelines via GitHub Actions for continuous testing, and configure Infrastructure as Code (IaC) with auto-scaling cloud groups.</span>
-                        </label>
+                        <label class="option-label"><input type="radio" name="t1" onclick="evalTask('t', 1, false)"><span>Require three senior vice presidents to manually inspect every line of code.</span></label>
+                        <label class="option-label"><input type="radio" name="t1" onclick="evalTask('t', 1, true)"><span>Establish automated CI/CD pipelines via GitHub Actions for continuous testing.</span></label>
                     </div>
-                    <div id="tech-feedback" style="margin-top: 10px; font-size: 13px; font-weight: bold;"></div>
+                    <div id="t1-feed" style="font-size: 12px; font-weight: bold; margin-top: 6px;"></div>
                 </div>
 
-                <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap;">
-                    <button onclick="revealAnswers('tech')" class="btn btn-secondary" style="background: #0284c7; color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer;">
-                        💡 Show Correct Tech Solutions
+                <!-- Task 2 -->
+                <div class="task-card">
+                    <h3 style="color: #38bdf8; font-size: 15px; margin-bottom: 6px;">Task 2: Cloud Traffic Scaling Failures</h3>
+                    <p style="font-size: 13px; color: #cbd5e1; margin-bottom: 10px;">Static cloud servers crash and timeout during sudden traffic surges.</p>
+                    <div class="options-group">
+                        <label class="option-label"><input type="radio" name="t2" onclick="evalTask('t', 2, false)"><span>Buy massive physical servers and store them in the office broom closet.</span></label>
+                        <label class="option-label"><input type="radio" name="t2" onclick="evalTask('t', 2, true)"><span>Configure Infrastructure as Code (IaC) with auto-scaling cloud compute groups.</span></label>
+                    </div>
+                    <div id="t2-feed" style="font-size: 12px; font-weight: bold; margin-top: 6px;"></div>
+                </div>
+
+                <!-- Task 3 -->
+                <div class="task-card">
+                    <h3 style="color: #38bdf8; font-size: 15px; margin-bottom: 6px;">Task 3: Environment Drift & Inconsistencies</h3>
+                    <p style="font-size: 13px; color: #cbd5e1; margin-bottom: 10px;">"It works on my machine" bugs occur because staging and production setups differ.</p>
+                    <div class="options-group">
+                        <label class="option-label"><input type="radio" name="t3" onclick="evalTask('t', 3, false)"><span>Tell developers to be more careful when configuring settings manually.</span></label>
+                        <label class="option-label"><input type="radio" name="t3" onclick="evalTask('t', 3, true)"><span>Enforce containerisation using Docker across all development and production environments.</span></label>
+                    </div>
+                    <div id="t3-feed" style="font-size: 12px; font-weight: bold; margin-top: 6px;"></div>
+                </div>
+
+                <!-- Task 4 -->
+                <div class="task-card">
+                    <h3 style="color: #38bdf8; font-size: 15px; margin-bottom: 6px;">Task 4: Incident Response Blindspots</h3>
+                    <p style="font-size: 13px; color: #cbd5e1; margin-bottom: 10px;">Production errors are only discovered when angry clients submit support tickets hours later.</p>
+                    <div class="options-group">
+                        <label class="option-label"><input type="radio" name="t4" onclick="evalTask('t', 4, false)"><span>Wait until monthly review meetings to discuss customer complaints.</span></label>
+                        <label class="option-label"><input type="radio" name="t4" onclick="evalTask('t', 4, true)"><span>Set up centralized telemetry logging, synthetic monitoring, and instant pager alerts.</span></label>
+                    </div>
+                    <div id="t4-feed" style="font-size: 12px; font-weight: bold; margin-top: 6px;"></div>
+                </div>
+
+                <!-- Task 5 -->
+                <div class="task-card">
+                    <h3 style="color: #38bdf8; font-size: 15px; margin-bottom: 6px;">Task 5: Security & Compliance Audits</h3>
+                    <p style="font-size: 13px; color: #cbd5e1; margin-bottom: 10px;">Security vulnerability checks happen only right before major annual product launches.</p>
+                    <div class="options-group">
+                        <label class="option-label"><input type="radio" name="t5" onclick="evalTask('t', 5, false)"><span>Assume existing code is secure unless proven otherwise by hackers.</span></label>
+                        <label class="option-label"><input type="radio" name="t5" onclick="evalTask('t', 5, true)"><span>Integrate automated Static Application Security Testing (SAST) directly into code commits.</span></label>
+                    </div>
+                    <div id="t5-feed" style="font-size: 12px; font-weight: bold; margin-top: 6px;"></div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <button onclick="revealAll('t')" class="btn btn-secondary" style="background: #0284c7; color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer;">
+                        💡 Reveal All Tech Desk Answers
                     </button>
-                </div>
-
-                <div id="tech-answer-box" style="display: none; margin-top: 16px; padding: 14px; background: #0b0f19; border: 1px solid #10b981; border-radius: 8px; color: #a7f3d0; font-size: 13px; line-height: 1.5;">
-                    <strong>Correct Tech Solutions:</strong> Implement automated CI/CD pipelines via GitHub Actions for continuous testing, and configure Infrastructure as Code (IaC) with auto-scaling cloud groups.
                 </div>
             </section>
         </div>
@@ -112,7 +180,7 @@
         <div style="background: #131b2e; border: 1px solid #334155; padding: 1.25rem 1.5rem; border-radius: 12px; display: flex; align-items: center; justify-content: space-between;">
             <div>
                 <span style="font-size: 10px; font-family: monospace; color: #38bdf8; font-weight: bold; text-transform: uppercase; display: block;">MC2 Masterclass Sequence</span>
-                <span id="nav-status-text" style="font-size: 12px; color: #f59e0b;">🔒 Complete both scenario tasks or reveal answers to unlock next task</span>
+                <span id="nav-status-text" style="font-size: 12px; color: #f59e0b;">🔒 Complete all 10 tasks (5 per scenario) to unlock next task</span>
             </div>
             <a id="next-activity-btn" href="process_map_builder.html" style="background: #0284c7; color: white; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; pointer-events: none; opacity: 0.5;">
                 <span>Proceed to Process Map Builder</span> &rarr;
@@ -122,23 +190,24 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 Process Improvement Fundamentals | Dual-Sector Triage Lab. Designed for GitHub Pages.</p>
+            <p>&copy; 2026 Process Improvement Fundamentals | Dual-Sector Multi-Task Lab. Designed for GitHub Pages.</p>
         </div>
     </footer>
 
     <script>
-        let bistroDone = false;
-        let techDone = false;
+        const completedTasks = { b: [false, false, false, false, false], t: [false, false, false, false, false] };
 
         function switchScenario(scenarioId, event) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            
             document.getElementById('tab-' + scenarioId).classList.add('active');
             event.currentTarget.classList.add('active');
         }
 
         function checkUnlock() {
+            const bistroDone = completedTasks.b.every(Boolean);
+            const techDone = completedTasks.t.every(Boolean);
+
             if (bistroDone && techDone) {
                 const nextBtn = document.getElementById('next-activity-btn');
                 nextBtn.style.pointerEvents = 'auto';
@@ -146,44 +215,31 @@
                 
                 const statusText = document.getElementById('nav-status-text');
                 statusText.style.color = '#34d399';
-                statusText.textContent = '✨ All scenario tasks complete! Ready for next task.';
+                statusText.textContent = '✨ All 10 tasks complete! Ready for next task.';
             }
         }
 
-        function evalBistro(isCorrect) {
-            const feed = document.getElementById('bistro-feedback');
+        function evalTask(type, taskNum, isCorrect) {
+            const feed = document.getElementById(`${type}${taskNum}-feed`);
             if (isCorrect) {
                 feed.style.color = '#34d399';
-                feed.textContent = '✓ Correct! Tableside mobile POS and API webhooks resolve physical and digital friction.';
-                bistroDone = true;
+                feed.textContent = '✓ Correct! Operational friction resolved.';
+                completedTasks[type][taskNum - 1] = true;
                 checkUnlock();
             } else {
                 feed.style.color = '#f87171';
-                feed.textContent = '✗ Incorrect. Adding manual managers increases overhead and delays.';
+                feed.textContent = '✗ Incorrect. This choice exacerbates the bottleneck.';
             }
         }
 
-        function evalTech(isCorrect) {
-            const feed = document.getElementById('tech-feedback');
-            if (isCorrect) {
+        function revealAll(type) {
+            for (let i = 1; i <= 5; i++) {
+                completedTasks[type][i - 1] = true;
+                const feed = document.getElementById(`${type}${i}-feed`);
                 feed.style.color = '#34d399';
-                feed.textContent = '✓ Correct! CI/CD pipelines and IaC auto-scaling eliminate release queues and timeouts.';
-                techDone = true;
-                checkUnlock();
-            } else {
-                feed.style.color = '#f87171';
-                feed.textContent = '✗ Incorrect. Manual paperwork and nightly reboots cause recurring downtime.';
+                feed.textContent = '💡 Correct answer revealed.';
             }
-        }
-
-        function revealAnswers(type) {
-            if (type === 'bistro') {
-                document.getElementById('bistro-answer-box').style.display = 'block';
-                evalBistro(true);
-            } else if (type === 'tech') {
-                document.getElementById('tech-answer-box').style.display = 'block';
-                evalTech(true);
-            }
+            checkUnlock();
         }
     </script>
 </body>
