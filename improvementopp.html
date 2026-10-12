@@ -122,7 +122,7 @@
     <div style="background: #064e3b; border: 1px solid #10b981; padding: 1.25rem 1.5rem; border-radius: 12px; display: flex; align-items: center; justify-content: space-between;">
         <div>
             <span style="font-size: 10px; font-family: monospace; color: #34d399; font-weight: bold; text-transform: uppercase; display: block;">MC2 Masterclass Sequence</span>
-            <span id="nav-status-text" style="font-size: 12px; color: #a7f3d0;">Complete the triage above OR use the certificate access option to proceed.</span>
+            <span id="nav-status-text" style="font-size: 12px; color: #a7f3d0;">Complete the triage above OR proceed directly to the certificate.</span>
         </div>
         <div style="display: flex; gap: 10px; align-items: center;">
             <a href="certificate.html" style="background: #10b981; color: white; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
@@ -165,7 +165,7 @@
       const deck = document.getElementById("matrix-deck");
       deck.innerHTML = "";
       initiatives.forEach(item => {
-        if (!matrixState[item.id]) deck.appendChild(createCard(item));
+        if (!matrixState[item.id]) deck.appendChild(createCard(item, 'matrix'));
       });
     }
 
@@ -173,15 +173,15 @@
       const deck = document.getElementById("moscow-deck");
       deck.innerHTML = "";
       initiatives.forEach(item => {
-        if (!moscowState[item.id]) deck.appendChild(createCard(item));
+        if (!moscowState[item.id]) deck.appendChild(createCard(item, 'moscow'));
       });
     }
 
-    function createCard(item) {
+    function createCard(item, mode) {
       const el = document.createElement("div");
       el.className = "item-card";
       el.draggable = true;
-      el.id = item.id;
+      el.id = `${mode}-${item.id}`;
       el.ondragstart = (e) => { e.dataTransfer.setData("text/plain", item.id); el.classList.add("dragging"); };
       el.ondragend = () => el.classList.remove("dragging");
       el.innerHTML = `<div><h4>${item.title}</h4><p>${item.desc}</p></div><span class="meta-tag">${item.tag}</span>`;
@@ -201,25 +201,25 @@
       if (mode === "matrix") {
         const quadrant = dropZone.dataset.quadrant;
         matrixState[id] = quadrant;
-        document.getElementById(`drop-${quadrant}`).appendChild(createPlacedCard(item, () => {
-          delete matrixState[id]; renderMatrixDeck(); document.getElementById(item.id + "-placed").remove(); updateTotalProgress();
+        document.getElementById(`drop-${quadrant}`).appendChild(createPlacedCard(item, 'matrix', () => {
+          delete matrixState[id]; renderMatrixDeck(); document.getElementById(`matrix-placed-${item.id}`).remove(); updateTotalProgress();
         }));
         renderMatrixDeck();
       } else {
         const target = dropZone.dataset.moscow;
         moscowState[id] = target;
-        document.getElementById(`drop-${target}`).appendChild(createPlacedCard(item, () => {
-          delete moscowState[id]; renderMoscowDeck(); document.getElementById(item.id + "-placed").remove(); updateTotalProgress();
+        document.getElementById(`drop-${target}`).appendChild(createPlacedCard(item, 'moscow', () => {
+          delete moscowState[id]; renderMoscowDeck(); document.getElementById(`moscow-placed-${item.id}`).remove(); updateTotalProgress();
         }));
         renderMoscowDeck();
       }
       updateTotalProgress();
     }
 
-    function createPlacedCard(item, onRemove) {
+    function createPlacedCard(item, mode, onRemove) {
       const el = document.createElement("div");
       el.className = "item-card";
-      el.id = item.id + "-placed";
+      el.id = `${mode}-placed-${item.id}`;
       el.style.maxWidth = "100%"; el.style.minWidth = "auto"; el.style.marginBottom = "0.5rem"; el.style.cursor = "default";
       el.innerHTML = `<div style="display:flex; justify-content:space-between; align-items:flex-start;"><h4 style="font-size:0.85rem;">${item.title}</h4><button style="border:none; background:none; color:#EF4444; font-weight:700; cursor:pointer;">✕</button></div><p style="font-size:0.75rem; margin-bottom:0.4rem;">${item.desc}</p><span class="meta-tag" style="font-size:0.65rem;">${item.tag}</span>`;
       el.querySelector("button").onclick = onRemove;
@@ -231,13 +231,13 @@
       ["quick-wins", "strategic", "fill-ins", "time-sinks"].forEach(q => document.getElementById(`drop-${q}`).innerHTML = "");
       initiatives.forEach(item => {
         matrixState[item.id] = item.matrixTarget;
-        document.getElementById(`drop-${item.matrixTarget}`).appendChild(createPlacedCard(item, () => {
-          delete matrixState[item.id]; renderMatrixDeck(); document.getElementById(item.id + "-placed").remove(); updateTotalProgress();
+        document.getElementById(`drop-${item.matrixTarget}`).appendChild(createPlacedCard(item, 'matrix', () => {
+          delete matrixState[item.id]; renderMatrixDeck(); document.getElementById(`matrix-placed-${item.id}`).remove(); updateTotalProgress();
         }));
       });
       renderMatrixDeck();
       updateTotalProgress();
-      document.getElementById("matrix-feedback.innerHTML").innerText = "💡 Correct Matrix answers revealed.";
+      document.getElementById("matrix-feedback").innerText = "💡 Correct Matrix answers revealed.";
     }
 
     function revealMoscowAnswers() {
@@ -245,75 +245,10 @@
       ["must", "should", "could", "wont"].forEach(q => document.getElementById(`drop-${q}`).innerHTML = "");
       initiatives.forEach(item => {
         moscowState[item.id] = item.moscowTarget;
-        document.getElementById(`drop-${item.moscowTarget}`).appendChild(createPlacedCard(item, () => {
-          delete moscowState[item.id]; renderMoscowDeck(); document.getElementById(item.id + "-placed").remove(); updateTotalProgress();
+        document.getElementById(`drop-${item.moscowTarget}`).appendChild(createPlacedCard(item, 'moscow', () => {
+          delete moscowState[item.id]; renderMoscowDeck(); document.getElementById(`moscow-placed-${item.id}`).remove(); updateTotalProgress();
         }));
       });
       renderMoscowDeck();
       updateTotalProgress();
       document.getElementById("moscow-feedback").innerText = "💡 Correct MoSCoW answers revealed.";
-    }
-
-    function validateMatrix() {
-      let correct = 0;
-      initiatives.forEach(i => { if (matrixState[i.id] === i.matrixTarget) correct++; });
-      if (correct === initiatives.length) {
-        document.getElementById("matrix-feedback.innerHTML")?.... || (document.getElementById("matrix-feedback").innerHTML = `<strong style="color:var(--green-text);">✓ Perfect Matrix Alignment!</strong>`);
-        showModal("Matrix Evaluation Complete", "All initiatives classified accurately.");
-      } else {
-        document.getElementById("matrix-feedback").innerText = `Triage Result: ${correct} / 8 aligned. Click 'Show Correct Answers' if you wish to inspect solutions.`;
-      }
-    }
-
-    function validateMoscow() {
-      let correct = 0;
-      initiatives.forEach(i => { if (moscowState[i.id] === i.moscowTarget) correct++; });
-      if (correct === initiatives.length) {
-        document.getElementById("moscow-feedback").innerHTML = `<strong style="color:var(--green-text);">✓ MoSCoW Scope Validated!</strong>`;
-        showModal("MoSCoW Scope Validated", "Scope boundaries protect deadlines.");
-      } else {
-        document.getElementById("moscow-feedback").innerText = `Scope Result: ${correct} / 8 aligned. Click 'Show Correct Answers' if you wish to inspect solutions.`;
-      }
-    }
-
-    function resetMatrix() {
-      matrixState = {};
-      ["quick-wins", "strategic", "fill-ins", "time-sinks"].forEach(q => document.getElementById(`drop-${q}`).innerHTML = "");
-      renderMatrixDeck();
-      document.getElementById("matrix-feedback").innerText = "Matrix reset.";
-      updateTotalProgress();
-    }
-
-    function resetMoscow() {
-      moscowState = {};
-      ["must", "should", "could", "wont"].forEach(q => document.getElementById(`drop-${q}`).innerHTML = "");
-      renderMoscowDeck();
-      document.getElementById("moscow-feedback").innerText = "MoSCoW board reset.";
-      updateTotalProgress();
-    }
-
-    function updateTotalProgress() {
-      const mCount = Object.keys(matrixState).length;
-      const mosCount = Object.keys(moscowState).length;
-      document.getElementById("score-text").innerText = `${Math.floor((mCount + mosCount) / 2)} / 8`;
-    }
-
-    function switchTab(tab) {
-      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-      document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
-      event.target.classList.add("active");
-      document.getElementById(`tab-${tab}`).classList.add("active");
-    }
-
-    function showModal(title, msg) {
-      document.getElementById("modal").style.display = "flex";
-      document.getElementById("modal-title").innerText = title;
-      document.getElementById("modal-desc").innerText = msg;
-    }
-
-    function closeModal() { document.getElementById("modal").style.display = "none"; }
-
-    init();
-  </script>
-</body>
-</html>
