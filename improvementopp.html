@@ -5,6 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>COPA | Prioritising Improvement Opportunities Lab</title>
   <link rel="stylesheet" href="improvementopp.css">
+  <style>
+      /* Locked button styling */
+      .next-nav-btn {
+          background-color: #10b981 !important;
+          color: #ffffff !important;
+          padding: 12px 24px !important;
+          border-radius: 10px !important;
+          font-size: 14px !important;
+          font-weight: 600 !important;
+          text-decoration: none !important;
+          display: inline-flex !important;
+          align-items: center !important;
+          gap: 8px;
+          white-space: nowrap !important;
+          transition: all 0.3s ease;
+      }
+      .next-nav-btn.locked {
+          background-color: #334155 !important;
+          color: #64748b !important;
+          pointer-events: none;
+          cursor: not-allowed;
+          box-shadow: none !important;
+      }
+  </style>
 </head>
 <body>
 
@@ -259,6 +283,25 @@
 
     let matrixState = {};
     let moscowState = {};
+    let matrixValidated = false;
+    let moscowValidated = false;
+
+    function checkUnlock() {
+      const nextBtn = document.getElementById("next-activity-btn");
+      const navStatusText = document.getElementById("nav-status-text");
+      if (matrixValidated && moscowValidated) {
+        nextBtn.classList.remove("locked");
+        navStatusText.style.color = "#34d399";
+        navStatusText.innerText = "✨ Unlocked! View your completion certificate.";
+      } else {
+        nextBtn.classList.add("locked");
+        navStatusText.style.color = "#f59e0b";
+        let missing = [];
+        if (!matrixValidated) missing.push("Matrix");
+        if (!moscowValidated) missing.push("MoSCoW");
+        navStatusText.innerText = `🔒 Complete validation for: ${missing.join(" and ")}`;
+      }
+    }
 
     function init() {
       renderMatrixDeck();
@@ -376,6 +419,8 @@
       });
 
       if (correct === total) {
+        matrixValidated = true;
+        checkUnlock();
         document.getElementById("matrix-feedback").innerHTML = `<strong style="color:var(--green-text);">✓ Perfect Matrix Alignment!</strong> All 8 initiatives classified accurately across Impact vs. Effort.`;
         showModal("Matrix Evaluation Complete", "You have successfully separated high-impact quick wins and strategic projects from low-value distractions and risky time sinks.");
       } else {
@@ -396,6 +441,8 @@
       });
 
       if (correct === total) {
+        moscowValidated = true;
+        checkUnlock();
         document.getElementById("moscow-feedback").innerHTML = `<strong style="color:var(--green-text);">✓ MoSCoW Scope Validated!</strong> Scope boundaries protect project delivery deadlines and prevent unnecessary expenditure.`;
         showModal("MoSCoW Scope Validated", "Your governance scope secures critical legal and operational Must-Haves while deferring non-essential enhancements.");
       } else {
@@ -405,6 +452,8 @@
 
     function resetMatrix() {
       matrixState = {};
+      matrixValidated = false;
+      checkUnlock();
       ["quick-wins", "strategic", "fill-ins", "time-sinks"].forEach(q => {
         document.getElementById(`drop-${q}`).innerHTML = "";
       });
@@ -415,6 +464,8 @@
 
     function resetMoscow() {
       moscowState = {};
+      moscowValidated = false;
+      checkUnlock();
       ["must", "should", "could", "wont"].forEach(q => {
         document.getElementById(`drop-${q}`).innerHTML = "";
       });
@@ -448,16 +499,18 @@
 
     init();
   </script>
+
+  <!-- Masterclass Sequence Navigation Bar (Locked until both exercises validated) -->
   <div style="max-width: 1100px; margin: 30px auto; padding: 0 1.5rem;">
-    <div style="background: #064e3b; border: 1px solid #10b981; padding: 1.25rem 1.5rem; border-radius: 12px; display: flex; align-items: center; justify-content: space-between;">
-        <div>
-            <span style="font-size: 10px; font-family: monospace; color: #34d399; font-weight: bold; text-transform: uppercase; display: block;">MC2 Masterclass Sequence</span>
-            <span style="font-size: 12px; color: #a7f3d0;">You have finished all 6 workshop modules.</span>
-        </div>
-        <span style="background: #10b981; color: white; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600;">
-            Masterclass Complete ✓
-        </span>
-    </div>
-</div>
+      <div style="background-color: #131b2e !important; border: 1px solid #334155 !important; padding: 20px 24px !important; border-radius: 16px !important; display: flex !important; align-items: center !important; justify-content: space-between !important; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3) !important;">
+          <div style="text-align: left;">
+              <span style="font-size: 10px; font-family: monospace; color: #38bdf8; font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 4px;">MC2 Masterclass Sequence</span>
+              <span id="nav-status-text" style="font-size: 13px; color: #f59e0b; display: block;">🔒 Validate both Matrix and MoSCoW to unlock certificate</span>
+          </div>
+          <a id="next-activity-btn" href="certificate.html" class="next-nav-btn locked">
+              <span>View Completion Certificate</span> &rarr;
+          </a>
+      </div>
+  </div>
 </body>
 </html>
