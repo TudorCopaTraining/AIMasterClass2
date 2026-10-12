@@ -3,297 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Process Improvement Simulation</title>
+    <title>Process Improvement Fundamentals</title>
     <link rel="stylesheet" href="ProcessImprovement.css">
 </head>
-<body>
-    <header>
-        <div class="container">
-            <h1>Process Improvement Challenge</h1>
-            <p class="subtitle">Interactive Operational & Incident Management Simulation</p>
-            
-            <!-- Scenario Toggle Buttons -->
-            <div class="scenario-toggle-bar">
-                <button id="btn-bistro" class="btn scenario-tab active" onclick="switchScenario('bistro')">Broken Bistro</button>
-                <button id="btn-tech" class="btn scenario-tab btn-secondary" onclick="switchScenario('tech')">The Tangled Tech Desk</button>
+<body style="background: #0f172a; color: #f8fafc; font-family: system-ui, sans-serif; padding: 20px;">
+    <div style="max-width: 900px; margin: 40px auto; background: #1e293b; padding: 40px; border-radius: 16px; border: 1px solid #334155;">
+        <h1 style="color: #38bdf8; margin-bottom: 16px;">1. Process Improvement Fundamentals</h1>
+        <p style="color: #94a3b8; line-height: 1.6; margin-bottom: 24px;">
+            Welcome to the introductory module. Review the foundational principles of operational workflow analysis, standard operating procedures, and waste reduction before moving on to hands-on mapping.
+        </p>
+        <div style="background: #0f172a; padding: 20px; border-radius: 12px; border: 1px solid #334155; margin-bottom: 24px;">
+            <h3 style="color: white; font-size: 16px; margin-bottom: 8px;">Activity Objective</h3>
+            <p style="color: #cbd5e1; font-size: 14px;">Review the briefing notes and click the button below when you are ready to proceed to the swimlane process map builder.</p>
+        </div>
+        <button onclick="unlockNext()" style="background: #0284c7; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer;">Mark Module Read & Complete</button>
+    </div>
+
+    <!-- Navigation Footer -->
+    <div style="max-width: 900px; margin: 20px auto; padding: 0 1rem;">
+        <div style="background: #131b2e; border: 1px solid #334155; padding: 1.25rem 1.5rem; border-radius: 12px; display: flex; align-items: center; justify-content: space-between;">
+            <div>
+                <span style="font-size: 10px; font-family: monospace; color: #38bdf8; font-weight: bold; text-transform: uppercase; display: block;">MC2 Masterclass Sequence</span>
+                <span id="nav-status-text" style="font-size: 12px; color: #f59e0b;">🔒 Complete module review to unlock next task</span>
             </div>
+            <a id="next-activity-btn" href="process_map_builder.html" style="background: #0284c7; color: white; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; pointer-events: none; opacity: 0.5;">
+                <span>Proceed to Process Map Builder</span> &rarr;
+            </a>
         </div>
-    </header>
-
-    <main class="container">
-        <!-- Scenario Introduction -->
-        <section class="card intro-card">
-            <h2 id="scenario-title">The Situation: Broken Bistro</h2>
-            <p id="scenario-desc">You are running a popular city-centre restaurant. Tonight is Friday peak service, and operations are failing across physical floor workflows and digital backend systems. Read the live feedback from the shift below, then match the correct operational solution to its specific bottleneck to turn the restaurant around[cite: 5].</p>
-        </section>
-
-        <!-- Live Shift Dashboard -->
-        <div class="grid">
-            <section class="card column">
-                <h2 id="bottlenecks-heading">⚠️ Current Shift Bottlenecks</h2>
-                <p class="instructions">Drag a fix onto a card, or click a bottleneck to target it[cite: 5].</p>
-                <div class="metric-grid" id="bottlenecks-container">
-                    <!-- Populated dynamically via script based on active scenario -->
-                </div>
-            </section>
-
-            <!-- Interactive Work Area -->
-            <section class="card column">
-                <h2>🛠️ Process Improvement Toolkit</h2>
-                <p class="instructions">Click a solution and bottleneck, then hit <strong>Deploy Selected Fix</strong> (or drag and drop directly)[cite: 5].</p>
-                
-                <div class="drag-container" id="draggable-items">
-                    <!-- Populated dynamically via script based on active scenario -->
-                </div>
-
-                <div class="feedback-banner" id="feedback-banner"></div>
-
-                <div class="action-bar">
-                    <button id="deploy-btn" class="btn" disabled>Deploy Selected Fix</button>
-                    <button id="reset-btn" class="btn btn-secondary" onclick="resetSimulation()">Reset Simulation</button>
-                </div>
-
-                <div id="completion-message" class="hidden">
-                    <h3 id="completion-title">🎉 Shift Successfully Fixed!</h3>
-                    <p id="completion-desc">You have optimised your operations across all core pillars. Great work!</p>
-                    <button onclick="resetSimulation()" class="btn">Play Again</button>
-                </div>
-            </section>
-        </div>
-    </main>
-
-    <footer>
-        <p>&copy; 2026 Process Improvement Workshop Tool. Built for GitHub Pages.</p>
-    </footer>
+    </div>
 
     <script>
-        // Scenario Datasets
-        const scenarios = {
-            bistro: {
-                title: "The Situation: Broken Bistro",
-                desc: "You are running a popular city-centre restaurant. Tonight is Friday peak service, and operations are failing across physical floor workflows and digital backend systems. Read the live feedback from the shift below, then match the correct operational solution to its specific bottleneck to turn the restaurant around[cite: 5].",
-                bottleneckHeading: "⚠️ Current Shift Bottlenecks",
-                completionTitle: "🎉 Shift Successfully Fixed!",
-                completionDesc: "You have optimised your hospitality operations across all 8 core physical and digital pillars. Your efficiency is up, waste is down, and guests are happy!",
-                items: [
-                    { key: 'efficiency', title: 'Efficiency', status: 'Slow', desc: 'Kitchen staff walking across the room constantly for basic seasonings[cite: 5].', fix: '🏷️ Kitchen Layout: Rearrange prep benches to keep seasonings at arm\'s length[cite: 5].', successVal: 'Optimised', successDesc: 'Zero wasted steps. Layout streamlined.' },
-                    { key: 'productivity', title: 'Productivity', status: 'Low', desc: 'Waiters stuck at the central till point typing orders instead of on the floor[cite: 5].', fix: '📱 Mobile POS: Equipping waiters with handheld digital tablets for tableside ordering[cite: 5].', successVal: 'High', successDesc: 'Tables turned 25% faster with mobile POS.' },
-                    { key: 'quality', title: 'Quality', status: 'Unstable', desc: '3 steaks sent back to the kitchen because of incorrect cooking levels[cite: 5].', fix: '📋 Spec Sheets: Implement visual recipe checklists and automated timer logs[cite: 5].', successVal: 'Consistent', successDesc: 'Zero steak sendbacks recorded.' },
-                    { key: 'cost', title: 'Cost Reduction', status: 'Wasting 15%', desc: 'Excessive food waste found in bins due to poor stock rotation (FIFO)[cite: 5].', fix: '🔄 FIFO System: Deploy automated cellar tracking and strict inventory rotation[cite: 5].', successVal: 'Controlled', successDesc: 'Waste reduced down to under 2%.' },
-                    { key: 'cx', title: 'Customer Exp (CX)', status: '2.1 Stars', desc: 'TripAdvisor complaints rolling in regarding long payment wait times[cite: 5].', fix: '💳 Pay at Table: Introduce automated tableside QR code scanning and direct billing[cite: 5].', successVal: '4.9 Stars', successDesc: 'Guests praise instant, secure digital checkout.' },
-                    { key: 'ex', title: 'Employee Exp (EX)', status: 'Burnout Risk', desc: 'Floor staff arguing over whose turn it is to track down missing cutlery[cite: 5].', fix: '🍴 Cutlery Station: Standardise pre-shift sorting setup to remove search irritation[cite: 5].', successVal: 'High Morale', successDesc: 'No operational irritation. Focus on guest care.' },
-                    { key: 'turnover', title: 'Table Turnover', status: 'Stalled', desc: 'Tables sitting empty for 18 minutes post-payment waiting for manual busser turnaround alerts.', fix: '⚡ Smart Busser Pager: Deploy wearable sensor badges that notify bussers the moment guests vacate.', successVal: 'Rapid', successDesc: 'Table turnaround time improved by 40% using busser alerts.' },
-                    { key: 'sync', title: 'Kitchen Sync', status: 'Misaligned', desc: 'Hot starters finishing 12 minutes before mains due to broken ticket routing sequences.', fix: '🖥️ Kitchen Display System (KDS): Install smart staging software that times course pacing automatically.', successVal: 'Synchronised', successDesc: 'Courses timing locked in perfectly via KDS automation.' }
-                ]
-            },
-            tech: {
-                title: "The Situation: The Tangled Tech Desk",
-                desc: "You are the Lead DevOps & IT Operations Manager for a growing SaaS enterprise. A cascading series of system outages and team bottlenecks are bottlenecking release cycles and damaging client SLAs. Diagnose the root causes and deploy the correct fixes.",
-                bottleneckHeading: "⚠️ Current Infrastructure Bottlenecks",
-                completionTitle: "🎉 Systems Fully Restored & Automated!",
-                completionDesc: "You have modernised your software delivery pipeline, eliminated toil, and restored high-availability stability across all services.",
-                items: [
-                    { key: 'deploy_speed', title: 'Deployment Velocity', status: 'Manual & Slow', desc: 'Releases require 4 engineers manually executing scripts over a 3-hour deployment window.', fix: '🚀 CI/CD Pipeline: Automate build, test, and release validation via GitHub Actions.', successVal: 'Automated', successDesc: 'Zero-touch deployments running in under 4 minutes.' },
-                    { key: 'incident_mgmt', title: 'Incident Recovery', status: 'Blind Alerts', desc: 'P1 outages are discovered by angry customers on social media before monitoring flags them.', fix: '📊 Observability Suite: Implement centralised logging, tracing, and automated alerting thresholds.', successVal: 'Proactive', successDesc: 'Mean Time to Detect (MTTD) reduced by 85%.' },
-                    { key: 'security_audit', title: 'Compliance & Security', status: 'Vulnerable', desc: 'Hardcoded API secrets found in cleartext configuration files across staging repositories.', fix: '🔐 Secrets Management: Integrate encrypted vault solutions and automated vulnerability scanners.', successVal: 'Secured', successDesc: 'Zero plaintext credentials. Automated compliance checks passed.' },
-                    { key: 'oncall_burnout', title: 'Engineering Burnout', status: 'High Attrition', desc: 'On-call engineers bombarded with 120+ false-positive alerts every single night.', fix: '🧹 Alert Tuning & Runbooks: Refine alert severity tiers and link automated self-healing scripts.', successVal: 'Sustainable', successDesc: 'False positives reduced by 90%. Team sleep restored.' },
-                    { key: 'env_drift', title: 'Environment Drift', status: 'Broken Staging', desc: 'Developers constantly arguing why code works locally but crashes instantly in staging.', fix: '🐳 Containerisation & IaC: Standardise environments using Docker and Terraform templates.', successVal: 'Immutable', successDesc: 'Environment parity achieved across all development stages.' },
-                    { key: 'tech_debt', title: 'Technical Debt', status: 'Fragile Monolith', desc: 'A legacy database query blocks user authentication tables during morning peak traffic spikes.', fix: '⚡ Database Indexing & Caching: Implement Redis caching layers and optimise query execution plans.', successVal: 'Optimised', successDesc: 'Authentication response times accelerated from 1.4s to 45ms.' }
-                ]
-            }
-        };
-
-        let currentScenarioKey = 'bistro';
-        let selectedFix = null;
-        let selectedBottleneck = null;
-        let matchedCount = 0;
-
-        const dragContainer = document.getElementById('draggable-items');
-        const bottlenecksContainer = document.getElementById('bottlenecks-container');
-        const deployBtn = document.getElementById('deploy-btn');
-        const feedbackBanner = document.getElementById('feedback-banner');
-
-        function switchScenario(key) {
-            currentScenarioKey = key;
-            
-            // Update active button styles
-            document.getElementById('btn-bistro').className = 'btn scenario-tab ' + (key === 'bistro' ? 'active' : 'btn-secondary');
-            document.getElementById('btn-tech').className = 'btn scenario-tab ' + (key === 'tech' ? 'active' : 'btn-secondary');
-
-            // Update text headers
-            const sc = scenarios[key];
-            document.getElementById('scenario-title').innerText = sc.title;
-            document.getElementById('scenario-desc').innerText = sc.desc;
-            document.getElementById('bottlenecks-heading').innerText = sc.bottleneckHeading;
-            document.getElementById('completion-title').innerText = sc.completionTitle;
-            document.getElementById('completion-desc').innerText = sc.completionDesc;
-
-            resetSimulation();
+        function unlockNext() {
+            const nextBtn = document.getElementById('next-activity-btn');
+            nextBtn.style.pointerEvents = 'auto';
+            nextBtn.style.opacity = '1';
+            document.getElementById('nav-status-text').style.color = '#34d399';
+            document.getElementById('nav-status-texttextContent = '✨ Unlocked! Ready for next task.';
+            alert("Module marked complete! You can now proceed.");
         }
-
-        function showFeedback(message, isError = false) {
-            feedbackBanner.textContent = message;
-            feedbackBanner.className = 'feedback-banner show ' + (isError ? 'error' : 'success');
-            clearTimeout(feedbackBanner.timer);
-            feedbackBanner.timer = setTimeout(() => {
-                feedbackBanner.className = 'feedback-banner';
-            }, 3000);
-        }
-
-        function checkMatch(fixElement, bottleneckElement) {
-            const fixMatch = fixElement.getAttribute('data-match');
-            const targetKey = bottleneckElement.getAttribute('data-key');
-
-            if (fixMatch === targetKey) {
-                bottleneckElement.classList.remove('bad', 'selected-target');
-                bottleneckElement.classList.add('good');
-                
-                const scData = scenarios[currentScenarioKey].items.find(i => i.key === targetKey);
-                bottleneckElement.querySelector('.value').innerText = scData.successVal;
-                bottleneckElement.querySelector('.desc').innerText = scData.successDesc;
-
-                fixElement.classList.remove('selected');
-                fixElement.style.display = 'none';
-
-                if (selectedFix === fixElement) selectedFix = null;
-                if (selectedBottleneck === bottleneckElement) selectedBottleneck = null;
-
-                matchedCount++;
-                showFeedback('✓ Correct operational solution applied!');
-
-                const totalItems = scenarios[currentScenarioKey].items.length;
-                if (matchedCount === totalItems) {
-                    document.getElementById('completion-message').classList.remove('hidden');
-                }
-            } else {
-                bottleneckElement.classList.add('shake');
-                setTimeout(() => bottleneckElement.classList.remove('shake'), 500);
-                showFeedback('✗ That fix does not solve this bottleneck. Try another!', true);
-            }
-
-            updateDeployButtonState();
-        }
-
-        function updateDeployButtonState() {
-            deployBtn.disabled = !(selectedFix && selectedBottleneck);
-        }
-
-        function buildDOM() {
-            bottlenecksContainer.innerHTML = '';
-            dragContainer.innerHTML = '';
-
-            const items = scenarios[currentScenarioKey].items;
-
-            items.forEach(item => {
-                // Build bottleneck card
-                const bCard = document.createElement('div');
-                bCard.className = 'metric-card bad';
-                bCard.id = `metric-${item.key}`;
-                bCard.setAttribute('data-key', item.key);
-                bCard.innerHTML = `
-                    <h3>${item.title}</h3>
-                    <p class="value">${item.status}</p>
-                    <p class="desc">${item.desc}</p>
-                `;
-                bCard.addEventListener('click', () => {
-                    if (bCard.classList.contains('good')) return;
-                    if (selectedBottleneck === bCard) {
-                        bCard.classList.remove('selected-target');
-                        selectedBottleneck = null;
-                    } else {
-                        document.querySelectorAll('.metric-card').forEach(c => c.classList.remove('selected-target'));
-                        bCard.classList.add('selected-target');
-                        selectedBottleneck = bCard;
-                    }
-                    updateDeployButtonState();
-                });
-
-                bCard.addEventListener('dragover', (e) => {
-                    if (!bCard.classList.contains('good')) {
-                        e.preventDefault();
-                        bCard.classList.add('drag-hover');
-                    }
-                });
-                bCard.addEventListener('dragleave', () => bCard.classList.remove('drag-hover'));
-                bCard.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    bCard.classList.remove('drag-hover');
-                    if (bCard.classList.contains('good')) return;
-                    const draggedId = e.dataTransfer.getData('text/plain');
-                    const draggedItem = document.getElementById(draggedId);
-                    if (draggedItem) checkMatch(draggedItem, bCard);
-                });
-
-                bottlenecksContainer.appendChild(bCard);
-
-                // Build drag fix item
-                const fItem = document.createElement('div');
-                fItem.className = 'drag-item';
-                fItem.setAttribute('draggable', 'true');
-                fItem.id = `fix-${item.key}`;
-                fItem.setAttribute('data-match', item.key);
-                fItem.innerHTML = `<span>${item.fix}</span>`;
-
-                fItem.addEventListener('click', () => {
-                    if (selectedFix === fItem) {
-                        fItem.classList.remove('selected');
-                        selectedFix = null;
-                    } else {
-                        document.querySelectorAll('.drag-item').forEach(i => i.classList.remove('selected'));
-                        fItem.classList.add('selected');
-                        selectedFix = fItem;
-                    }
-                    updateDeployButtonState();
-                });
-                fItem.addEventListener('dragstart', (e) => {
-                    e.dataTransfer.setData('text/plain', fItem.id);
-                });
-
-                dragContainer.appendChild(fItem);
-            });
-
-            shuffleContainer(bottlenecksContainer);
-            shuffleContainer(dragContainer);
-        }
-
-        function shuffleContainer(container) {
-            const childrenArray = Array.from(container.children);
-            for (let i = childrenArray.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [childrenArray[i], childrenArray[j]] = [childrenArray[j], childrenArray[i]];
-            }
-            childrenArray.forEach(child => container.appendChild(child));
-        }
-
-        deployBtn.addEventListener('click', () => {
-            if (selectedFix && selectedBottleneck) {
-                checkMatch(selectedFix, selectedBottleneck);
-            }
-        });
-
-        function resetSimulation() {
-            matchedCount = 0;
-            selectedFix = null;
-            selectedBottleneck = null;
-            feedbackBanner.className = 'feedback-banner';
-            deployBtn.disabled = true;
-            document.getElementById('completion-message').classList.add('hidden');
-            buildDOM();
-        }
-
-        // Initialise
-        buildDOM();
     </script>
-    <div style="max-width: 1100px; margin: 30px auto; padding: 0 1.5rem;">
-    <div style="background: #131b2e; border: 1px solid #334155; padding: 1.25rem 1.5rem; border-radius: 12px; display: flex; align-items: center; justify-content: space-between;">
-        <div>
-            <span style="font-size: 10px; font-family: monospace; color: #38bdf8; font-weight: bold; text-transform: uppercase; display: block;">MC2 Masterclass Sequence</span>
-            <span style="font-size: 12px; color: #94a3b8;">Ready for the next workshop task?</span>
-        </div>
-        <a href="process_map_builder.html" style="background: #0284c7; color: white; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
-            <span>Proceed to Process Map Builder</span> &rarr;
-        </a>
-    </div>
-</div>
 </body>
 </html>
