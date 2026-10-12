@@ -11,6 +11,9 @@
         .tab-btn.active { background: #0284c7; color: white; border-color: #0284c7; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
+        .task-card { background: #0f172a; border: 1px solid #334155; padding: 20px; border-radius: 12px; margin-top: 16px; }
+        .option-label { display: flex; align-items: center; gap: 10px; background: #1e293b; padding: 12px; border-radius: 8px; margin-bottom: 8px; cursor: pointer; border: 1px solid #334155; }
+        .option-label:hover { border-color: #38bdf8; }
     </style>
 </head>
 <body>
@@ -26,7 +29,7 @@
         <!-- Scenario Tabs Navigation -->
         <div class="scenario-tabs">
             <button class="tab-btn active" onclick="switchScenario('bistro', event)">🍽️ Scenario 1: Broken Bistro</button>
-            <button class="tab-btn" onclick="switchScenario('tech', event)">💻 Scenario 2: The Tangled Tech Desk</button>
+            <button class="tab-btn" onclick="switchScenario('tech', event)">💻 Scenario 2: Tangled Tech Desk</button>
         </div>
 
         <!-- SCENARIO 1: BROKEN BISTRO -->
@@ -34,28 +37,34 @@
             <section class="card intro-card">
                 <h2>The Situation: Broken Bistro</h2>
                 <p>
-                    You are running a popular city-centre restaurant. Tonight is Friday peak service, and operations are failing across physical floor workflows and digital backend systems. Read the live feedback from the shift below, then match the correct operational solution to its specific bottleneck to turn the restaurant around.
+                    You are running a popular city-centre restaurant. Tonight is Friday peak service, and operations are failing across physical floor workflows and digital backend systems. Read the live feedback from the shift below, then match or select the correct operational solution to its specific bottleneck to turn the restaurant around.
                 </p>
                 
-                <div style="margin-top: 16px; background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #334155;">
-                    <h3 style="color: #38bdf8; font-size: 15px; margin-bottom: 6px;">Live Shift Feedback / Bottlenecks:</h3>
-                    <ul style="color: #cbd5e1; font-size: 13px; line-height: 1.6; margin-left: 20px;">
-                        <li><strong>Floor bottleneck:</strong> Waiters are double-handling orders between paper pads and stationary kitchen terminals.</li>
-                        <li><strong>Backend glitch:</strong> Reservation apps and table booking logs are out of sync, causing double-bookings.</li>
-                    </ul>
+                <div class="task-card">
+                    <h3 style="color: #38bdf8; font-size: 15px; margin-bottom: 10px;">Task 1: Select the correct floor & backend intervention</h3>
+                    <p style="font-size: 13px; color: #cbd5e1; margin-bottom: 12px;">Which operational strategy resolves the paper-pad bottleneck and booking discrepancies?</p>
+                    
+                    <div class="options-group">
+                        <label class="option-label">
+                            <input type="radio" name="bistro-opt" value="wrong" onclick="evalBistro(false)">
+                            <span>Hire 3 extra front-of-house managers to manually sign off paper receipts and double-check phone logs.</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="bistro-opt" value="right" onclick="evalBistro(true)">
+                            <span>Deploy tableside mobile POS tablets to stream orders directly to kitchen passes and configure an API webhook to sync booking logs automatically.</span>
+                        </label>
+                    </div>
+                    <div id="bistro-feedback" style="margin-top: 10px; font-size: 13px; font-weight: bold;"></div>
                 </div>
 
                 <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap;">
-                    <button onclick="completeScenario('bistro')" class="btn" style="background: #059669; color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer;">
-                        ✓ Complete Bistro Triage
-                    </button>
                     <button onclick="revealAnswers('bistro')" class="btn btn-secondary" style="background: #0284c7; color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer;">
                         💡 Show Correct Bistro Solutions
                     </button>
                 </div>
 
                 <div id="bistro-answer-box" style="display: none; margin-top: 16px; padding: 14px; background: #0b0f19; border: 1px solid #10b981; border-radius: 8px; color: #a7f3d0; font-size: 13px; line-height: 1.5;">
-                    <strong>Correct Bistro Solutions:</strong> Deploy tableside mobile POS tablets to eliminate floor walking, and configure an API webhood connector to sync booking tables automatically.
+                    <strong>Correct Bistro Solutions:</strong> Deploy tableside mobile POS tablets to eliminate floor walking, and configure an API webhook connector to sync booking tables automatically.
                 </div>
             </section>
         </div>
@@ -68,18 +77,24 @@
                     You are the Lead DevOps & IT Operations Manager for a growing SaaS enterprise. A cascading series of system outages and team bottlenecks are bottlenecking release cycles and damaging client SLAs. Diagnose the root causes and deploy the correct fixes.
                 </p>
 
-                <div style="margin-top: 16px; background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #334155;">
-                    <h3 style="color: #38bdf8; font-size: 15px; margin-bottom: 6px;">System Bottlenecks:</h3>
-                    <ul style="color: #cbd5e1; font-size: 13px; line-height: 1.6; margin-left: 20px;">
-                        <li><strong>Release bottleneck:</strong> Manual code deployments and multi-day QA sign-off queues delay production updates.</li>
-                        <li><strong>Infrastructure failure:</strong> Cloud servers scale unpredictably under sudden traffic spikes, causing service timeouts.</li>
-                    </ul>
+                <div class="task-card">
+                    <h3 style="color: #38bdf8; font-size: 15px; margin-bottom: 10px;">Task 2: Select the correct DevOps & infrastructure remediation</h3>
+                    <p style="font-size: 13px; color: #cbd5e1; margin-bottom: 12px;">How should you resolve manual release queues and cloud traffic timeout spikes?</p>
+                    
+                    <div class="options-group">
+                        <label class="option-label">
+                            <input type="radio" name="tech-opt" value="wrong" onclick="evalTech(false)">
+                            <span>Force developers to submit manual code review paperwork via email and reboot physical servers nightly.</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="tech-opt" value="right" onclick="evalTech(true)">
+                            <span>Implement automated CI/CD pipelines via GitHub Actions for continuous testing, and configure Infrastructure as Code (IaC) with auto-scaling cloud groups.</span>
+                        </label>
+                    </div>
+                    <div id="tech-feedback" style="margin-top: 10px; font-size: 13px; font-weight: bold;"></div>
                 </div>
 
                 <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap;">
-                    <button onclick="completeScenario('tech')" class="btn" style="background: #059669; color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer;">
-                        ✓ Complete Tech Desk Triage
-                    </button>
                     <button onclick="revealAnswers('tech')" class="btn btn-secondary" style="background: #0284c7; color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer;">
                         💡 Show Correct Tech Solutions
                     </button>
@@ -97,7 +112,7 @@
         <div style="background: #131b2e; border: 1px solid #334155; padding: 1.25rem 1.5rem; border-radius: 12px; display: flex; align-items: center; justify-content: space-between;">
             <div>
                 <span style="font-size: 10px; font-family: monospace; color: #38bdf8; font-weight: bold; text-transform: uppercase; display: block;">MC2 Masterclass Sequence</span>
-                <span id="nav-status-text" style="font-size: 12px; color: #f59e0b;">🔒 Complete both scenarios or reveal answers to unlock next task</span>
+                <span id="nav-status-text" style="font-size: 12px; color: #f59e0b;">🔒 Complete both scenario tasks or reveal answers to unlock next task</span>
             </div>
             <a id="next-activity-btn" href="process_map_builder.html" style="background: #0284c7; color: white; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; pointer-events: none; opacity: 0.5;">
                 <span>Proceed to Process Map Builder</span> &rarr;
@@ -131,30 +146,44 @@
                 
                 const statusText = document.getElementById('nav-status-text');
                 statusText.style.color = '#34d399';
-                statusText.textContent = '✨ All scenarios complete! Ready for next task.';
+                statusText.textContent = '✨ All scenario tasks complete! Ready for next task.';
             }
         }
 
-        function completeScenario(type) {
-            if (type === 'bistro') {
+        function evalBistro(isCorrect) {
+            const feed = document.getElementById('bistro-feedback');
+            if (isCorrect) {
+                feed.style.color = '#34d399';
+                feed.textContent = '✓ Correct! Tableside mobile POS and API webhooks resolve physical and digital friction.';
                 bistroDone = true;
-                alert('Broken Bistro triage validated successfully!');
-            } else if (type === 'tech') {
-                techDone = true;
-                alert('Tangled Tech Desk triage validated successfully!');
+                checkUnlock();
+            } else {
+                feed.style.color = '#f87171';
+                feed.textContent = '✗ Incorrect. Adding manual managers increases overhead and delays.';
             }
-            checkUnlock();
+        }
+
+        function evalTech(isCorrect) {
+            const feed = document.getElementById('tech-feedback');
+            if (isCorrect) {
+                feed.style.color = '#34d399';
+                feed.textContent = '✓ Correct! CI/CD pipelines and IaC auto-scaling eliminate release queues and timeouts.';
+                techDone = true;
+                checkUnlock();
+            } else {
+                feed.style.color = '#f87171';
+                feed.textContent = '✗ Incorrect. Manual paperwork and nightly reboots cause recurring downtime.';
+            }
         }
 
         function revealAnswers(type) {
             if (type === 'bistro') {
                 document.getElementById('bistro-answer-box').style.display = 'block';
-                bistroDone = true;
+                evalBistro(true);
             } else if (type === 'tech') {
                 document.getElementById('tech-answer-box').style.display = 'block';
-                techDone = true;
+                evalTech(true);
             }
-            checkUnlock();
         }
     </script>
 </body>
