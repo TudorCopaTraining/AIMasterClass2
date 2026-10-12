@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="process_map_builder.css">
   <style>
     .next-nav-btn { background: #0284c7; color: white; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; }
-    .next-nav-btn.locked { background: #334155 !important; color: #64748b !important; pointer-events: none; cursor: not-allowed; }
+    .next-nav-btn.locked { background: #334155 !important; color: #64748b !important; pointer-events: none; opacity: 0.5; }
   </style>
 </head>
 <body>
@@ -23,24 +23,53 @@
   </header>
 
   <main class="container">
+    
+    <!-- Detailed Task Overview & Context Banner -->
     <section class="info-banner">
       <h2 style="font-size: 1.2rem; color: var(--copa-navy); margin-bottom: 0.5rem;">Task Overview: As-Is Process Mapping & Stakeholder Flow</h2>
       <p style="margin-bottom: 0.75rem;">
-        Before introducing artificial intelligence or workflow automation, practitioners must accurately capture the baseline reality of how work is completed today. An <strong>'As-Is' Swimlane Process Map</strong> provides transparency by illustrating chronological sequence, clear role accountability, and departmental handoffs.
+        Before introducing artificial intelligence or workflow automation, practitioners must accurately capture the baseline reality of how work is completed today. An <strong>'As-Is' Swimlane Process Map</strong> provides transparency by illustrating chronological sequence, clear role accountability, and departmental handoffs[cite: 4].
       </p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem; margin-top: 0.5rem; font-size: 0.825rem; color: #334155;">
+        <div style="background: #F8FAFC; padding: 0.75rem; border-radius: 6px; border: 1px solid var(--border-color);">
+          <strong style="color: var(--copa-navy); display: block; margin-bottom: 0.2rem;">1. Swimlane Ownership</strong>
+          Horizontal lanes represent specific stakeholders or teams. Placing a step in a lane explicitly defines who holds operational responsibility for that action[cite: 4].
+        </div>
+        <div style="background: #F8FAFC; padding: 0.75rem; border-radius: 6px; border: 1px solid var(--border-color);">
+          <strong style="color: var(--copa-navy); display: block; margin-bottom: 0.2rem;">2. Standard Geometric Notation</strong>
+          <span style="color: var(--green-text); font-weight: 600;">Ovals</span> represent starting triggers and terminal ends. <span style="color: #1E40AF; font-weight: 600;">Rectangles</span> represent action tasks. <span style="color: var(--amber-text); font-weight: 600;">Diamonds</span> indicate decision gateways[cite: 4].
+        </div>
+        <div style="background: #F8FAFC; padding: 0.75rem; border-radius: 6px; border: 1px solid var(--border-color);">
+          <strong style="color: var(--copa-navy); display: block; margin-bottom: 0.2rem;">3. Objective of this Exercise</strong>
+          Reconstruct the end-to-end <em>'Customer Order & Delivery'</em> workflow by dragging the 6 cards below into their correct stakeholder lane and chronological stage (Columns 1 to 6)[cite: 4].
+        </div>
+      </div>
     </section>
 
+    <!-- Component Bank -->
     <section class="bank-section">
       <div class="bank-header">
         <h3>Process Step Bank (Drag items into the swimlane grid below)</h3>
-        <button class="btn-secondary" onclick="resetBuilder()">Reset Map</button>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn-secondary" onclick="revealProcessMapAnswers()" style="background: #0284c7; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">💡 Show Correct Map</button>
+          <button class="btn-secondary" onclick="resetBuilder()">Reset Map</button>
+        </div>
       </div>
-      <div class="bank-cards" id="step-bank"></div>
+      <div class="bank-cards" id="step-bank">
+        <!-- Populated via JavaScript -->
+      </div>
     </section>
 
+    <!-- Swimlane Grid -->
     <section class="swimlane-container">
+      
+      <!-- Lane 1: Customer -->
       <div class="swimlane-row">
-        <div class="lane-header"><h4>Customer</h4><span>Trigger & Delivery</span></div>
+        <div class="lane-header">
+          <h4>Customer</h4>
+          <span>Trigger & Delivery</span>
+        </div>
         <div class="lane-slots" data-lane="customer">
           <div class="drop-slot" data-slot="1"><span class="slot-label">Stage 1</span></div>
           <div class="drop-slot" data-slot="2"><span class="slot-label">Stage 2</span></div>
@@ -51,8 +80,12 @@
         </div>
       </div>
 
+      <!-- Lane 2: Sales Team -->
       <div class="swimlane-row lane-row-alt">
-        <div class="lane-header"><h4>Sales & Admin</h4><span>Order Review</span></div>
+        <div class="lane-header">
+          <h4>Sales & Admin</h4>
+          <span>Order Review</span>
+        </div>
         <div class="lane-slots" data-lane="sales">
           <div class="drop-slot" data-slot="1"><span class="slot-label">Stage 1</span></div>
           <div class="drop-slot" data-slot="2"><span class="slot-label">Stage 2</span></div>
@@ -63,8 +96,12 @@
         </div>
       </div>
 
+      <!-- Lane 3: Warehouse & Logistics -->
       <div class="swimlane-row">
-        <div class="lane-header"><h4>Warehouse</h4><span>Inventory & Packing</span></div>
+        <div class="lane-header">
+          <h4>Warehouse</h4>
+          <span>Inventory & Packing</span>
+        </div>
         <div class="lane-slots" data-lane="warehouse">
           <div class="drop-slot" data-slot="1"><span class="slot-label">Stage 1</span></div>
           <div class="drop-slot" data-slot="2"><span class="slot-label">Stage 2</span></div>
@@ -74,10 +111,12 @@
           <div class="drop-slot" data-slot="6"><span class="slot-label">Stage 6</span></div>
         </div>
       </div>
+
     </section>
 
+    <!-- Controls -->
     <div class="action-bar">
-      <div class="feedback-msg" id="feedback">Drag all 6 workflow items into their designated stakeholder lanes.</div>
+      <div class="feedback-msg" id="feedback">Drag all 6 workflow items into their designated stakeholder lanes[cite: 4].</div>
       <button class="btn-primary" onclick="validateMap()">Validate Process Map</button>
     </div>
 
@@ -93,7 +132,17 @@
         </a>
       </div>
     </div>
+
   </main>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal-card">
+      <h3 id="modal-title">Process Map Validated!</h3>
+      <p id="modal-desc">All steps and decision gates have been accurately positioned in their corresponding stakeholder lanes with clear cross-functional handoffs[cite: 4].</p>
+      <button class="btn-primary" onclick="closeModal()">Close & Review</button>
+    </div>
+  </div>
 
   <script>
     const stepsData = [
@@ -137,7 +186,7 @@
           const cardId = e.dataTransfer.getData("text/plain");
           const item = stepsData.find(s => s.id === cardId);
           if (!item) return;
-          if (slot.querySelector(".placed-card")) { alert("Slot already occupied."); return; }
+          if (slot.querySelector(".placed-card")) { alert("This stage slot is already occupied. Remove the existing step first."); return; }
           const lane = slot.parentElement.dataset.lane;
           const slotNum = slot.dataset.slot;
           currentPlacements[cardId] = { lane, slot: slotNum };
@@ -151,44 +200,83 @@
       const placed = document.createElement("div");
       placed.className = "placed-card";
       placed.id = "placed-" + item.id;
-      placed.innerHTML = `<button class="remove-btn" onclick="removePlacement('${item.id}', this)">✕</button><div><span class="symbol-type ${item.typeClass}" style="font-size:0.55rem; padding:1px 3px;">${item.type}</span><strong style="display:block; font-size:0.75rem; margin-top:2px;">${item.title}</strong></div>`;
+      placed.innerHTML = `<button class="remove-btn" title="Remove" onclick="removePlacement('${item.id}', this)">✕</button><div><span class="symbol-type ${item.typeClass}" style="font-size:0.55rem; padding:1px 3px;">${item.type}</span><strong style="display:block; font-size:0.75rem; margin-top:2px;">${item.title}</strong></div><span style="font-size:0.65rem; color:#64748B;">Lane: ${item.targetLane}</span>`;
       slotElement.appendChild(placed);
     }
 
     function removePlacement(cardId, btn) {
-      btn.parentElement.remove();
+      const placedNode = btn.parentElement;
+      placedNode.parentElement.classList.remove("drag-over");
+      placedNode.remove();
       delete currentPlacements[cardId];
       renderBank();
     }
 
     function updateCount() {
-      document.getElementById("placed-count").innerText = `${Object.keys(currentPlacements).length} / ${stepsData.length}`;
+      const count = Object.keys(currentPlacements).length;
+      document.getElementById("placed-count").innerText = `${count} / ${stepsData.length}`;
+    }
+
+    function revealProcessMapAnswers() {
+      currentPlacements = {};
+      document.querySelectorAll(".placed-card").forEach(el => el.remove());
+      stepsData.forEach(item => {
+        const slot = document.querySelector(`[data-lane="${item.targetLane}"] [data-slot="${item.targetSlot}"]`);
+        if (slot) {
+          currentPlacements[item.id] = { lane: item.targetLane, slot: item.targetSlot };
+          placeCardInSlot(slot, item);
+        }
+      });
+      renderBank();
+      document.getElementById("feedback").innerText = "💡 Correct swimlane placement map revealed.";
+      unlockNavigation();
     }
 
     function validateMap() {
+      const total = stepsData.length;
+      const placed = Object.keys(currentPlacements).length;
+      if (placed < total) {
+        document.getElementById("feedback").innerText = `⚠️ Please place all 6 steps onto the swimlane map before validating (Currently placed: ${placed}/6).`;
+        return;
+      }
+
       let correct = 0;
       stepsData.forEach(s => {
         const p = currentPlacements[s.id];
         if (p && p.lane === s.targetLane && p.slot === s.targetSlot) correct++;
       });
 
-      if (correct === stepsData.length) {
-        document.getElementById("feedback").innerHTML = `<strong style="color:var(--green-text);">✓ Perfect Process Flow!</strong>`;
-        // Unlock Navigation
-        const nextBtn = document.getElementById("next-activity-btn");
-        nextBtn.classList.remove("locked");
-        document.getElementById("nav-status-text").style.color = "#34d399";
-        document.getElementById("nav-status-text").innerText = "✨ Unlocked! Ready for next task.";
+      if (correct === total) {
+        document.getElementById("feedback").innerHTML = `<strong style="color:var(--green-text);">✓ Perfect Process Flow!</strong> All steps, decision gates, and handoffs are accurately mapped[cite: 4].`;
+        showModal("Process Map Validated!", "You have correctly mapped the end-to-end journey with clear ownership, sequence, and decision logic[cite: 4].");
+        unlockNavigation();
       } else {
-        document.getElementById("feedback").innerText = `Flow Audit: ${correct} / ${stepsData.length} steps positioned accurately. Keep refining!`;
+        document.getElementById("feedback").innerText = `Flow Audit: ${correct} / ${total} steps positioned accurately. Review swimlane ownership and chronological stages.`;
       }
+    }
+
+    function unlockNavigation() {
+      const nextBtn = document.getElementById("next-activity-btn");
+      nextBtn.classList.remove("locked");
+      document.getElementById("nav-status-text").style.color = "#34d399";
+      document.getElementById("nav-status-text").innerText = "✨ Unlocked! Ready for next task.";
     }
 
     function resetBuilder() {
       currentPlacements = {};
       document.querySelectorAll(".placed-card").forEach(el => el.remove());
       renderBank();
-      document.getElementById("feedback").innerText = "Process map reset.";
+      document.getElementById("feedback").innerText = "Process map reset. Drag items to construct.";
+    }
+
+    function showModal(title, msg) {
+      document.getElementById("modal").style.display = "flex";
+      document.getElementById("modal-title").innerText = title;
+      document.getElementById("modal-desc").innerText = msg;
+    }
+
+    function closeModal() {
+      document.getElementById("modal").style.display = "none";
     }
 
     init();
