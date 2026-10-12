@@ -5,52 +5,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Process Improvement Fundamentals - MC2 Masterclass</title>
     <link rel="stylesheet" href="ProcessImprovement.css">
+    <style>
+        .scenario-tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #334155; padding-bottom: 10px; }
+        .tab-btn { background: #1e293b; color: #94a3b8; border: 1px solid #334155; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+        .tab-btn.active { background: #0284c7; color: white; border-color: #0284c7; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
 </head>
 <body>
     <header>
         <div class="container">
             <span class="badge">MC2 Masterclass Sequence</span>
             <h1>Topic 1: Process Improvement Fundamentals</h1>
-            <p class="subtitle">Operational Excellence & Baseline Workflow Analysis</p>
+            <p class="subtitle">Operational Excellence: Dual-Sector Triage & Baseline Analysis</p>
         </div>
     </header>
 
     <main class="container">
-        <!-- Briefing Card -->
-        <section class="card intro-card">
-            <h2>Introduction to Process Improvement</h2>
-            <p>
-                Welcome to the **MC2 Masterclass Sequence**. Before we map processes, identify lean waste, or implement automation, we must understand the core fundamentals of how operational workflows are analyzed and structured.
-            </p>
-            <p>
-                In this introductory module, you will explore the foundational principles of business process re-engineering, standard operating procedures, and the importance of establishing a baseline "As-Is" state before introducing technical change.
-            </p>
-            
-            <!-- Helper / Reveal Section -->
-            <div style="margin-top: 24px; padding: 20px; background: rgba(56, 189, 248, 0.1); border: 1px solid #38bdf8; border-radius: 12px;">
-                <h3 style="color: #38bdf8; margin-bottom: 8px; font-size: 16px;">Activity Requirement & Helper</h3>
-                <p style="font-size: 14px; color: #cbd5e1; margin-bottom: 16px;">
-                    Review the briefing material above. You can mark the module complete manually, or click the helper button below to view the key takeaways and unlock your path forward.
+        <!-- Scenario Tabs Navigation -->
+        <div class="scenario-tabs">
+            <button class="tab-btn active" onclick="switchScenario('bistro', event)">🍽️ Scenario 1: Broken Bistro</button>
+            <button class="tab-btn" onclick="switchScenario('tech', event)">💻 Scenario 2: The Tangled Tech Desk</button>
+        </div>
+
+        <!-- SCENARIO 1: BROKEN BISTRO -->
+        <div id="tab-bistro" class="tab-content active">
+            <section class="card intro-card">
+                <h2>The Situation: Broken Bistro</h2>
+                <p>
+                    You are running a popular city-centre restaurant. Tonight is Friday peak service, and operations are failing across physical floor workflows and digital backend systems. Read the live feedback from the shift below, then match the correct operational solution to its specific bottleneck to turn the restaurant around.
                 </p>
                 
-                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <button onclick="markModuleComplete()" style="background: #059669; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
-                        <span>✓ Mark Module Read & Complete</span>
+                <div style="margin-top: 16px; background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #334155;">
+                    <h3 style="color: #38bdf8; font-size: 15px; margin-bottom: 6px;">Live Shift Feedback / Bottlenecks:</h3>
+                    <ul style="color: #cbd5e1; font-size: 13px; line-height: 1.6; margin-left: 20px;">
+                        <li><strong>Floor bottleneck:</strong> Waiters are double-handling orders between paper pads and stationary kitchen terminals.</li>
+                        <li><strong>Backend glitch:</strong> Reservation apps and table booking logs are out of sync, causing double-bookings.</li>
+                    </ul>
+                </div>
+
+                <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap;">
+                    <button onclick="completeScenario('bistro')" class="btn" style="background: #059669; color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer;">
+                        ✓ Complete Bistro Triage
                     </button>
-                    <button onclick="revealAnswers()" style="background: #0284c7; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
-                        <span>💡 Show Correct Answers / Summary</span>
+                    <button onclick="revealAnswers('bistro')" class="btn btn-secondary" style="background: #0284c7; color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer;">
+                        💡 Show Correct Bistro Solutions
                     </button>
                 </div>
 
-                <!-- Hidden Answer Box revealed by the button -->
-                <div id="answer-box" style="display: none; margin-top: 16px; padding: 16px; background: #0f172a; border: 1px solid #10b981; border-radius: 8px; color: #a7f3d0; font-size: 13px; line-height: 1.5;">
-                    <strong>Correct Module Key Takeaways:</strong><br>
-                    1. Baseline 'As-Is' data must be captured before optimization.<br>
-                    2. Standard operating procedures reduce variance across team handoffs.<br>
-                    3. Process mapping sets the stage for Lean waste removal and automation triage.
+                <div id="bistro-answer-box" style="display: none; margin-top: 16px; padding: 14px; background: #0b0f19; border: 1px solid #10b981; border-radius: 8px; color: #a7f3d0; font-size: 13px; line-height: 1.5;">
+                    <strong>Correct Bistro Solutions:</strong> Deploy tableside mobile POS tablets to eliminate floor walking, and configure an API webhood connector to sync booking tables automatically.
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
+
+        <!-- SCENARIO 2: THE TANGLED TECH DESK -->
+        <div id="tab-tech" class="tab-content">
+            <section class="card intro-card">
+                <h2>The Situation: The Tangled Tech Desk</h2>
+                <p>
+                    You are the Lead DevOps & IT Operations Manager for a growing SaaS enterprise. A cascading series of system outages and team bottlenecks are bottlenecking release cycles and damaging client SLAs. Diagnose the root causes and deploy the correct fixes.
+                </p>
+
+                <div style="margin-top: 16px; background: #0f172a; padding: 16px; border-radius: 8px; border: 1px solid #334155;">
+                    <h3 style="color: #38bdf8; font-size: 15px; margin-bottom: 6px;">System Bottlenecks:</h3>
+                    <ul style="color: #cbd5e1; font-size: 13px; line-height: 1.6; margin-left: 20px;">
+                        <li><strong>Release bottleneck:</strong> Manual code deployments and multi-day QA sign-off queues delay production updates.</li>
+                        <li><strong>Infrastructure failure:</strong> Cloud servers scale unpredictably under sudden traffic spikes, causing service timeouts.</li>
+                    </ul>
+                </div>
+
+                <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap;">
+                    <button onclick="completeScenario('tech')" class="btn" style="background: #059669; color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer;">
+                        ✓ Complete Tech Desk Triage
+                    </button>
+                    <button onclick="revealAnswers('tech')" class="btn btn-secondary" style="background: #0284c7; color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer;">
+                        💡 Show Correct Tech Solutions
+                    </button>
+                </div>
+
+                <div id="tech-answer-box" style="display: none; margin-top: 16px; padding: 14px; background: #0b0f19; border: 1px solid #10b981; border-radius: 8px; color: #a7f3d0; font-size: 13px; line-height: 1.5;">
+                    <strong>Correct Tech Solutions:</strong> Implement automated CI/CD pipelines via GitHub Actions for continuous testing, and configure Infrastructure as Code (IaC) with auto-scaling cloud groups.
+                </div>
+            </section>
+        </div>
     </main>
 
     <!-- Locked Navigation Footer -->
@@ -58,7 +97,7 @@
         <div style="background: #131b2e; border: 1px solid #334155; padding: 1.25rem 1.5rem; border-radius: 12px; display: flex; align-items: center; justify-content: space-between;">
             <div>
                 <span style="font-size: 10px; font-family: monospace; color: #38bdf8; font-weight: bold; text-transform: uppercase; display: block;">MC2 Masterclass Sequence</span>
-                <span id="nav-status-text" style="font-size: 12px; color: #f59e0b;">🔒 Complete module review or show answers to unlock next task</span>
+                <span id="nav-status-text" style="font-size: 12px; color: #f59e0b;">🔒 Complete both scenarios or reveal answers to unlock next task</span>
             </div>
             <a id="next-activity-btn" href="process_map_builder.html" style="background: #0284c7; color: white; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; pointer-events: none; opacity: 0.5;">
                 <span>Proceed to Process Map Builder</span> &rarr;
@@ -68,30 +107,54 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 MC2 Masterclass Sequence | Process Improvement Fundamentals. Hosted for GitHub Pages.</p>
+            <p>&copy; 2026 Process Improvement Fundamentals | Dual-Sector Triage Lab. Designed for GitHub Pages.</p>
         </div>
     </footer>
 
     <script>
-        function unlockNavigation() {
-            const nextBtn = document.getElementById('next-activity-btn');
-            nextBtn.style.pointerEvents = 'auto';
-            nextBtn.style.opacity = '1';
+        let bistroDone = false;
+        let techDone = false;
+
+        function switchScenario(scenarioId, event) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             
-            const statusText = document.getElementById('nav-status-text');
-            statusText.style.color = '#34d399';
-            statusText.textContent = '✨ Unlocked! Ready for next task.';
+            document.getElementById('tab-' + scenarioId).classList.add('active');
+            event.currentTarget.classList.add('active');
         }
 
-        function markModuleComplete() {
-            unlockNavigation();
-            alert('Module successfully marked as complete! You can now proceed to the Process Map Builder.');
+        function checkUnlock() {
+            if (bistroDone && techDone) {
+                const nextBtn = document.getElementById('next-activity-btn');
+                nextBtn.style.pointerEvents = 'auto';
+                nextBtn.style.opacity = '1';
+                
+                const statusText = document.getElementById('nav-status-text');
+                statusText.style.color = '#34d399';
+                statusText.textContent = '✨ All scenarios complete! Ready for next task.';
+            }
         }
 
-        function revealAnswers() {
-            const answerBox = document.getElementById('answer-box');
-            answerBox.style.display = 'block';
-            unlockNavigation();
+        function completeScenario(type) {
+            if (type === 'bistro') {
+                bistroDone = true;
+                alert('Broken Bistro triage validated successfully!');
+            } else if (type === 'tech') {
+                techDone = true;
+                alert('Tangled Tech Desk triage validated successfully!');
+            }
+            checkUnlock();
+        }
+
+        function revealAnswers(type) {
+            if (type === 'bistro') {
+                document.getElementById('bistro-answer-box').style.display = 'block';
+                bistroDone = true;
+            } else if (type === 'tech') {
+                document.getElementById('tech-answer-box').style.display = 'block';
+                techDone = true;
+            }
+            checkUnlock();
         }
     </script>
 </body>
