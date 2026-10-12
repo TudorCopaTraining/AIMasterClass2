@@ -5,30 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>COPA | Prioritising Improvement Opportunities Lab</title>
   <link rel="stylesheet" href="improvementopp.css">
-  <style>
-      /* Locked button styling */
-      .next-nav-btn {
-          background-color: #10b981 !important;
-          color: #ffffff !important;
-          padding: 12px 24px !important;
-          border-radius: 10px !important;
-          font-size: 14px !important;
-          font-weight: 600 !important;
-          text-decoration: none !important;
-          display: inline-flex !important;
-          align-items: center !important;
-          gap: 8px;
-          white-space: nowrap !important;
-          transition: all 0.3s ease;
-      }
-      .next-nav-btn.locked {
-          background-color: #334155 !important;
-          color: #64748b !important;
-          pointer-events: none;
-          cursor: not-allowed;
-          box-shadow: none !important;
-      }
-  </style>
 </head>
 <body>
 
@@ -51,72 +27,39 @@
     
     <!-- TAB 1: 2x2 MATRIX -->
     <div id="tab-matrix" class="tab-content active">
-      <!-- Task Explanation Callout -->
       <section class="deck-section" style="background: #F8FAFC; border-left: 5px solid var(--copa-navy);">
         <h2 style="font-size: 1.15rem; margin-bottom: 0.4rem; color: var(--copa-navy);">Task Overview: Impact vs. Effort Evaluation</h2>
         <p style="font-size: 0.875rem; color: #475569; line-height: 1.5; margin-bottom: 0.5rem;">
-          In digital transformation and process improvement, organisations must balance business value against time, budget, and implementation difficulty. Your objective is to triage the 8 candidate initiatives below across two strategic dimensions:
+          In digital transformation and process improvement, organisations must balance business value against time, budget, and implementation difficulty. Triage the 8 candidate initiatives below across two strategic dimensions:
         </p>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem; font-size: 0.825rem; color: #334155;">
-          <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
-            <strong style="color: var(--green-text);">• Quick Wins (High Impact, Low Effort):</strong> Deploy first. Delivers rapid results, minimal technical barrier, and early team buy-in.
-          </div>
-          <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
-            <strong style="color: var(--blue-text);">• Strategic (High Impact, High Effort):</strong> Plan & budget. Major long-term gains requiring structured project planning.
-          </div>
-          <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
-            <strong style="color: var(--amber-text);">• Fill-Ins (Low Impact, Low Effort):</strong> Execute when time permits. Small, low-risk procedural adjustments.
-          </div>
-          <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
-            <strong style="color: var(--red-text);">• Time Sinks (Low Impact, High Effort):</strong> De-prioritise or avoid. High cost or effort with very little practical return.
-          </div>
-        </div>
       </section>
 
       <section class="deck-section">
         <div class="deck-header">
           <h2>Candidate Improvement Pipeline (Drag to Target Quadrant)</h2>
-          <button class="btn-reset" onclick="resetMatrix()">Reset Matrix</button>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn-reset" onclick="revealMatrixAnswers()" style="background: #0284c7; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">💡 Show Correct Answers</button>
+            <button class="btn-reset" onclick="resetMatrix()">Reset Matrix</button>
+          </div>
         </div>
-        <div class="deck-cards" id="matrix-deck">
-          <!-- Cards populated by JS -->
-        </div>
+        <div class="deck-cards" id="matrix-deck"></div>
       </section>
 
       <section class="matrix-grid">
-        <!-- Q1: Quick Wins -->
         <div class="quadrant q-quick-wins" data-quadrant="quick-wins" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'matrix')">
-          <div class="quadrant-header">
-            <h3>Quick Wins (Do First)</h3>
-            <span>HIGH IMPACT | LOW EFFORT</span>
-          </div>
+          <div class="quadrant-header"><h3>Quick Wins (Do First)</h3><span>HIGH IMPACT | LOW EFFORT</span></div>
           <div class="quadrant-cards" id="drop-quick-wins"></div>
         </div>
-
-        <!-- Q2: Strategic -->
         <div class="quadrant q-strategic" data-quadrant="strategic" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'matrix')">
-          <div class="quadrant-header">
-            <h3>Strategic Projects (Plan & Budget)</h3>
-            <span>HIGH IMPACT | HIGH EFFORT</span>
-          </div>
+          <div class="quadrant-header"><h3>Strategic Projects (Plan & Budget)</h3><span>HIGH IMPACT | HIGH EFFORT</span></div>
           <div class="quadrant-cards" id="drop-strategic"></div>
         </div>
-
-        <!-- Q3: Fill-ins -->
         <div class="quadrant q-fillins" data-quadrant="fill-ins" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'matrix')">
-          <div class="quadrant-header">
-            <h3>Fill-Ins / Secondary (When Time Permits)</h3>
-            <span>LOW IMPACT | LOW EFFORT</span>
-          </div>
+          <div class="quadrant-header"><h3>Fill-Ins / Secondary (When Time Permits)</h3><span>LOW IMPACT | LOW EFFORT</span></div>
           <div class="quadrant-cards" id="drop-fill-ins"></div>
         </div>
-
-        <!-- Q4: Time Sinks -->
         <div class="quadrant q-timesinks" data-quadrant="time-sinks" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'matrix')">
-          <div class="quadrant-header">
-            <h3>Time Sinks (De-prioritise / Avoid)</h3>
-            <span>LOW IMPACT | HIGH EFFORT</span>
-          </div>
+          <div class="quadrant-header"><h3>Time Sinks (De-prioritise / Avoid)</h3><span>LOW IMPACT | HIGH EFFORT</span></div>
           <div class="quadrant-cards" id="drop-time-sinks"></div>
         </div>
       </section>
@@ -129,68 +72,39 @@
 
     <!-- TAB 2: MOSCOW BOARD -->
     <div id="tab-moscow" class="tab-content">
-      <!-- Task Explanation Callout -->
       <section class="deck-section" style="background: #F8FAFC; border-left: 5px solid var(--copa-navy);">
         <h2 style="font-size: 1.15rem; margin-bottom: 0.4rem; color: var(--copa-navy);">Task Overview: MoSCoW Scope & Governance Classification</h2>
         <p style="font-size: 0.875rem; color: #475569; line-height: 1.5; margin-bottom: 0.5rem;">
-          To keep projects on schedule and avoid scope creep, categorize each proposed initiative into an agreed project release tier:
+          Categorize each proposed initiative into an agreed project release tier to protect deadlines and budget.
         </p>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem; font-size: 0.825rem; color: #334155;">
-          <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
-            <strong style="color: #DC2626;">• Must Have:</strong> Non-negotiable requirements, legal compliance, safety checks, or essential baseline functionality.
-          </div>
-          <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
-            <strong style="color: #2563EB;">• Should Have:</strong> Important operational improvements delivering clear business value, but with short-term workarounds available.
-          </div>
-          <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
-            <strong style="color: #D97706;">• Could Have:</strong> Useful additions that improve user convenience, but can be safely postponed if time runs short.
-          </div>
-          <div style="background: #FFFFFF; padding: 0.6rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
-            <strong style="color: #475569;">• Won't Have (Now):</strong> Agreed as out of scope for the current rollout to protect deadlines and budget.
-          </div>
-        </div>
       </section>
 
       <section class="deck-section">
         <div class="deck-header">
           <h2>Project Scope Backlog (Drag into Governance Classification)</h2>
-          <button class="btn-reset" onclick="resetMoscow()">Reset MoSCoW</button>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn-reset" onclick="revealMoscowAnswers()" style="background: #0284c7; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">💡 Show Correct Answers</button>
+            <button class="btn-reset" onclick="resetMoscow()">Reset MoSCoW</button>
+          </div>
         </div>
-        <div class="deck-cards" id="moscow-deck">
-          <!-- Cards populated by JS -->
-        </div>
+        <div class="deck-cards" id="moscow-deck"></div>
       </section>
 
       <section class="moscow-grid">
         <div class="moscow-col m-must" data-moscow="must" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'moscow')">
-          <div class="quadrant-header">
-            <h3>Must Have</h3>
-            <span style="background:#FCA5A5; color:#991B1B;">NON-NEGOTIABLE</span>
-          </div>
+          <div class="quadrant-header"><h3>Must Have</h3><span style="background:#FCA5A5; color:#991B1B;">NON-NEGOTIABLE</span></div>
           <div class="quadrant-cards" id="drop-must"></div>
         </div>
-
         <div class="moscow-col m-should" data-moscow="should" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'moscow')">
-          <div class="quadrant-header">
-            <h3>Should Have</h3>
-            <span style="background:#BFDBFE; color:#1E40AF;">HIGH VALUE ROI</span>
-          </div>
+          <div class="quadrant-header"><h3>Should Have</h3><span style="background:#BFDBFE; color:#1E40AF;">HIGH VALUE ROI</span></div>
           <div class="quadrant-cards" id="drop-should"></div>
         </div>
-
         <div class="moscow-col m-could" data-moscow="could" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'moscow')">
-          <div class="quadrant-header">
-            <h3>Could Have</h3>
-            <span style="background:#FDE68A; color:#92400E;">DESIRABLE</span>
-          </div>
+          <div class="quadrant-header"><h3>Could Have</h3><span style="background:#FDE68A; color:#92400E;">DESIRABLE</span></div>
           <div class="quadrant-cards" id="drop-could"></div>
         </div>
-
         <div class="moscow-col m-wont" data-moscow="wont" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'moscow')">
-          <div class="quadrant-header">
-            <h3>Won't Have (Now)</h3>
-            <span style="background:#E2E8F0; color:#475569;">OUT OF SCOPE</span>
-          </div>
+          <div class="quadrant-header"><h3>Won't Have (Now)</h3><span style="background:#E2E8F0; color:#475569;">OUT OF SCOPE</span></div>
           <div class="quadrant-cards" id="drop-wont"></div>
         </div>
       </section>
@@ -203,105 +117,44 @@
 
   </main>
 
-  <!-- Success Modal -->
+  <!-- Navigation / Certificate Footer -->
+  <div style="max-width: 1100px; margin: 30px auto; padding: 0 1.5rem;">
+    <div style="background: #064e3b; border: 1px solid #10b981; padding: 1.25rem 1.5rem; border-radius: 12px; display: flex; align-items: center; justify-content: space-between;">
+        <div>
+            <span style="font-size: 10px; font-family: monospace; color: #34d399; font-weight: bold; text-transform: uppercase; display: block;">MC2 Masterclass Sequence</span>
+            <span id="nav-status-text" style="font-size: 12px; color: #a7f3d0;">Complete the triage above OR use the certificate access option to proceed.</span>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <a href="certificate.html" style="background: #10b981; color: white; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                <span>View Completion Certificate</span> &rarr;
+            </a>
+        </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
   <div class="modal-overlay" id="modal">
     <div class="modal-content">
       <h3 id="modal-title">Evaluation Validated!</h3>
-      <p id="modal-desc">All candidate items have been categorized accurately according to operational return and organizational constraints.</p>
+      <p id="modal-desc">All candidate items have been categorized accurately.</p>
       <button class="btn-action" onclick="closeModal()">Continue</button>
     </div>
   </div>
 
   <script>
-    // Universal, accessible enterprise initiatives free from niche developer jargon
     const initiatives = [
-      {
-        id: "item-1",
-        title: "Mandatory Digital Form Field Checks",
-        desc: "Add automated format checking (such as email and phone number verification) to online intake forms to eliminate typing errors.",
-        matrixTarget: "quick-wins",
-        moscowTarget: "must",
-        tag: "Data Quality"
-      },
-      {
-        id: "item-2",
-        title: "Connecting Central Database & Accounts",
-        desc: "Build an automated link between your customer records and billing system so details update everywhere at the same time.",
-        matrixTarget: "strategic",
-        moscowTarget: "should",
-        tag: "Core Systems"
-      },
-      {
-        id: "item-3",
-        title: "Staff Dashboard Color & Display Themes",
-        desc: "Allow internal staff to customize screen colors and switch to a dark background theme for personal preference.",
-        matrixTarget: "fill-ins",
-        moscowTarget: "could",
-        tag: "Visual Design"
-      },
-      {
-        id: "item-4",
-        title: "Premature Full Office Computer Replacement",
-        desc: "Replacing all working office computers and servers years before necessary to gain a barely noticeable 2% speed boost.",
-        matrixTarget: "time-sinks",
-        moscowTarget: "wont",
-        tag: "Equipment"
-      },
-      {
-        id: "item-5",
-        title: "Automated Sign-Off for Small Refunds",
-        desc: "Set automatic approval rules for minor customer corrections under £5, eliminating the need to wait for a supervisor's signature.",
-        matrixTarget: "quick-wins",
-        moscowTarget: "should",
-        tag: "Team Approvals"
-      },
-      {
-        id: "item-6",
-        title: "Unsupervised AI Issuing Large Financial Refunds",
-        desc: "Allowing an experimental customer chatbot to approve and transfer unlimited cash refunds with no human checking.",
-        matrixTarget: "time-sinks",
-        moscowTarget: "wont",
-        tag: "Financial Risk"
-      },
-      {
-        id: "item-7",
-        title: "Customer Privacy & Consent Checkpoint",
-        desc: "Add clear opt-in tickboxes and human-review options whenever customer data is evaluated by automated profiling systems.",
-        matrixTarget: "quick-wins",
-        moscowTarget: "must",
-        tag: "Legal Compliance"
-      },
-      {
-        id: "item-8",
-        title: "Predictive Demand & Staffing Forecasts",
-        desc: "Use historical workload trends and seasonal data to accurately project customer demand two weeks ahead.",
-        matrixTarget: "strategic",
-        moscowTarget: "should",
-        tag: "Forecasting"
-      }
+      { id: "item-1", title: "Mandatory Digital Form Field Checks", desc: "Add automated format checking to online intake forms to eliminate typing errors.", matrixTarget: "quick-wins", moscowTarget: "must", tag: "Data Quality" },
+      { id: "item-2", title: "Connecting Central Database & Accounts", desc: "Build an automated link between customer records and billing system.", matrixTarget: "strategic", moscowTarget: "should", tag: "Core Systems" },
+      { id: "item-3", title: "Staff Dashboard Color & Display Themes", desc: "Allow internal staff to customize screen colors and dark theme.", matrixTarget: "fill-ins", moscowTarget: "could", tag: "Visual Design" },
+      { id: "item-4", title: "Premature Full Office Computer Replacement", desc: "Replacing all working hardware years before necessary.", matrixTarget: "time-sinks", moscowTarget: "wont", tag: "Equipment" },
+      { id: "item-5", title: "Automated Sign-Off for Small Refunds", desc: "Set automatic approval rules for minor customer corrections under £5.", matrixTarget: "quick-wins", moscowTarget: "should", tag: "Team Approvals" },
+      { id: "item-6", title: "Unsupervised AI Issuing Large Financial Refunds", desc: "Allowing an experimental customer chatbot to approve unlimited cash transfers.", matrixTarget: "time-sinks", moscowTarget: "wont", tag: "Financial Risk" },
+      { id: "item-7", title: "Customer Privacy & Consent Checkpoint", desc: "Add clear opt-in tickboxes whenever customer data is evaluated.", matrixTarget: "quick-wins", moscowTarget: "must", tag: "Legal Compliance" },
+      { id: "item-8", title: "Predictive Demand & Staffing Forecasts", desc: "Use historical workload trends to project customer demand.", matrixTarget: "strategic", moscowTarget: "should", tag: "Forecasting" }
     ];
 
     let matrixState = {};
     let moscowState = {};
-    let matrixValidated = false;
-    let moscowValidated = false;
-
-    function checkUnlock() {
-      const nextBtn = document.getElementById("next-activity-btn");
-      const navStatusText = document.getElementById("nav-status-text");
-      if (matrixValidated && moscowValidated) {
-        nextBtn.classList.remove("locked");
-        navStatusText.style.color = "#34d399";
-        navStatusText.innerText = "✨ Unlocked! View your completion certificate.";
-      } else {
-        nextBtn.classList.add("locked");
-        navStatusText.style.color = "#f59e0b";
-        let missing = [];
-        if (!matrixValidated) missing.push("Matrix");
-        if (!moscowValidated) missing.push("MoSCoW");
-        navStatusText.innerText = `🔒 Complete validation for: ${missing.join(" and ")}`;
-      }
-    }
 
     function init() {
       renderMatrixDeck();
@@ -312,9 +165,7 @@
       const deck = document.getElementById("matrix-deck");
       deck.innerHTML = "";
       initiatives.forEach(item => {
-        if (!matrixState[item.id]) {
-          deck.appendChild(createCard(item));
-        }
+        if (!matrixState[item.id]) deck.appendChild(createCard(item));
       });
     }
 
@@ -322,9 +173,7 @@
       const deck = document.getElementById("moscow-deck");
       deck.innerHTML = "";
       initiatives.forEach(item => {
-        if (!moscowState[item.id]) {
-          deck.appendChild(createCard(item));
-        }
+        if (!moscowState[item.id]) deck.appendChild(createCard(item));
       });
     }
 
@@ -333,26 +182,13 @@
       el.className = "item-card";
       el.draggable = true;
       el.id = item.id;
-      el.ondragstart = (e) => {
-        e.dataTransfer.setData("text/plain", item.id);
-        el.classList.add("dragging");
-      };
+      el.ondragstart = (e) => { e.dataTransfer.setData("text/plain", item.id); el.classList.add("dragging"); };
       el.ondragend = () => el.classList.remove("dragging");
-      
-      el.innerHTML = `
-        <div>
-          <h4>${item.title}</h4>
-          <p>${item.desc}</p>
-        </div>
-        <span class="meta-tag">${item.tag}</span>
-      `;
+      el.innerHTML = `<div><h4>${item.title}</h4><p>${item.desc}</p></div><span class="meta-tag">${item.tag}</span>`;
       return el;
     }
 
-    function allowDrop(e) {
-      e.preventDefault();
-      e.currentTarget.classList.add("drag-over");
-    }
+    function allowDrop(e) { e.preventDefault(); e.currentTarget.classList.add("drag-over"); }
 
     function handleDrop(e, mode) {
       e.preventDefault();
@@ -366,20 +202,14 @@
         const quadrant = dropZone.dataset.quadrant;
         matrixState[id] = quadrant;
         document.getElementById(`drop-${quadrant}`).appendChild(createPlacedCard(item, () => {
-          delete matrixState[id];
-          renderMatrixDeck();
-          document.getElementById(item.id + "-placed").remove();
-          updateTotalProgress();
+          delete matrixState[id]; renderMatrixDeck(); document.getElementById(item.id + "-placed").remove(); updateTotalProgress();
         }));
         renderMatrixDeck();
       } else {
         const target = dropZone.dataset.moscow;
         moscowState[id] = target;
         document.getElementById(`drop-${target}`).appendChild(createPlacedCard(item, () => {
-          delete moscowState[id];
-          renderMoscowDeck();
-          document.getElementById(item.id + "-placed").remove();
-          updateTotalProgress();
+          delete moscowState[id]; renderMoscowDeck(); document.getElementById(item.id + "-placed").remove(); updateTotalProgress();
         }));
         renderMoscowDeck();
       }
@@ -390,85 +220,73 @@
       const el = document.createElement("div");
       el.className = "item-card";
       el.id = item.id + "-placed";
-      el.style.maxWidth = "100%";
-      el.style.minWidth = "auto";
-      el.style.marginBottom = "0.5rem";
-      el.style.cursor = "default";
-      el.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-          <h4 style="font-size:0.85rem;">${item.title}</h4>
-          <button style="border:none; background:none; color:#EF4444; font-weight:700; cursor:pointer;" onclick="this.parentElement.parentElement.remove()">✕</button>
-        </div>
-        <p style="font-size:0.75rem; margin-bottom:0.4rem;">${item.desc}</p>
-        <span class="meta-tag" style="font-size:0.65rem;">${item.tag}</span>
-      `;
+      el.style.maxWidth = "100%"; el.style.minWidth = "auto"; el.style.marginBottom = "0.5rem"; el.style.cursor = "default";
+      el.innerHTML = `<div style="display:flex; justify-content:space-between; align-items:flex-start;"><h4 style="font-size:0.85rem;">${item.title}</h4><button style="border:none; background:none; color:#EF4444; font-weight:700; cursor:pointer;">✕</button></div><p style="font-size:0.75rem; margin-bottom:0.4rem;">${item.desc}</p><span class="meta-tag" style="font-size:0.65rem;">${item.tag}</span>`;
       el.querySelector("button").onclick = onRemove;
       return el;
     }
 
-    function validateMatrix() {
-      const total = initiatives.length;
-      let placed = Object.keys(matrixState).length;
-      if (placed < total) {
-        document.getElementById("matrix-feedback").innerText = `⚠️ Please place all 8 candidate items on the matrix before validating (Currently placed: ${placed}/8).`;
-        return;
-      }
-      let correct = 0;
-      initiatives.forEach(i => {
-        if (matrixState[i.id] === i.matrixTarget) correct++;
+    function revealMatrixAnswers() {
+      matrixState = {};
+      ["quick-wins", "strategic", "fill-ins", "time-sinks"].forEach(q => document.getElementById(`drop-${q}`).innerHTML = "");
+      initiatives.forEach(item => {
+        matrixState[item.id] = item.matrixTarget;
+        document.getElementById(`drop-${item.matrixTarget}`).appendChild(createPlacedCard(item, () => {
+          delete matrixState[item.id]; renderMatrixDeck(); document.getElementById(item.id + "-placed").remove(); updateTotalProgress();
+        }));
       });
+      renderMatrixDeck();
+      updateTotalProgress();
+      document.getElementById("matrix-feedback.innerHTML").innerText = "💡 Correct Matrix answers revealed.";
+    }
 
-      if (correct === total) {
-        matrixValidated = true;
-        checkUnlock();
-        document.getElementById("matrix-feedback").innerHTML = `<strong style="color:var(--green-text);">✓ Perfect Matrix Alignment!</strong> All 8 initiatives classified accurately across Impact vs. Effort.`;
-        showModal("Matrix Evaluation Complete", "You have successfully separated high-impact quick wins and strategic projects from low-value distractions and risky time sinks.");
+    function revealMoscowAnswers() {
+      moscowState = {};
+      ["must", "should", "could", "wont"].forEach(q => document.getElementById(`drop-${q}`).innerHTML = "");
+      initiatives.forEach(item => {
+        moscowState[item.id] = item.moscowTarget;
+        document.getElementById(`drop-${item.moscowTarget}`).appendChild(createPlacedCard(item, () => {
+          delete moscowState[item.id]; renderMoscowDeck(); document.getElementById(item.id + "-placed").remove(); updateTotalProgress();
+        }));
+      });
+      renderMoscowDeck();
+      updateTotalProgress();
+      document.getElementById("moscow-feedback").innerText = "💡 Correct MoSCoW answers revealed.";
+    }
+
+    function validateMatrix() {
+      let correct = 0;
+      initiatives.forEach(i => { if (matrixState[i.id] === i.matrixTarget) correct++; });
+      if (correct === initiatives.length) {
+        document.getElementById("matrix-feedback.innerHTML")?.... || (document.getElementById("matrix-feedback").innerHTML = `<strong style="color:var(--green-text);">✓ Perfect Matrix Alignment!</strong>`);
+        showModal("Matrix Evaluation Complete", "All initiatives classified accurately.");
       } else {
-        document.getElementById("matrix-feedback").innerText = `Triage Result: ${correct} / ${total} aligned. Re-evaluate high-effort items that deliver very little practical return to the organisation.`;
+        document.getElementById("matrix-feedback").innerText = `Triage Result: ${correct} / 8 aligned. Click 'Show Correct Answers' if you wish to inspect solutions.`;
       }
     }
 
     function validateMoscow() {
-      const total = initiatives.length;
-      let placed = Object.keys(moscowState).length;
-      if (placed < total) {
-        document.getElementById("moscow-feedback").innerText = `⚠️ Please classify all 8 backlog items into MoSCoW buckets (Currently placed: ${placed}/8).`;
-        return;
-      }
       let correct = 0;
-      initiatives.forEach(i => {
-        if (moscowState[i.id] === i.moscowTarget) correct++;
-      });
-
-      if (correct === total) {
-        moscowValidated = true;
-        checkUnlock();
-        document.getElementById("moscow-feedback").innerHTML = `<strong style="color:var(--green-text);">✓ MoSCoW Scope Validated!</strong> Scope boundaries protect project delivery deadlines and prevent unnecessary expenditure.`;
-        showModal("MoSCoW Scope Validated", "Your governance scope secures critical legal and operational Must-Haves while deferring non-essential enhancements.");
+      initiatives.forEach(i => { if (moscowState[i.id] === i.moscowTarget) correct++; });
+      if (correct === initiatives.length) {
+        document.getElementById("moscow-feedback").innerHTML = `<strong style="color:var(--green-text);">✓ MoSCoW Scope Validated!</strong>`;
+        showModal("MoSCoW Scope Validated", "Scope boundaries protect deadlines.");
       } else {
-        document.getElementById("moscow-feedback").innerText = `Scope Result: ${correct} / ${total} aligned. Remember: mandatory legal rules and basic quality safeguards must always be Must-Have.`;
+        document.getElementById("moscow-feedback").innerText = `Scope Result: ${correct} / 8 aligned. Click 'Show Correct Answers' if you wish to inspect solutions.`;
       }
     }
 
     function resetMatrix() {
       matrixState = {};
-      matrixValidated = false;
-      checkUnlock();
-      ["quick-wins", "strategic", "fill-ins", "time-sinks"].forEach(q => {
-        document.getElementById(`drop-${q}`).innerHTML = "";
-      });
+      ["quick-wins", "strategic", "fill-ins", "time-sinks"].forEach(q => document.getElementById(`drop-${q}`).innerHTML = "");
       renderMatrixDeck();
-      document.getElementById("matrix-feedback").innerText = "Matrix reset. Drag items to evaluate.";
+      document.getElementById("matrix-feedback").innerText = "Matrix reset.";
       updateTotalProgress();
     }
 
     function resetMoscow() {
       moscowState = {};
-      moscowValidated = false;
-      checkUnlock();
-      ["must", "should", "could", "wont"].forEach(q => {
-        document.getElementById(`drop-${q}`).innerHTML = "";
-      });
+      ["must", "should", "could", "wont"].forEach(q => document.getElementById(`drop-${q}`).innerHTML = "");
       renderMoscowDeck();
       document.getElementById("moscow-feedback").innerText = "MoSCoW board reset.";
       updateTotalProgress();
@@ -493,24 +311,9 @@
       document.getElementById("modal-desc").innerText = msg;
     }
 
-    function closeModal() {
-      document.getElementById("modal").style.display = "none";
-    }
+    function closeModal() { document.getElementById("modal").style.display = "none"; }
 
     init();
   </script>
-
-  <!-- Masterclass Sequence Navigation Bar (Locked until both exercises validated) -->
-  <div style="max-width: 1100px; margin: 30px auto; padding: 0 1.5rem;">
-      <div style="background-color: #131b2e !important; border: 1px solid #334155 !important; padding: 20px 24px !important; border-radius: 16px !important; display: flex !important; align-items: center !important; justify-content: space-between !important; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3) !important;">
-          <div style="text-align: left;">
-              <span style="font-size: 10px; font-family: monospace; color: #38bdf8; font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 4px;">MC2 Masterclass Sequence</span>
-              <span id="nav-status-text" style="font-size: 13px; color: #f59e0b; display: block;">🔒 Validate both Matrix and MoSCoW to unlock certificate</span>
-          </div>
-          <a id="next-activity-btn" href="certificate.html" class="next-nav-btn locked">
-              <span>View Completion Certificate</span> &rarr;
-          </a>
-      </div>
-  </div>
 </body>
 </html>
