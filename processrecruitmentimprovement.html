@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Process Improvement Fundamentals | Sales &amp; Recruitment Triage</title>
+    <link rel="stylesheet" href="processrecruitmentimprovement.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <span class="badge">MC2 Masterclass Sequence</span>
+            <h1>Topic 1: Process Improvement Fundamentals</h1>
+            <p class="subtitle">Operational Excellence: Sales Pipeline &amp; Talent Recruitment Multi-Task Triage Lab</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Scenario Tabs Navigation -->
+        <div class="scenario-tabs">
+            <button class="tab-btn active" onclick="switchScenario('recruitment', event)">
+                👥 Scenario 1: Struggling Recruitment Agency (5 Tasks)
+            </button>
+            <button class="tab-btn" onclick="switchScenario('sales', event)">
+                📈 Scenario 2: Stalled B2B Sales Pipeline (5 Tasks)
+            </button>
+        </div>
+
+        <!-- SCENARIO 1: STRUGGLING RECRUITMENT -->
+        <div id="tab-recruitment" class="tab-content active">
+            <section class="card intro-card">
+                <h2>The Situation: Struggling Talent Recruitment Operations</h2>
+                <p>
+                    You are the Operations Director at a high-volume staffing agency. Candidate drop-off is at an all-time high of 42%, consultants spend 60% of their workday copy-pasting CV data between spreadsheets, and client hiring managers complain of sluggish placement cycle times. Complete all 5 triage tasks below to streamline talent operations.
+                </p>
+                
+                <!-- Task 1 -->
+                <div class="task-card">
+                    <h3>Task 1: Inbound CV Intake &amp; Parsing Bottlenecks</h3>
+                    <p>Consultants spend 15 hours weekly manually downloading attached PDF/Word resumes from shared inboxes and re-keying candidate profiles into an internal tracker.</p>
+                    <div class="options-group">
+                        <label class="option-label">
+                            <input type="radio" name="r1" onclick="evalTask('r', 1, false)">
+                            <span>Hire two junior admin interns to manually re-type CVs onto spreadsheets around the clock.</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="r1" onclick="evalTask('r', 1, true)">
+                            <span>Implement an automated cloud flow using Intelligent Document Processing (IDP/OCR) to extract contact details, skills, and work history directly into the ATS database.</span>
+                        </label>
+                    </div>
+                    <div id="r1-feed" class="feedback-msg" style="display: none;"></div>
+                </div>
+
+                <!-- Task 2 -->
+                <div class="task-card">
+                    <h3>Task 2: Candidate Interview Scheduling Clashes</h3>
+                    <p>Recruiters play email ping-pong across 4 to 6 back-and-forth messages with candidates and client hiring managers to book 30-minute screening calls, resulting in frequent double-bookings.</p>
+                    <div class="options-group">
+                        <label class="option-label">
+                            <input type="radio" name="r2" onclick="evalTask('r', 2, false)">
+                            <span>Instruct recruiters to call all 100 applicants on the phone each Monday morning.</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="r2" onclick="evalTask('r', 2, true)">
+                            <span>Deploy automated calendar booking links (Microsoft Bookings / Calendly) synchronised to consultants' real-time availability with auto-generated Teams links.</span>
+                        </label>
+                    </div>
+                    <div id="r2-feed" class="feedback-msg" style="display: none;"></div>
+                </div>
+
+                <!-- Task 3 -->
+                <div class="task-card">
+                    <h3>Task 3: Right-to-Work (RTW) &amp; Compliance Document Chasing</h3>
+                    <p>Placement start dates are consistently delayed because recruiters forget to request passport copies, visas, and proof of address until after the job offer is accepted.</p>
+                    <div class="options-group">
+                        <label class="option-label">
+                            <input type="radio" name="r3" onclick="evalTask('r', 3, false)">
+                            <span>Ignore compliance checks until an annual external audit flags missing files.</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="r3" onclick="evalTask('r', 3, true)">
+                            <span>Establish an automated onboarding workflow that triggers a secure document upload portal and automated SMS/email reminders upon initial shortlist status.</span>
+                        </label>
+                    </div>
+                    <div id="r3-feed" class="feedback-msg" style="display: none;"></div>
+                </div>
+
+                <!-- Task 4 -->
+                <div class="task-card">
+                    <h3>Task 4: Consultant Fee Split &amp; Commission Sign-Off Friction</h3>
+                    <p>Commission reconciliations take 5 working days at month-end because split placements require manual manager spreadsheet sign-offs and physical printed signature slips.</p>
+                    <div class="options-group">
+                        <label class="option-label">
+                            <input type="radio" name="r4" onclick="evalTask('r', 4, false)">
+                            <span>Eliminate commission verification entirely and pay whatever consultants estimate on paper.</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="r4" onclick="evalTask('r', 4, true)">
+                            <span>Configure an automated approval state machine in Power Automate with Outlook actionable buttons and automated ledger updating.</span>
+                        </label>
+                    </div>
+                    <div id="r4-feed" class="feedback-msg" style="display: none;"></div>
+                </div>
+
+                <!-- Task 5 -->
+                <div class="task-card">
+                    <h3>Task 5: Rejected Candidate "Ghosting" &amp; Brand Erosion</h3>
+                    <p>Over 80% of unsuccessful applicants receive zero feedback after screening because consultants have no time to compose individual regret emails, causing poor Glassdoor reviews.</p>
+                    <div class="options-group">
+                        <label class="option-label">
+                            <input type="radio" name="r5" onclick="evalTask('r', 5, false)">
+                            <span>Post a generic public message on the company website stating "If you haven't heard from us in 3 months, assume you were rejected."</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="r5" onclick="evalTask('r', 5, true)">
+                            <span>Implement automated event-driven triggers when ATS status changes to 'Rejected', sending personalized, policy-grounded feedback templates with alternative job recommendations.</span>
+                        </label>
+                    </div>
+                    <div id="r5-feed" class="feedback-msg" style="display: none;"></div>
+                </div>
+
+                <div style="margin-top: 24px;">
+                    <button onclick="revealAll('r')" class="btn-reveal">
+                        💡 Reveal All Recruitment Solutions
+                    </button>
+                </div>
+            </section>
+        </div>
+
+        <!-- SCENARIO 2: STALLED B2B SALES PIPELINE -->
+        <div id="tab-sales" class="tab-content">
+            <section class="card intro-card">
+                <h2>The Situation: Stalled B2B Sales Operations</h2>
+                <p>
+                    You are the Commercial Operations Manager for an enterprise technology vendor. High-value inbound leads go cold before sales reps make initial contact, quote generation takes 4 business days, and CRM data integrity is severely compromised. Diagnose and solve all 5 sales pipeline bottlenecks below.
+                </p>
+
+                <!-- Task 1 -->
+                <div class="task-card">
+                    <h3>Task 1: Inbound Lead Triage &amp; Speed-to-Lead Latency</h3>
+                    <p>Website enterprise demo requests sit in an unmonitored mailbox for up to 48 hours before an administrator manually assigns them to sales reps via forwarded email.</p>
+                    <div class="options-group">
+                        <label class="option-label">
+                            <input type="radio" name="s1" onclick="evalTask('s', 1, false)">
+                            <span>Tell sales reps to check the shared inbox every 10 minutes throughout their shifts.</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="s1" onclick="evalTask('s', 1, true)">
+                            <span>Establish real-time webhook ingestion from Web Forms to CRM with automated round-robin sales territory routing and instant Teams push notifications.</span>
+                        </label>
+                    </div>
+                    <div id="s1-feed" class="feedback-msg" style="display: none;"></div>
+                </div>
+
+                <!-- Task 2 -->
+                <div class="task-card">
+                    <h3>Task 2: Swivel-Chair CPQ (Configure, Price, Quote) Friction</h3>
+                    <p>Reps spend 3 hours per prospect manually calculating discounts in custom desktop spreadsheets and re-typing customer line items into Microsoft Word contract templates.</p>
+                    <div class="options-group">
+                        <label class="option-label">
+                            <input type="radio" name="s2" onclick="evalTask('s', 2, false)">
+                            <span>Ask reps to work weekends so they can catch up on typing quote documents.</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="s2" onclick="evalTask('s', 2, true)">
+                            <span>Deploy automated CPQ logic linked directly to product catalog tables, populating pre-approved PDF contracts with automated e-signature integration (Adobe Sign / DocuSign).</span>
+                        </label>
+                    </div>
+                    <div id="s2-feed" class="feedback-msg" style="display: none;"></div>
+                </div>
+
+                <!-- Task 3 -->
+                <div class="task-card">
+                    <h3>Task 3: Discount Authorisation Bottlenecks</h3>
+                    <p>Quotes with minor 5% discount requests stall in executive inboxes for days, delaying deal closing and driving buyers to competitors.</p>
+                    <div class="options-group">
+                        <label class="option-label">
+                            <input type="radio" name="s3" onclick="evalTask('s', 3, false)">
+                            <span>Ban all discounts permanently regardless of client deal size or competitive pressure.</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="s3" onclick="evalTask('s', 3, true)">
+                            <span>Establish automated multi-tiered business logic: auto-approve discounts &le; 10%, route 11–20% to Regional Sales Directors via 1-click mobile approvals, and escalate &gt; 20% to VP Finance.</span>
+                        </label>
+                    </div>
+                    <div id="s3-feed" class="feedback-msg" style="display: none;"></div>
+                </div>
+
+                <!-- Task 4 -->
+                <div class="task-card">
+                    <h3>Task 4: Post-Meeting CRM Hygiene &amp; Activity Logging</h3>
+                    <p>Account executives fail to log meeting notes and next steps into the CRM because the 15-field desktop CRM form is clunky and slow on mobile.</p>
+                    <div class="options-group">
+                        <label class="option-label">
+                            <input type="radio" name="s4" onclick="evalTask('s', 4, false)">
+                            <span>Deduct £100 from sales reps' bonuses whenever a CRM record is left blank.</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="s4" onclick="evalTask('s', 4, true)">
+                            <span>Integrate an AI-assisted voice-to-text summary tool in Teams / mobile app that automatically summarizes call transcripts and updates CRM opportunity fields.</span>
+                        </label>
+                    </div>
+                    <div id="s4-feed" class="feedback-msg" style="display: none;"></div>
+                </div>
+
+                <!-- Task 5 -->
+                <div class="task-card">
+                    <h3>Task 5: Closed-Won Handover to Customer Success</h3>
+                    <p>When enterprise contracts close, customer implementation teams receive fragmented details via email, resulting in duplicated onboarding kickoff calls and client frustration.</p>
+                    <div class="options-group">
+                        <label class="option-label">
+                            <input type="radio" name="s5" onclick="evalTask('s', 5, false)">
+                            <span>Have the customer re-fill a blank 20-page questionnaire upon contract signing.</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="s5" onclick="evalTask('s', 5, true)">
+                            <span>Trigger an automated Closed-Won orchestration flow that creates a shared Teams onboarding channel, provisions customer portal tenant accounts, and logs an implementation project template.</span>
+                        </label>
+                    </div>
+                    <div id="s5-feed" class="feedback-msg" style="display: none;"></div>
+                </div>
+
+                <div style="margin-top: 24px;">
+                    <button onclick="revealAll('s')" class="btn-reveal">
+                        💡 Reveal All Sales Operations Solutions
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Navigation Footer -->
+    <div class="nav-footer-box">
+        <div class="nav-footer-card">
+            <div class="nav-footer-text">
+                <span>MC2 Masterclass Sequence</span>
+                <p id="nav-status-text">🔒 Complete all 10 tasks (5 per sector) to unlock the next task</p>
+            </div>
+            <a id="next-activity-btn" href="process_map_builder.html" class="btn-next-step">
+                <span>Proceed to Process Map Builder</span> &rarr;
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Process Improvement Fundamentals | Sales &amp; Recruitment Operational Triage. Designed for GitHub Pages.</p>
+        </div>
+    </footer>
+
+    <script>
+        const completedTasks = { 
+            r: [false, false, false, false, false], 
+            s: [false, false, false, false, false] 
+        };
+
+        function switchScenario(scenarioId, event) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('tab-' + scenarioId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        function checkUnlock() {
+            const recruitDone = completedTasks.r.every(Boolean);
+            const salesDone = completedTasks.s.every(Boolean);
+
+            if (recruitDone && salesDone) {
+                const nextBtn = document.getElementById('next-activity-btn');
+                nextBtn.classList.add('unlocked');
+                
+                const statusText = document.getElementById('nav-status-text');
+                statusText.style.color = '#34D399';
+                statusText.textContent = '✨ All 10 tasks complete! Process Map Builder unlocked.';
+            }
+        }
+
+        function evalTask(type, taskNum, isCorrect) {
+            const feed = document.getElementById(type + taskNum + '-feed');
+            feed.style.display = 'inline-block';
+
+            if (isCorrect) {
+                feed.className = 'feedback-msg correct';
+                feed.textContent = '✓ Correct! Operational bottleneck resolved via lean automation.';
+                completedTasks[type][taskNum - 1] = true;
+                checkUnlock();
+            } else {
+                feed.className = 'feedback-msg incorrect';
+                feed.textContent = '✗ Suboptimal choice: This approach increases manual waste or compliance risk.';
+            }
+        }
+
+        function revealAll(type) {
+            for (let i = 1; i <= 5; i++) {
+                completedTasks[type][i - 1] = true;
+                const feed = document.getElementById(type + i + '-feed');
+                feed.style.display = 'inline-block';
+                feed.className = 'feedback-msg correct';
+                feed.textContent = '💡 Correct automation design pattern applied.';
+            }
+            checkUnlock();
+        }
+    </script>
+</body>
+</html>
