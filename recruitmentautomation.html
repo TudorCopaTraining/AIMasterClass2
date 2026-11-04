@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topic 2 Recap: The Recruitment &amp; Sales Automation Triage Challenge</title>
+    <link rel="stylesheet" href="recruitmentautomation.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <span class="badge">Process Improvement Fundamentals • Topic 2</span>
+            <h1>The Automation Triage Challenge 🚦</h1>
+            <p class="subtitle">Decide What to Automate vs. What to Keep Human Across Talent Recruitment &amp; B2B Sales Pipelines</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Scenario Briefing -->
+        <section class="card intro-card">
+            <h2>The Challenge: Commercial Operations Decision Board</h2>
+            <p>
+                You are auditing workflows across an enterprise recruitment agency and B2B corporate sales division. Leadership wants to integrate low-code automation and AI tools, but applying automation to the wrong touchpoints damages candidate trust, alienates enterprise buyers, and wastes commercial budget!
+            </p>
+            <p>
+                <strong>Your Mission:</strong> Evaluate each commercial workflow. Classify whether it gets the 
+                <span class="tag-green">🟢 Green Light (Suitable to Automate)</span> or the 
+                <span class="tag-red">🔴 Red Light (Keep Human)</span> based on its process characteristics.
+            </p>
+            <div class="instructions-banner">
+                <strong>How to Play:</strong> Click a task card from the deck, select its destination bucket (or drag and drop it), and click <strong>Submit Triage Decision</strong>. Score 8 out of 8 to complete the operational audit!
+            </div>
+        </section>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <span class="stat-label">Progress</span>
+                <span class="stat-val" id="progress-val">0 / 8 Triaged</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Accuracy Score</span>
+                <span class="stat-val" id="score-val">100%</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Streak</span>
+                <span class="stat-val" id="streak-val">🔥 0</span>
+            </div>
+        </div>
+
+        <!-- Interactive Workbench -->
+        <div class="grid">
+            <!-- Left: Triage Drop Zones / Targets -->
+            <div class="buckets-container">
+                <!-- Drop Zone 1: Suitable (Green Light) -->
+                <div class="bucket green-bucket" id="bucket-suitable" data-target="suitable">
+                    <div class="bucket-header">
+                        <span class="bucket-icon">🟢</span>
+                        <div>
+                            <h3>AUTOMATE NOW (Suitable)</h3>
+                            <p>Repetitive • High-Volume • Rule-Based • Standardised • Data Extraction &amp; Sync</p>
+                        </div>
+                    </div>
+                    <div class="bucket-drop-area" id="drop-suitable">
+                        <p class="drop-hint">Drop or click here to route task to Cloud Automation</p>
+                        <div class="placed-items" id="placed-suitable"></div>
+                    </div>
+                </div>
+
+                <!-- Drop Zone 2: Unsuitable (Red Light) -->
+                <div class="bucket red-bucket" id="bucket-unsuitable" data-target="unsuitable">
+                    <div class="bucket-header">
+                        <span class="bucket-icon">🔴</span>
+                        <div>
+                            <h3>KEEP HUMAN (Unsuitable)</h3>
+                            <p>Subjective Judgment • Emotional Empathy • High-Stakes Deal Negotiation</p>
+                        </div>
+                    </div>
+                    <div class="bucket-drop-area" id="drop-unsuitable">
+                        <p class="drop-hint">Drop or click here to protect Human Relationship Capital</p>
+                        <div class="placed-items" id="placed-unsuitable"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Available Tasks Queue -->
+            <div class="queue-card">
+                <div class="queue-header">
+                    <h3>📋 Incoming Commercial Workflows</h3>
+                    <span class="queue-count" id="queue-count">8 tasks remaining</span>
+                </div>
+                <p class="queue-help">Select a task card below, choose a bucket, then hit Submit Decision:</p>
+
+                <div class="task-deck" id="task-deck">
+                    <!-- Cards will be populated dynamically via JavaScript -->
+                </div>
+
+                <!-- Feedback Banner -->
+                <div class="feedback-banner" id="feedback-banner" aria-live="polite"></div>
+
+                <!-- Action Controls -->
+                <div class="action-bar">
+                    <button id="submit-btn" class="btn btn-primary" disabled>Submit Triage Decision</button>
+                    <button id="reset-btn" class="btn btn-secondary" onclick="resetActivity()">Restart &amp; Shuffle</button>
+                </div>
+
+                <!-- Completion Summary Modal/Card -->
+                <div id="completion-card" class="completion-card hidden">
+                    <div class="trophy-icon">🏆</div>
+                    <h3>Audit Complete: Commercial Velocity Restored!</h3>
+                    <p id="completion-summary"></p>
+                    <div class="takeaways-box">
+                        <strong>Topic 2 Golden Takeaways for Sales &amp; Recruitment:</strong>
+                        <ul>
+                            <li><strong>Automate the Administration:</strong> Data entry, CV intake, interview calendar sync, and standard CRM notifications are robotic tasks that software does faster and without error.</li>
+                            <li><strong>Protect the Human Connection:</strong> Candidate career counsel, culture fit assessment, counter-offer mediation, and high-stakes contract bargaining are where deal revenue and trust are earned.</li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-primary" onclick="resetActivity()">Play Again with New Shuffle</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Navigation Footer -->
+    <div class="nav-footer-box">
+        <div class="nav-footer-card">
+            <div class="nav-footer-text">
+                <span>MC2 Masterclass Sequence</span>
+                <p>Ready for the next workshop task?</p>
+            </div>
+            <a href="improvementopp.html" class="btn-next-step">
+                <span>Proceed to Improvement Opportunities</span> &rarr;
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Process Improvement Fundamentals | Topic 2: Identifying Automation Opportunities (Sales &amp; Recruitment Edition). Built for GitHub Pages.</p>
+        </div>
+    </footer>
+
+    <script>
+        const taskDatabase = [
+            {
+                id: "task-1",
+                title: "Inbound Candidate CV Ingestion & Parsing",
+                desc: "Extracting contact names, phone numbers, tech skills, and employment history from 300 weekly resume PDFs into the ATS database.",
+                correctCategory: "suitable",
+                trait: "High-Volume Activity & Data Handling",
+                explanation: "Correct! This is structured key-value data extraction. Intelligent Document Processing (IDP/OCR) can parse resumes into structured ATS records in seconds without manual copy-pasting."
+            },
+            {
+                id: "task-2",
+                title: "Executive Final Round Culture-Fit Interview",
+                desc: "Evaluating whether a candidate for Chief Technology Officer possesses the leadership maturity, collaborative values, and ethical alignment for the client team.",
+                correctCategory: "unsuitable",
+                trait: "Subjective Judgment & Human Intuition",
+                explanation: "Correct! Assessing emotional intelligence, authenticity, and team chemistry requires nuanced human perception and interpersonal reading that cannot be automated."
+            },
+            {
+                id: "task-3",
+                title: "Screening Call Calendar Coordination",
+                desc: "Sending round-robin booking invitations to candidates that match recruiter availability and auto-generating Microsoft Teams interview links.",
+                correctCategory: "suitable",
+                trait: "Standardised Workflow & Scheduling",
+                explanation: "Correct! Playing email ping-pong across 5 messages to schedule a 20-minute chat is pure waste. Integrated scheduling tools (Microsoft Bookings) synchronize calendars in real time."
+            },
+            {
+                id: "task-4",
+                title: "Negotiating an £850,000 Enterprise Multi-Year SaaS Agreement",
+                desc: "Bargaining custom liability indemnities, multi-tiered payment milestones, and volume-discount concessions with a Fortune 500 General Counsel.",
+                correctCategory: "unsuitable",
+                trait: "Complex Commercial Negotiation",
+                explanation: "Correct! Strategic enterprise enterprise sales require compromise, political savvy, relationship leverage, and tactical concession trading that software cannot conduct."
+            },
+            {
+                id: "task-5",
+                title: "Candidate Right-to-Work (RTW) Document Verification Pings",
+                desc: "Triggering automated SMS and email reminders to shortlisted applicants to securely upload passport copies and visa share codes before offer generation.",
+                correctCategory: "suitable",
+                trait: "Rule-Based Logic & Compliance Reminders",
+                explanation: "Correct! Chasing standard compliance documents is deterministic and rule-based. Automated workflows prompt candidates and track receipt status reliably."
+            },
+            {
+                id: "task-6",
+                title: "Mediating a High-Stakes Counter-Offer Retention Crisis",
+                desc: "Consulting with a candidate who was offered a 25% pay bump by their current boss to help them reflect on their long-term career aspirations and motivations.",
+                correctCategory: "unsuitable",
+                trait: "High Emotion & Mentorship",
+                explanation: "Correct! Guiding a person through career crossroads requires empathy, trust, and psychological counseling. An automated email or generic bot destroys the relationship."
+            },
+            {
+                id: "task-7",
+                title: "Enterprise Web Demo Routing to Regional Sales Reps",
+                desc: "Reading inbound web demo requests, looking up company size and postcode in Clearbit, and routing the lead directly to the corresponding territory executive on Microsoft Teams.",
+                correctCategory: "suitable",
+                trait: "Event-Driven Routing & System Integration",
+                explanation: "Correct! Webhook triggers evaluate form values and territorial rules instantly, dropping qualified leads into a sales rep's queue in under 3 seconds to boost speed-to-lead."
+            },
+            {
+                id: "task-8",
+                title: "Devising an Annual Key Account Expansion Strategy",
+                desc: "Analyzing corporate restructuring, competitor vulnerabilities, and new departmental initiatives to formulate a multi-product upsell strategy for a strategic client.",
+                correctCategory: "unsuitable",
+                trait: "Strategic Thinking & Commercial Creativity",
+                explanation: "Correct! Crafting bespoke account growth plans requires cross-functional business analysis, creative positioning, and senior stakeholder relationship mapping."
+            }
+        ];
+
+        let availableTasks = [];
+        let selectedTask = null;
+        let selectedBucket = null;
+        let solvedCount = 0;
+        let totalAttempts = 0;
+        let correctAttempts = 0;
+        let streak = 0;
+
+        const taskDeck = document.getElementById("task-deck");
+        const submitBtn = document.getElementById("submit-btn");
+        const feedbackBanner = document.getElementById("feedback-banner");
+        const progressVal = document.getElementById("progress-val");
+        const scoreVal = document.getElementById("score-val");
+        const streakVal = document.getElementById("streak-val");
+        const queueCount = document.getElementById("queue-count");
+        const completionCard = document.getElementById("completion-card");
+        const completionSummary = document.getElementById("completion-summary");
+
+        const bucketSuitable = document.getElementById("bucket-suitable");
+        const bucketUnsuitable = document.getElementById("bucket-unsuitable");
+        const placedSuitable = document.getElementById("placed-suitable");
+        const placedUnsuitable = document.getElementById("placed-unsuitable");
+
+        function showFeedback(text, type = "success") {
+            feedbackBanner.textContent = text;
+            feedbackBanner.className = `feedback-banner show ${type}`;
+            clearTimeout(feedbackBanner.timer);
+            feedbackBanner.timer = setTimeout(() => {
+                feedbackBanner.className = "feedback-banner";
+            }, 4000);
+        }
+
+        function updateStats() {
+            progressVal.textContent = `${solvedCount} / ${taskDatabase.length} Triaged`;
+            queueCount.textContent = `${availableTasks.length} tasks remaining`;
+            const accuracy = totalAttempts > 0 ? Math.round((correctAttempts / totalAttempts) * 100) : 100;
+            scoreVal.textContent = `${accuracy}%`;
+            streakVal.textContent = `🔥 ${streak}`;
+        }
+
+        function updateSubmitButton() {
+            submitBtn.disabled = !(selectedTask && selectedBucket);
+        }
+
+        function renderDeck() {
+            taskDeck.innerHTML = "";
+            availableTasks.forEach(task => {
+                const card = document.createElement("div");
+                card.className = "task-card";
+                card.id = task.id;
+                card.draggable = true;
+
+                card.innerHTML = `
+                    <div class="task-title">${task.title}</div>
+                    <div class="task-desc">${task.desc}</div>
+                `;
+
+                // Click selection
+                card.addEventListener("click", () => {
+                    if (selectedTask === task) {
+                        card.classList.remove("selected");
+                        selectedTask = null;
+                    } else {
+                        document.querySelectorAll(".task-card").forEach(c => c.classList.remove("selected"));
+                        card.classList.add("selected");
+                        selectedTask = task;
+                    }
+                    updateSubmitButton();
+                });
+
+                // HTML5 Drag
+                card.addEventListener("dragstart", (e) => {
+                    e.dataTransfer.setData("text/plain", task.id);
+                    selectedTask = task;
+                    document.querySelectorAll(".task-card").forEach(c => c.classList.remove("selected"));
+                    card.classList.add("selected");
+                });
+
+                taskDeck.appendChild(card);
+            });
+        }
+
+        function setupBuckets() {
+            [bucketSuitable, bucketUnsuitable].forEach(bucket => {
+                bucket.addEventListener("click", () => {
+                    const category = bucket.getAttribute("data-target");
+                    if (selectedBucket === category) {
+                        bucket.classList.remove("selected-bucket");
+                        selectedBucket = null;
+                    } else {
+                        [bucketSuitable, bucketUnsuitable].forEach(b => b.classList.remove("selected-bucket"));
+                        bucket.classList.add("selected-bucket");
+                        selectedBucket = category;
+                    }
+                    updateSubmitButton();
+                });
+
+                // Drag and drop events
+                bucket.addEventListener("dragover", (e) => {
+                    e.preventDefault();
+                    bucket.classList.add("drag-hover");
+                });
+
+                bucket.addEventListener("dragleave", () => {
+                    bucket.classList.remove("drag-hover");
+                });
+
+                bucket.addEventListener("drop", (e) => {
+                    e.preventDefault();
+                    bucket.classList.remove("drag-hover");
+                    const taskId = e.dataTransfer.getData("text/plain");
+                    const task = taskDatabase.find(t => t.id === taskId);
+                    const category = bucket.getAttribute("data-target");
+
+                    if (task) {
+                        selectedTask = task;
+                        selectedBucket = category;
+                        evaluateDecision();
+                    }
+                });
+            });
+        }
+
+        function evaluateDecision() {
+            if (!selectedTask || !selectedBucket) return;
+
+            totalAttempts++;
+            const isMatch = selectedTask.correctCategory === selectedBucket;
+
+            if (isMatch) {
+                correctAttempts++;
+                streak++;
+                solvedCount++;
+
+                showFeedback(`✓ Perfect Triage! [${selectedTask.trait}]: ${selectedTask.explanation}`, "success");
+
+                // Move visual item into target bucket
+                const targetArea = selectedBucket === "suitable" ? placedSuitable : placedUnsuitable;
+                const placedItem = document.createElement("div");
+                placedItem.className = `placed-badge ${selectedBucket}`;
+                placedItem.innerHTML = `<strong>✔ ${selectedTask.title}</strong><span>${selectedTask.trait}</span>`;
+                targetArea.appendChild(placedItem);
+
+                // Remove from deck
+                availableTasks = availableTasks.filter(t => t.id !== selectedTask.id);
+                selectedTask = null;
+                selectedBucket = null;
+                [bucketSuitable, bucketUnsuitable].forEach(b => b.classList.remove("selected-bucket"));
+
+                renderDeck();
+                updateStats();
+                updateSubmitButton();
+
+                if (availableTasks.length === 0) {
+                    showCompletion();
+                }
+            } else {
+                streak = 0;
+                updateStats();
+                const activeBucket = selectedBucket === "suitable" ? bucketSuitable : bucketUnsuitable;
+                activeBucket.classList.add("shake");
+                setTimeout(() => activeBucket.classList.remove("shake"), 450);
+
+                const advice = selectedTask.correctCategory === "suitable" 
+                    ? `This task has fixed rules and high volume. It belongs in 'AUTOMATE NOW'!`
+                    : `This task requires emotional empathy, culture assessment, or deal negotiation. Automating it damages relationships!`;
+                showFeedback(`✗ Misallocated! ${advice}`, "error");
+            }
+        }
+
+        submitBtn.addEventListener("click", evaluateDecision);
+
+        function showCompletion() {
+            taskDeck.style.display = "none";
+            submitBtn.parentElement.style.display = "none";
+            completionCard.classList.remove("hidden");
+
+            const finalAcc = Math.round((correctAttempts / totalAttempts) * 100);
+            completionSummary.textContent = `You audited all 8 sales and recruitment workflows with a final diagnostic accuracy of ${finalAcc}%. Your consultants and account executives now spend their hours closing deals and building relationships while cloud automation handles the data heavy lifting!`;
+        }
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function resetActivity() {
+            availableTasks = shuffle([...taskDatabase]);
+            selectedTask = null;
+            selectedBucket = null;
+            solvedCount = 0;
+            totalAttempts = 0;
+            correctAttempts = 0;
+            streak = 0;
+
+            placedSuitable.innerHTML = "";
+            placedUnsuitable.innerHTML = "";
+            [bucketSuitable, bucketUnsuitable].forEach(b => b.classList.remove("selected-bucket"));
+
+            taskDeck.style.display = "flex";
+            submitBtn.parentElement.style.display = "flex";
+            completionCard.classList.add("hidden");
+            feedbackBanner.className = "feedback-banner";
+
+            renderDeck();
+            updateStats();
+            updateSubmitButton();
+        }
+
+        // Initialize
+        setupBuckets();
+        resetActivity();
+    </script>
+</body>
+</html>
